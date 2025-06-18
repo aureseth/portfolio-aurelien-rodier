@@ -14,6 +14,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -225,6 +226,50 @@
             from, to { border-color: transparent }
             50% { border-color: var(--accent-orange); }
         }
+
+        /* Styles pour le mode print */
+        .print-mode {
+            background-color: white !important;
+            color: black !important;
+        }
+        .print-mode .dark {
+            background-color: white !important;
+            color: black !important;
+        }
+        .print-mode .card-bg {
+            background-color: white !important;
+            box-shadow: none !important;
+        }
+        .print-mode .section-bg-alt {
+            background-color: #f8f9fa !important;
+        }
+        .print-mode .timeline-line {
+            border-left-color: #dee2e6 !important;
+        }
+        .print-mode .timeline-item::before {
+            background-color: #6c757d !important;
+            border-color: white !important;
+        }
+        .print-mode .skill-tag {
+            border: 1px solid #dee2e6 !important;
+            box-shadow: none !important;
+        }
+        .print-mode .nav-link::after {
+            display: none !important;
+        }
+        .print-mode #section-nav,
+        .print-mode .mobile-menu-button,
+        .print-mode .section-nav-btn,
+        .print-mode .experience-nav-btn {
+            display: none !important;
+        }
+        .print-mode section {
+            page-break-inside: avoid;
+            margin-bottom: 2rem;
+        }
+        .print-mode .timeline-list-container {
+            position: static !important;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -270,22 +315,8 @@
         </div>
     </header>
 
-    <main>
-        <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
-            <div class="max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-7xl font-bold tracking-tight">Aurélien Rodier</h1>
-                <h2 class="mt-4 text-2xl md:text-4xl font-medium h-10 md:h-12">
-                    <span id="typing-effect"></span><span class="typing-cursor"></span>
-                </h2>
-                <div class="mt-12">
-                    <a href="#a-propos" class="scroll-arrow transition duration-300" aria-label="Découvrir la suite">
-                        <svg class="w-10 h-10 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="a-propos" class="py-20">
+    <main id="cv-content" class="flex-grow">
+        <section id="about" class="py-16">
             <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12">
                 <div class="w-full md:w-2/3 text-left">
                     <h2 class="text-3xl md:text-4xl font-bold main-title leading-tight mb-6">À Propos de Moi</h2>
@@ -1014,6 +1045,32 @@
 
         init();
     });
+
+    // Fonction pour exporter en PDF
+    function exportToPDF() {
+        // Configuration de l'export
+        const element = document.getElementById('cv-content');
+        const opt = {
+            margin: 1,
+            filename: 'CV_Aurelien_Rodier.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                letterRendering: true
+            },
+            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Ajout d'une classe pour le mode print
+        element.classList.add('print-mode');
+        
+        // Génération du PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Retrait de la classe print-mode une fois l'export terminé
+            element.classList.remove('print-mode');
+        });
+    }
     </script>
 </body>
 </html>
