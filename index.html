@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Aurélien Rodier - Product Owner</title>
+    <meta name="description" content="CV interactif d'Aurélien Rodier, Product Owner spécialisé en Agilité, IA et Transformation Numérique. Découvrez mon parcours, mes compétences et mes projets.">
+    <meta property="og:title" content="Aurélien Rodier - Product Owner Interactif">
+    <meta property="og:description" content="Découvrez le parcours et les compétences d'un Product Owner passionné par l'innovation et la tech.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lien vers votre nouveau fichier CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body class="antialiased">
+
+    <header class="header-bg backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex justify-between items-center gap-4">
+                <a href="#accueil" id="home-link" class="transition-opacity hover:opacity-80 flex-shrink-0">
+                    <img src="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png" alt="Logo Aurélien Rodier" class="h-14 w-14 rounded-full object-cover">
+                </a>
+                <div class="hidden md:flex items-center justify-end flex-grow">
+                    <div class="flex items-center space-x-8">
+                        <a href="#a-propos" class="nav-link">À Propos</a>
+                        <a href="#parcours" class="nav-link">Parcours</a>
+                        <a href="#competences" class="nav-link">Compétences</a>
+                        <a href="#formation" class="nav-link">Formation</a>
+                        <a href="#divers" class="nav-link text-center leading-tight">
+                            <span>Langues</span>
+                            <span>& Engagements</span>
+                        </a>
+                        <a href="#contact" class="nav-link">Contact</a>
+                    </div>
+                    <button id="theme-toggle" class="ml-12 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
+                        <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème"></button>
+                    <button id="menu-btn" class="focus:outline-none w-10 h-10 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><title>Icône du menu</title><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#a-propos" class="mobile-menu-link block py-2 px-4 text-sm rounded">À Propos</a>
+                <a href="#parcours" class="mobile-menu-link block py-2 px-4 text-sm rounded">Parcours</a>
+                <a href="#competences" class="mobile-menu-link block py-2 px-4 text-sm rounded">Compétences</a>
+                <a href="#formation" class="mobile-menu-link block py-2 px-4 text-sm rounded">Formation</a>
+                <a href="#divers" class="mobile-menu-link block py-2 px-4 text-sm rounded">Langues & Engagements</a>
+                <a href="#contact" class="mobile-menu-link block py-2 px-4 text-sm rounded">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight">Aurélien Rodier</h1>
+                <h2 class="mt-4 text-2xl md:text-4xl font-medium h-10 md:h-12">
+                    <span id="typing-effect"></span><span class="typing-cursor"></span>
+                </h2>
+                <div class="mt-12">
+                    <a href="#a-propos" class="scroll-arrow transition duration-300" aria-label="Découvrir la suite">
+                        <svg class="w-10 h-10 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="a-propos" class="py-20">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12">
+                <div class="w-full md:w-2/3 text-left">
+                    <h2 class="text-3xl md:text-4xl font-bold main-title leading-tight mb-6">À Propos de Moi</h2>
+                    <div class="space-y-4 text-lg text-body leading-relaxed">
+                        <p>
+                            <b>Product Owner certifié</b> (PSPO1, PSM1, SAFe 6 Practitioner), j'ai opéré une <b>reconversion réussie</b> du monde de la communication vers l'univers dynamique du produit. Fort de <b>plusieurs années d'expérience significative</b> acquise depuis 2020, j'apporte une expertise unique en <b>gestion de produit agile</b>, <b>IA</b> et <b>transformation numérique</b>. 
+                        </p>
+                         <p>
+                            Ma passion réside dans la <b>conception de solutions innovantes et centrées utilisateur</b>, où je mets à profit des <b>compétences transférables</b> solides en analyse, communication et pilotage de projets. Mon objectif est de maximiser la valeur produit et d'anticiper les tendances du marché, en m'engageant à créer des solutions qui répondent aux besoins des utilisateurs et aux enjeux de la transition énergétique.
+                        </p>
+                    </div>
+                    <div class="mt-8 flex flex-wrap items-center justify-start gap-x-6 gap-y-4 text-lg">
+                        <a href="mailto:rodier.aurelien@orange.fr" class="flex items-center gap-2 text-contact-link font-semibold hover:text-[#E07A5F] transition-colors" target="_blank" rel="noopener noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <span>rodier.aurelien@orange.fr</span>
+                        </a>
+                        <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-contact-link font-semibold hover:text-[#E07A5F] transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                            <span>LinkedIn</span>
+                        </a>
+                        <span class="flex items-center gap-2 text-contact-link font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>Rennes, France</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center md:justify-end">
+                    <img id="profile-pic" src="https://aurelien-rodier.fr/Profil%20cPanel.png" alt="Photo de profil d'Aurélien Rodier" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-lg border-4 border-white dark:border-gray-800" onerror="this.onerror=null;this.src='https://placehold.co/320x320/F8F7F4/3D405B?text=Photo';">
+                </div>
+            </div>
+        </section>
+
+        <div class="container mx-auto px-6">
+            <section id="parcours" class="py-20">
+                <div class="md:grid md:grid-cols-3 md:gap-12 card-bg p-8 rounded-lg shadow-lg">
+                    <div class="col-span-1 timeline-list-container">
+                         <h2 class="text-3xl font-bold mb-8 text-center md:text-left">Parcours Professionnel</h2>
+                        <ul id="timeline-list"></ul>
+                    </div>
+                    <div class="col-span-2 mt-12 md:mt-0">
+                        <div id="job-details" class="min-h-[400px] flex flex-col justify-between"></div>
+                    </div>
+                </div>
+            </section>
+    
+            <section id="competences" class="py-20">
+                <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                    <span>Compétences</span>
+                </h2>
+                <div class="max-w-7xl mx-auto md:grid md:grid-cols-4 md:gap-8">
+                    <div class="md:col-span-1">
+                        <div class="sticky top-24">
+                            <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left">Catégories</h3>
+                            <div id="skill-categories-list" class="flex flex-row md:flex-col flex-wrap justify-center gap-2"></div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3 mt-8 md:mt-0">
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left" id="skills-title">Compétences</h3>
+                        <div id="skill-tags" class="flex flex-wrap justify-center md:justify-start gap-4"></div>
+                        <div class="w-full mt-4">
+                            <div id="skill-details-panel" class="skill-details-panel"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="formation" class="py-20 section-bg-alt">
+                <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <span>Formation & Certifications</span>
+                </h2>
+                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Certifications</h3>
+                        <div id="certifications-list" class="space-y-6"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Formations</h3>
+                        <div id="formations-list" class="space-y-6"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="divers" class="py-20">
+                 <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span>Langues & Engagements</span>
+                 </h2>
+                 <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Langues</h3>
+                        <div id="languages-list" class="space-y-6"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Engagements Bénévoles</h3>
+                        <div id="engagements-list" class="space-y-6"></div>
+                    </div>
+                 </div>
+            </section>
+            
+            <section id="contact" class="py-20 section-bg-alt">
+                <div class="text-center mb-12">
+                     <h2 class="text-4xl font-bold text-center mb-4 inline-flex items-center justify-center w-full gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <span>Entrons en contact</span>
+                    </h2>
+                     <p class="text-lg text-subtle">Une question, une opportunité ? N'hésitez pas.</p>
+                </div>
+                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center px-6">
+                    <div class="text-left">
+                        <h3 class="text-3xl font-bold main-title mb-4">Parlons-en.</h3>
+                        <p class="text-lg text-subtle mb-8">
+                            Que ce soit pour une opportunité, un projet ou simplement pour échanger sur le Product Management, je suis toujours ouvert à la discussion.
+                        </p>
+                        <div class="space-y-4">
+                             <a href="mailto:rodier.aurelien@orange.fr" class="flex items-center gap-3 text-lg group">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                <span class="text-contact-link group-hover:text-accent-orange transition-colors">rodier.aurelien@orange.fr</span>
+                            </a>
+                            <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-lg group">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
+                                 <span class="text-contact-link group-hover:text-accent-orange transition-colors">linkedin.com/in/rodieraurelien</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="hidden">Nom</label>
+                                    <input type="text" id="name" name="name" placeholder="Votre nom" class="contact-input w-full py-3 px-1" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="hidden">Email</label>
+                                    <input type="email" id="email" name="email" placeholder="Votre email" class="contact-input w-full py-3 px-1" required>
+                                </div>
+                            </div>
+                            <div>
+                                 <label for="subject" class="hidden">Sujet</label>
+                                 <input type="text" id="subject" name="subject" placeholder="Sujet" class="contact-input w-full py-3 px-1" required>
+                            </div>
+                            <div>
+                                <label for="message" class="hidden">Message</label>
+                                <textarea id="message" name="message" rows="4" placeholder="Votre message..." class="contact-input w-full py-3 px-1" required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full bg-[#3D405B] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-80 transition-colors duration-300">
+                                    Envoyer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <div id="toast-notification"></div>
+
+    <div id="section-nav" class="fixed right-4 bottom-4 md:right-6 md:bottom-6 flex flex-col gap-2 z-[1000]">
+        <button id="nav-up" class="section-nav-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border backdrop-blur-sm transition-all">
+            <svg class="w-5 h-5" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+        </button>
+        <button id="nav-down" class="section-nav-btn w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border backdrop-blur-sm transition-all">
+            <svg class="w-5 h-5" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </button>
+    </div>
+
+    <footer class="text-center py-8 text-subtle">
+        <p>© 2025 Aurélien Rodier. Conçu et développé avec soin.</p>
+    </footer>
+
+    <!-- Lien vers votre nouveau fichier JavaScript -->
+    <script src="script.js" defer></script>
+</body>
+</html>
