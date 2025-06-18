@@ -20,6 +20,7 @@
     
     <!-- Lien vers votre nouveau fichier CSS -->
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
 
 </head>
 <body class="antialiased">
@@ -42,7 +43,14 @@
                         </a>
                         <a href="#contact" class="nav-link">Contact</a>
                     </div>
-                    <button id="theme-toggle" class="ml-12 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
+                    <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 ml-8" onclick="exportToPDF()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                        </svg>
+                        <span>Exporter CV</span>
+                    </button>
+                    <button id="theme-toggle" class="ml-4 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
                         <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     </button>
@@ -61,6 +69,13 @@
                 <a href="#formation" class="mobile-menu-link block py-2 px-4 text-sm rounded">Formation</a>
                 <a href="#divers" class="mobile-menu-link block py-2 px-4 text-sm rounded">Langues & Engagements</a>
                 <a href="#contact" class="mobile-menu-link block py-2 px-4 text-sm rounded">Contact</a>
+                <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 w-full mt-2" onclick="exportToPDF()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    <span>Exporter CV</span>
+                </button>
             </div>
         </div>
     </header>
@@ -254,7 +269,39 @@
         <p>© 2025 Aurélien Rodier. Conçu et développé avec soin.</p>
     </footer>
 
-    <!-- Lien vers votre nouveau fichier JavaScript -->
+    <!-- Template Handlebars pour le CV exportable -->
+    <script id="cv-template" type="text/x-handlebars-template">
+      <div class="cv-container">
+        <header class="text-center mb-8 flex flex-col items-center">
+          <img src="{{profilePic}}" alt="Photo de profil" class="profile-pic mb-4">
+          <h1>{{name}}</h1>
+          <p class="text-xl font-semibold text-accent">{{title}}</p>
+          <div class="text-subtle mt-3 text-base md:text-lg">
+            {{location}} | {{email}} | <a href="{{linkedin}}" target="_blank">{{linkedin}}</a>
+          </div>
+        </header>
+        <section class="mb-8">
+          <h2>PROFIL PROFESSIONNEL</h2>
+          <p>{{summary}}</p>
+        </section>
+        <section class="mb-8">
+          <h2>EXPÉRIENCES PROFESSIONNELLES</h2>
+          {{#each experiences}}
+            <div class="experience-item">
+              <h3>{{role}}</h3>
+              <p class="font-bold text-subtle">{{company}} | {{period}}</p>
+              <ul>
+                {{#each achievements}}
+                  <li class="bullet-point">{{this}}</li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/each}}
+        </section>
+        <!-- Ajoute ici compétences, formations, langues, etc. -->
+      </div>
+    </script>
+
     <script src="script.js" defer></script>
 </body>
 </html>

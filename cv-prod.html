@@ -14,7 +14,6 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -226,75 +225,67 @@
             from, to { border-color: transparent }
             50% { border-color: var(--accent-orange); }
         }
-
-        /* Styles pour le mode print */
-        .print-mode {
-            background-color: white !important;
-            color: black !important;
-        }
-        .print-mode .dark {
-            background-color: white !important;
-            color: black !important;
-        }
-        .print-mode .card-bg {
-            background-color: white !important;
-            box-shadow: none !important;
-        }
-        .print-mode .section-bg-alt {
-            background-color: #f8f9fa !important;
-        }
-        .print-mode .timeline-line {
-            border-left-color: #dee2e6 !important;
-        }
-        .print-mode .timeline-item::before {
-            background-color: #6c757d !important;
-            border-color: white !important;
-        }
-        .print-mode .skill-tag {
-            border: 1px solid #dee2e6 !important;
-            box-shadow: none !important;
-        }
-        .print-mode .nav-link::after {
-            display: none !important;
-        }
-        .print-mode #section-nav,
-        .print-mode .mobile-menu-button,
-        .print-mode .section-nav-btn,
-        .print-mode .experience-nav-btn {
-            display: none !important;
-        }
-        .print-mode section {
-            page-break-inside: avoid;
-            margin-bottom: 2rem;
-        }
-        .print-mode .timeline-list-container {
-            position: static !important;
-        }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="header-bg fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="index.html" class="text-xl font-semibold">Aurélien Rodier</a>
-                </div>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200" onclick="exportToPDF()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
-                        <span>Exporter CV</span>
+    <header class="header-bg backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex justify-between items-center gap-4">
+                <a href="#accueil" id="home-link" class="transition-opacity hover:opacity-80 flex-shrink-0">
+                    <img src="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png" alt="Logo Aurélien Rodier" class="h-14 w-14 rounded-full object-cover">
+                </a>
+                <div class="hidden md:flex items-center justify-end flex-grow">
+                    <div class="flex items-center space-x-8">
+                        <a href="#a-propos" class="nav-link">À Propos</a>
+                        <a href="#parcours" class="nav-link">Parcours</a>
+                        <a href="#competences" class="nav-link">Compétences</a>
+                        <a href="#formation" class="nav-link">Formation</a>
+                        <a href="#divers" class="nav-link text-center leading-tight">
+                            <span>Langues</span>
+                            <span>& Engagements</span>
+                        </a>
+                        <a href="#contact" class="nav-link">Contact</a>
+                    </div>
+                    <button id="theme-toggle" class="ml-12 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
+                        <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     </button>
-                </nav>
+                </div>
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="theme-toggle-mobile" class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème"></button>
+                    <button id="menu-btn" class="focus:outline-none w-10 h-10 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><title>Icône du menu</title><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#a-propos" class="mobile-menu-link block py-2 px-4 text-sm rounded">À Propos</a>
+                <a href="#parcours" class="mobile-menu-link block py-2 px-4 text-sm rounded">Parcours</a>
+                <a href="#competences" class="mobile-menu-link block py-2 px-4 text-sm rounded">Compétences</a>
+                <a href="#formation" class="mobile-menu-link block py-2 px-4 text-sm rounded">Formation</a>
+                <a href="#divers" class="mobile-menu-link block py-2 px-4 text-sm rounded">Langues & Engagements</a>
+                <a href="#contact" class="mobile-menu-link block py-2 px-4 text-sm rounded">Contact</a>
             </div>
         </div>
     </header>
 
-    <main id="cv-content" class="flex-grow">
-        <section id="about" class="py-16">
+    <main>
+        <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight">Aurélien Rodier</h1>
+                <h2 class="mt-4 text-2xl md:text-4xl font-medium h-10 md:h-12">
+                    <span id="typing-effect"></span><span class="typing-cursor"></span>
+                </h2>
+                <div class="mt-12">
+                    <a href="#a-propos" class="scroll-arrow transition duration-300" aria-label="Découvrir la suite">
+                        <svg class="w-10 h-10 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="a-propos" class="py-20">
             <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12">
                 <div class="w-full md:w-2/3 text-left">
                     <h2 class="text-3xl md:text-4xl font-bold main-title leading-tight mb-6">À Propos de Moi</h2>
@@ -1023,32 +1014,6 @@
 
         init();
     });
-
-    // Fonction pour exporter en PDF
-    function exportToPDF() {
-        // Configuration de l'export
-        const element = document.getElementById('cv-content');
-        const opt = {
-            margin: 1,
-            filename: 'CV_Aurelien_Rodier.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2,
-                useCORS: true,
-                letterRendering: true
-            },
-            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-        };
-
-        // Ajout d'une classe pour le mode print
-        element.classList.add('print-mode');
-        
-        // Génération du PDF
-        html2pdf().set(opt).from(element).save().then(() => {
-            // Retrait de la classe print-mode une fois l'export terminé
-            element.classList.remove('print-mode');
-        });
-    }
     </script>
 </body>
 </html>

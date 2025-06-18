@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Aurélien Rodier - Product Owner Senior</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-green: #81B29A;
+            --accent-orange: #E07A5F;
+            --text-primary: #1a202c;
+            --text-secondary: #4b5563;
+            --bg-light: #f8fafc;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .cv-container {
+            max-width: 800px;
+            margin: 2.5rem auto;
+            padding: 2.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 1rem;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--accent-green);
+            padding-bottom: 0.75rem;
+        }
+
+        h3 {
+            color: var(--accent-green);
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.25rem;
+            border-left: 4px solid var(--accent-green);
+            border-radius: 0.25rem;
+        }
+
+        .bullet-point {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .flex-item {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-green);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .text-accent {
+            color: var(--accent-green);
+        }
+
+        .text-subtle {
+            color: var(--text-secondary);
+        }
+
+        .certification-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent-green);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .certification-badge img {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        .qr-code {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 0.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 1.5cm;
+            }
+
+            body {
+                background-color: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .cv-container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                max-width: none;
+            }
+
+            h2 {
+                break-after: avoid;
+                page-break-after: avoid;
+            }
+
+            .experience-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .flex-container {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .qr-code {
+                position: fixed;
+                bottom: 1cm;
+                right: 1cm;
+                width: 2cm;
+                height: 2cm;
+            }
+
+            .certification-badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cv-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            h3 {
+                font-size: 1.125rem;
+            }
+
+            .flex-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+
+            .qr-code {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- En-tête et Titre -->
+        <header class="text-center mb-8 flex flex-col items-center">
+            <img src="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png" alt="Photo de profil Aurélien Rodier" class="profile-pic mb-4">
+            <h1>AURÉLIEN RODIER</h1>
+            <p class="text-xl font-semibold text-accent">Product Owner Senior | Spécialiste Produit IA & SaaS</p>
+            <div class="text-subtle mt-3 text-base md:text-lg">
+                Rennes, France | Ouvert au télétravail | Déplacements ponctuels à Paris, Nantes, Le Mans | +33 6 XX XX XX XX | aurelien.rodier@email.com | <a href="https://www.linkedin.com/in/aurelienrodierpo" target="_blank" class="text-accent hover:underline transition-colors duration-200">linkedin.com/in/aurelienrodierpo</a>
+            </div>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <div class="certification-badge">
+                    <img src="https://www.scrum.org/themes/custom/scrumorg/logo.svg" alt="Scrum.org">
+                    PSPO I
+                </div>
+                <div class="certification-badge">
+                    <img src="https://www.scrum.org/themes/custom/scrumorg/logo.svg" alt="Scrum.org">
+                    PSM I
+                </div>
+                <div class="certification-badge">
+                    <img src="https://www.scaledagileframework.com/wp-content/uploads/2021/10/SAFe_logo.png" alt="SAFe">
+                    SAFe 6
+                </div>
+            </div>
+        </header>
+
+        <!-- Profil Professionnel (Résumé) -->
+        <section class="mb-8">
+            <h2>PROFIL PROFESSIONNEL</h2>
+            <p class="text-justify text-subtle">
+                Product Owner certifié (PSPO I, PSM I, SAFe 6) avec 8 années d'expérience dans le digital, spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA et l'automatisation. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact mesurable, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.
+            </p>
+        </section>
+
+        <!-- Expériences Professionnelles -->
+        <section class="mb-8">
+            <h2>EXPÉRIENCES PROFESSIONNELLES</h2>
+
+            <div class="experience-item">
+                <h3>Senior Product Owner / Consultant Fonctionnel</h3>
+                <p class="font-bold text-subtle">Sogeti (SogetiLab) | Octobre 2024 – Aujourd'hui</p>
+                <ul class="list-disc pl-5 mt-2 text-subtle">
+                    <li class="bullet-point">
+                        <strong>Piloté</strong> les études fonctionnelles pour application interne, <strong>réduisant de 20% les incompréhensions</strong> et <strong>accélérant le développement</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Organisé</strong> entretiens utilisateurs et prototypages, <strong>augmentant de 15% l'alignement des fonctionnalités</strong> avec les attentes.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Conçu</strong> solutions d'IA pour détection d'animaux marins, <strong>augmentant la précision de 15%</strong> pour suivi écologique.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Piloté</strong> plateforme web de labellisation d'images/vidéos, <strong>améliorant l'efficacité de 30%</strong> pour les données IA.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Lauréat</strong> du Hackathon "Prompt Master", développant une application RAG <strong>2x plus rapide</strong> pour la génération de contenu.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Responsable Innovation de Produits</h3>
+                <p class="font-bold text-subtle">Alten (Mission pour Enedis Lab) | Mai 2023 – Janvier 2024</p>
+                <ul class="list-disc pl-5 mt-2 text-subtle">
+                    <li class="bullet-point">
+                        <strong>Mis en place</strong> gestion prédictive des interventions, <strong>réduisant les délais de 15%</strong> et <strong>augmentant la fiabilité du réseau de 10%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Piloté</strong> transition du navigateur interne vers Edge, <strong>formant plus de 200 agents</strong> et assurant l'adoption des fonctions IA.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Conçu et animé</strong> ateliers Microsoft Power Automate, <strong>augmentant l'efficience opérationnelle des agents de 20%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Dirigé</strong> l'automatisation de 5 processus internes, <strong>réduisant les coûts opérationnels de 10%</strong>.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Product Owner</h3>
+                <p class="font-bold text-subtle">Wemanity (Mission pour ADEO / Leroy Merlin) | Mai 2022 – Mai 2023</p>
+                <ul class="list-disc pl-5 mt-2 text-subtle">
+                    <li class="bullet-point">
+                        <strong>Piloté</strong> conception outil calcul pénalités fournisseurs, assurant <strong>conformité réglementaire à 99%</strong> et <strong>réduisant les litiges de 25%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Orchestré</strong> réunions parties prenantes, <strong>améliorant de 20% l'alignement</strong> sur les règles et exigences légales.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Validé 100% des modèles</strong> de données avec le PO Data, garantissant précision comptable.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Collaboré</strong> avec équipes UX/UI, <strong>intégrant 80% des feedbacks</strong> pour optimiser l'ergonomie.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Product Owner</h3>
+                <p class="font-bold text-subtle">eLamp | Mars 2020 – Mars 2022</p>
+                <ul class="list-disc pl-5 mt-2 text-subtle">
+                    <li class="bullet-point">
+                        <strong>Géré</strong> le backlog produit d'une plateforme RH SaaS, <strong>augmentant la vélocité de l'équipe de 10%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Rédigé</strong> user stories détaillées, <strong>réduisant de 15% les clarifications</strong> nécessaires avec les développeurs.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Contribué</strong> à la roadmap produit, <strong>réduisant le temps de mise sur le marché de 10%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Conçu</strong> 5 parcours utilisateurs clés, <strong>augmentant l'engagement de 12%</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Amélioré</strong> continuellement le produit, menant à une <strong>augmentation de 15% de l'adoption des nouvelles fonctionnalités</strong>.
+                    </li>
+                    <li class="bullet-point">
+                        <strong>Participé</strong> phases d'avant-vente, <strong>contribuant à l'acquisition de 3 nouveaux projets majeurs</strong>.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Compétences -->
+        <section class="mb-8">
+            <h2>COMPÉTENCES</h2>
+            <div class="flex-container">
+                <div class="flex-item">
+                    <h3>Gestion de Produit & Stratégie :</h3>
+                    <ul class="list-disc pl-5 mt-2 text-subtle">
+                        <li>Product Ownership, Stratégie Produit, Roadmap, Backlog Management</li>
+                        <li>User Stories, User Journey, KPI, MVP, Discovery, Delivery</li>
+                        <li>Analyse Concurrentielle, Veille Technologique, Product Development</li>
+                    </ul>
+                </div>
+                <div class="flex-item">
+                    <h3>Méthodologies Agiles :</h3>
+                    <ul class="list-disc pl-5 mt-2 text-subtle">
+                        <li>Scrum, SAFe (Scaled Agile Framework), Kanban</li>
+                        <li>Lean, Design Thinking, Cérémonies Agiles, Itérations Courtes</li>
+                        <li>Amélioration Continue</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex-container mt-6">
+                <div class="flex-item">
+                    <h3>Outils & Technologies :</h3>
+                    <ul class="list-disc pl-5 mt-2 text-subtle">
+                        <li>Jira, Confluence, Figma (Notions), Make (Ex-Integromat)</li>
+                        <li>Airtable, Notion, Trello, Slack, Google Analytics</li>
+                        <li>Microsoft Power Automate, Microsoft Power BI, Azure OpenAI, Flowise</li>
+                    </ul>
+                </div>
+                <div class="flex-item">
+                    <h3>Compétences Techniques :</h3>
+                    <ul class="list-disc pl-5 mt-2 text-subtle">
+                        <li>Analyse Fonctionnelle, Recette Fonctionnelle, Spécification Fonctionnelle</li>
+                        <li>Automatisation de Processus, IA Générative (Fondamentaux)</li>
+                        <li>Modélisation des Données, Architecture Applicative (Compréhension)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formations & Certifications -->
+        <section class="mb-8">
+            <h2>FORMATIONS & CERTIFICATIONS</h2>
+            <ul class="list-disc pl-5 mt-2 text-subtle">
+                <li class="bullet-point"><span class="font-bold">Certified SAFe 6 Practitioner (POPM)</span> | Scaled Agile, Inc. | Septembre 2024</li>
+                <li class="bullet-point"><span class="font-bold">Professional Scrum Product Owner I (PSPO I)</span> | Scrum.org | Septembre 2024</li>
+                <li class="bullet-point"><span class="font-bold">Professional Scrum Master I (PSM I)</span> | Scrum.org | Septembre 2024</li>
+                <li class="bullet-point"><span class="font-bold">Formation d'Excellence Produit Noé</span> | Avec intervenants Aircall, Blablacar, Doctolib | Avril – Mai 2024</li>
+                <li class="bullet-point"><span class="font-bold">Product Manager, Gestion de projets en technologies de l'information</span> | OpenClassrooms | Mars 2020 – Mars 2024</li>
+                <li class="bullet-point"><span class="font-bold">Master 2 Pranet, Stratégie de communication digitale</span> | Université Rennes 2 | Septembre 2015 – Juin 2017</li>
+                <li class="bullet-point"><span class="font-bold">Licence, Activités et techniques de communication</span> | Université Paris-Est Marne-la-Vallée | Septembre 2014 – Juin 2015</li>
+            </ul>
+        </section>
+
+        <!-- Langues -->
+        <section>
+            <h2>LANGUES</h2>
+            <ul class="list-disc pl-5 mt-2 text-subtle">
+                <li class="bullet-point"><span class="font-bold">Français :</span> Natif (C2)</li>
+                <li class="bullet-point"><span class="font-bold">Anglais :</span> Professionnel (B2)</li>
+                <li class="bullet-point"><span class="font-bold">Italien :</span> Notions (A2)</li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="qr-code" id="qr-code"></div>
+
+    <script>
+        // Générer le QR code
+        QRCode.toCanvas(document.getElementById('qr-code'), 'https://aurelien-rodier.fr', {
+            width: 128,
+            margin: 1,
+            color: {
+                dark: '#81B29A',
+                light: '#ffffff'
+            }
+        });
+    </script>
+</body>
+</html> 
