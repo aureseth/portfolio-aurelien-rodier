@@ -1,4 +1,4 @@
-script.jsdocument.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
     (function() {
         try {
@@ -683,4 +683,5 @@ script.jsdocument.addEventListener('DOMContentLoaded', () => {
     }
 
     init();
+    window.exportToPDF = exportToPDF;
 });
