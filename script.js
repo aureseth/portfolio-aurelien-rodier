@@ -559,129 +559,21 @@ document.addEventListener('DOMContentLoaded', () => {
         type();
     }
 
-    // 1. Structure de données pour le CV exportable (exemple, à enrichir dynamiquement si besoin)
-    const cvData = {
-      profilePic: "https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png",
-      name: "Aurélien Rodier",
-      title: "Product Owner Senior | Spécialiste Produit IA & SaaS",
-      location: "Rennes, France",
-      email: "aurelien.rodier@email.com",
-      linkedin: "https://www.linkedin.com/in/aurelienrodierpo",
-      summary: "Product Owner certifié (PSPO I, PSM I, SAFe 6) avec 8 années d'expérience dans le digital, spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA et l'automatisation. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact mesurable, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.",
-      experiences: [
-        {
-          role: "Senior Product Owner / Consultant Fonctionnel",
-          company: "Sogeti (SogetiLab)",
-          period: "Octobre 2024 – Aujourd'hui",
-          achievements: [
-            "Piloté les études fonctionnelles pour application interne, réduisant de 20% les incompréhensions et accélérant le développement.",
-            "Organisé entretiens utilisateurs et prototypages, augmentant de 15% l'alignement des fonctionnalités avec les attentes.",
-            "Conçu solutions d'IA pour détection d'animaux marins, augmentant la précision de 15% pour suivi écologique.",
-            "Piloté plateforme web de labellisation d'images/vidéos, améliorant l'efficacité de 30% pour les données IA.",
-            "Lauréat du Hackathon 'Prompt Master', développant une application RAG 2x plus rapide pour la génération de contenu."
-          ]
-        },
-        {
-          role: "Responsable Innovation de Produits",
-          company: "Alten (Mission pour Enedis Lab)",
-          period: "Mai 2023 – Janvier 2024",
-          achievements: [
-            "Mis en place gestion prédictive des interventions, réduisant les délais de 15% et augmentant la fiabilité du réseau de 10%.",
-            "Piloté transition du navigateur interne vers Edge, formant plus de 200 agents et assurant l'adoption des fonctions IA.",
-            "Conçu et animé ateliers Microsoft Power Automate, augmentant l'efficience opérationnelle des agents de 20%.",
-            "Dirigé l'automatisation de 5 processus internes, réduisant les coûts opérationnels de 10%."
-          ]
-        },
-        {
-          role: "Product Owner",
-          company: "Wemanity (Mission pour ADEO / Leroy Merlin)",
-          period: "Mai 2022 – Mai 2023",
-          achievements: [
-            "Piloté conception outil calcul pénalités fournisseurs, assurant conformité réglementaire à 99% et réduisant les litiges de 25%.",
-            "Orchestré réunions parties prenantes, améliorant de 20% l'alignement sur les règles et exigences légales.",
-            "Validé 100% des modèles de données avec le PO Data, garantissant précision comptable.",
-            "Collaboré avec équipes UX/UI, intégrant 80% des feedbacks pour optimiser l'ergonomie."
-          ]
-        },
-        {
-          role: "Product Owner",
-          company: "eLamp",
-          period: "Mars 2020 – Mars 2022",
-          achievements: [
-            "Géré le backlog produit d'une plateforme RH SaaS, augmentant la vélocité de l'équipe de 10%.",
-            "Rédigé user stories détaillées, réduisant de 15% les clarifications nécessaires avec les développeurs.",
-            "Contribué à la roadmap produit, réduisant le temps de mise sur le marché de 10%.",
-            "Conçu 5 parcours utilisateurs clés, augmentant l'engagement de 12%.",
-            "Amélioré continuellement le produit, menant à une augmentation de 15% de l'adoption des nouvelles fonctionnalités.",
-            "Participé phases d'avant-vente, contribuant à l'acquisition de 3 nouveaux projets majeurs."
-          ]
-        }
-      ]
-      // Ajoute ici compétences, formations, langues, etc. si besoin
-    };
-
-    // 2. Fonction pour générer le HTML du CV à partir des données et du template Handlebars
-    function generateCVHtmlFromData(data) {
-      const source = document.getElementById('cv-template').innerHTML;
-      const template = Handlebars.compile(source);
-      return template(data);
-    }
-
-    // 3. Nouvelle version de exportToPDF qui utilise le template dynamique
     function exportToPDF() {
-      // Générer le HTML du CV dynamiquement
-      const html = generateCVHtmlFromData(cvData);
-
-      // Créer un conteneur temporaire
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      tempDiv.style.position = 'fixed';
-      tempDiv.style.left = '-9999px';
-      document.body.appendChild(tempDiv);
-
-      // Exporter en PDF
-      html2pdf().set({
-        margin: [1.5, 1.5, 1.5, 1.5],
-        filename: 'CV_Aurelien_Rodier.pdf',
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-      }).from(tempDiv).save().then(() => {
-        document.body.removeChild(tempDiv);
-        showNotification('CV exporté avec succès !', 'success');
-      }).catch(() => {
-        document.body.removeChild(tempDiv);
-        showNotification('Erreur lors de l\'export du CV', 'error');
-      });
+        const element = document.querySelector('main'); // ou l'id du conteneur principal
+        const opt = {
+            margin: 1,
+            filename: 'CV_Aurelien_Rodier.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+        };
+        element.classList.add('print-mode');
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.classList.remove('print-mode');
+        });
     }
-
-    // Fonction pour afficher les notifications
-    function showNotification(message, type = 'success') {
-        // Créer l'élément de notification
-        const notification = document.createElement('div');
-        notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-y-full opacity-0 ${
-            type === 'success' ? 'bg-green-500' : 'bg-red-500'
-        } text-white`;
-        notification.textContent = message;
-
-        // Ajouter la notification au DOM
-        document.body.appendChild(notification);
-
-        // Animer l'entrée
-        setTimeout(() => {
-            notification.style.transform = 'translateY(0)';
-            notification.style.opacity = '1';
-        }, 100);
-
-        // Supprimer la notification après 3 secondes
-        setTimeout(() => {
-            notification.style.transform = 'translateY(full)';
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
-    }
+    window.exportToPDF = exportToPDF;
 
     init();
-    window.exportToPDF = exportToPDF;
 });
