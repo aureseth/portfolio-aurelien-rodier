@@ -20,6 +20,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "."
-          target: "/aurelien-rodier.fr"
+          target: "/home/dore2115/aurelien-rodier.fr"
           rm: true
           strip_components: 1 
