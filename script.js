@@ -562,13 +562,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function exportToPDF() {
         // Créer un conteneur temporaire pour l'export
         const exportContainer = document.createElement('div');
-        exportContainer.className = 'cv-export-container';
-        exportContainer.style.position = 'absolute';
-        exportContainer.style.left = '-9999px';
-        exportContainer.style.top = '0';
-        exportContainer.style.width = '1000px';
-        exportContainer.style.backgroundColor = 'white';
-        exportContainer.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        exportContainer.style.cssText = `
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 800px;
+            background-color: white;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #111827;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        `;
         
         // Récupérer les données dynamiquement depuis allData
         const profilePic = document.getElementById('profile-pic').src;
@@ -578,16 +583,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkedin = 'linkedin.com/in/rodieraurelien';
         const website = 'aurelien-rodier.fr';
         
+        // Fonction pour nettoyer le HTML des descriptions
+        const cleanHTML = (html) => {
+            return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+        };
+        
         // Fonction pour générer les compétences par catégorie
         const generateSkillsHTML = () => {
             let skillsHTML = '';
             Object.keys(allData.skills).forEach(category => {
                 const skills = allData.skills[category];
                 skillsHTML += `
-                    <div class="skill-category-export">
-                        <h3><i class="fas fa-cogs"></i> ${category}</h3>
-                        <div class="skill-badges-export">
-                            ${skills.map(skill => `<span class="skill-badge-export">${skill.name}</span>`).join('')}
+                    <div style="margin-bottom: 1rem;">
+                        <h4 style="color: #4f46e5; font-weight: 600; margin: 0 0 0.5rem 0; font-size: 1rem;">${category}</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+                            ${skills.map(skill => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${skill.name}</span>`).join('')}
                         </div>
                     </div>
                 `;
@@ -598,14 +608,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fonction pour générer les expériences
         const generateExperiencesHTML = () => {
             return allData.jobs.map(job => `
-                <div class="experience-item-export">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">${job.role}</h3>
-                    <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">${job.company} | <span style="color: #6b7280;">${job.period}</span></p>
-                    <div style="color: #6b7280; margin: 0.5rem 0 0 0; line-height: 1.5;">
-                        ${job.description}
+                <div style="margin-bottom: 1.5rem; padding-left: 1rem; border-left: 3px solid #e5e7eb;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; color: #111827; margin: 0 0 0.25rem 0;">${job.role}</h3>
+                    <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0; font-size: 0.9rem;">${job.company} | ${job.period}</p>
+                    <div style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 0.9rem;">
+                        ${cleanHTML(job.description)}
                     </div>
                     <div style="margin-top: 0.5rem;">
-                        ${job.tags.map(tag => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-right: 0.25rem;">${tag}</span>`).join('')}
+                        ${job.tags.map(tag => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.7rem; margin-right: 0.2rem;">${tag}</span>`).join('')}
                     </div>
                 </div>
             `).join('');
@@ -614,11 +624,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fonction pour générer les certifications
         const generateCertificationsHTML = () => {
             return allData.certifications.map(cert => `
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
-                    <i class="fas fa-certificate" style="color: #4f46e5;"></i>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="color: #4f46e5; font-size: 0.8rem;">●</span>
                     <div>
-                        <p style="margin: 0; font-weight: 600;">${cert.acronym} - ${cert.fullName}</p>
-                        <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">${cert.issuer} - ${cert.date}</p>
+                        <p style="margin: 0; font-weight: 600; font-size: 0.9rem;">${cert.acronym} - ${cert.fullName}</p>
+                        <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">${cert.issuer} - ${cert.date}</p>
                     </div>
                 </div>
             `).join('');
@@ -627,9 +637,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fonction pour générer les formations
         const generateFormationsHTML = () => {
             return allData.formations.map(formation => `
-                <div style="margin-bottom: 1rem;">
-                    <p style="margin: 0; font-weight: 600;">${formation.name}</p>
-                    <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">${formation.school} - ${formation.date}</p>
+                <div style="margin-bottom: 0.75rem;">
+                    <p style="margin: 0; font-weight: 600; font-size: 0.9rem;">${formation.name}</p>
+                    <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">${formation.school} - ${formation.date}</p>
                 </div>
             `).join('');
         };
@@ -637,72 +647,80 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fonction pour générer les langues
         const generateLanguagesHTML = () => {
             return allData.languages.map(lang => `
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <span style="font-size: 1.25rem;">${lang.flag}</span>
-                    <span style="font-weight: 600;">${lang.lang}</span>
-                    <span style="color: #6b7280; font-size: 0.875rem;">- ${lang.level}</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                    <span style="font-size: 1rem;">${lang.flag}</span>
+                    <span style="font-weight: 600; font-size: 0.9rem;">${lang.lang}</span>
+                    <span style="color: #6b7280; font-size: 0.8rem;">- ${lang.level}</span>
                 </div>
             `).join('');
         };
         
-        // Construire le contenu du CV optimisé pour 2 pages
+        // Construire le contenu du CV optimisé pour l'impression
         exportContainer.innerHTML = `
-            <div class="cv-export-header">
+            <div style="padding: 2rem; background: linear-gradient(135deg, #f0f9ff 0%, #f1f5f9 100%); border-bottom: 4px solid #4f46e5;">
                 <div style="display: flex; align-items: center; gap: 2rem;">
-                    <img src="${profilePic}" alt="Aurélien Rodier" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);">
-                    <div>
-                        <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; margin: 0 0 0.5rem 0;">${name}</h1>
-                        <p style="font-size: 1.25rem; font-weight: 600; color: #4f46e5; margin: 0 0 1.5rem 0;">${title}</p>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
-                                <i class="fas fa-envelope" style="color: #4f46e5; width: 1.25rem;"></i>
+                    <img src="${profilePic}" alt="Aurélien Rodier" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                    <div style="flex: 1;">
+                        <h1 style="font-size: 2.2rem; font-weight: 800; color: #111827; margin: 0 0 0.5rem 0;">${name}</h1>
+                        <p style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin: 0 0 1rem 0;">${title}</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
+                                <span style="color: #4f46e5;">📧</span>
                                 <span>${email}</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
-                                <i class="fab fa-linkedin" style="color: #4f46e5; width: 1.25rem;"></i>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
+                                <span style="color: #4f46e5;">🔗</span>
                                 <span>${linkedin}</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
-                                <i class="fas fa-globe" style="color: #4f46e5; width: 1.25rem;"></i>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
+                                <span style="color: #4f46e5;">🌐</span>
                                 <span>${website}</span>
                             </div>
                         </div>
                     </div>
+                    <img src="https://aurelien-rodier.fr/qrcode_cv.png" alt="QR Code" style="width: 100px; height: 100px; border-radius: 6px;">
                 </div>
-                <img src="https://aurelien-rodier.fr/qrcode_cv.png" alt="QR Code" style="width: 120px; height: 120px; border-radius: 8px; align-self: center;">
             </div>
             
-            <div class="cv-export-content">
-                <div class="cv-export-section">
-                    <h2><i class="fas fa-user"></i> Profil Professionnel</h2>
-                    <p style="color: #6b7280; line-height: 1.6;">
+            <div style="padding: 2rem;">
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        📋 Profil Professionnel
+                    </h2>
+                    <p style="color: #6b7280; line-height: 1.6; font-size: 0.95rem;">
                         Product Owner certifié (PSPO I, PSM I, SAFe 6), spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.
                     </p>
                 </div>
                 
-                <div class="cv-export-section">
-                    <h2><i class="fas fa-briefcase"></i> Expériences Professionnelles</h2>
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        💼 Expériences Professionnelles
+                    </h2>
                     ${generateExperiencesHTML()}
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <div class="cv-export-section">
-                        <h2><i class="fas fa-lightbulb"></i> Compétences</h2>
+                    <div>
+                        <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                            🛠️ Compétences
+                        </h2>
                         ${generateSkillsHTML()}
                     </div>
                     
-                    <div class="cv-export-section">
-                        <h2><i class="fas fa-graduation-cap"></i> Formations & Certifications</h2>
+                    <div>
+                        <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                            🎓 Formations & Certifications
+                        </h2>
                         <div style="margin-bottom: 1.5rem;">
-                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Certifications</h3>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Certifications</h3>
                             ${generateCertificationsHTML()}
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Formations</h3>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Formations</h3>
                             ${generateFormationsHTML()}
                         </div>
                         <div>
-                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Langues</h3>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Langues</h3>
                             ${generateLanguagesHTML()}
                         </div>
                     </div>
@@ -713,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ajouter le conteneur au DOM temporairement
         document.body.appendChild(exportContainer);
         
-        // Configuration optimisée pour l'export PDF en 2 pages
+        // Configuration optimisée pour l'export PDF
         const opt = {
             margin: 0.5,
             filename: 'CV_Aurelien_Rodier.pdf',
@@ -721,9 +739,9 @@ document.addEventListener('DOMContentLoaded', () => {
             html2canvas: { 
                 scale: 2, 
                 useCORS: true,
-                letterRendering: true,
                 allowTaint: true,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                logging: false
             },
             jsPDF: { 
                 unit: 'in', 
@@ -733,17 +751,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         
-        // Ajouter une courte pause pour permettre le rendu avant l'export
-        setTimeout(() => {
-            // Générer le PDF
-            html2pdf().set(opt).from(exportContainer).save().then(() => {
-                // Nettoyer après l'export
-                document.body.removeChild(exportContainer);
-            }).catch(error => {
-                console.error('Erreur lors de la génération du PDF:', error);
-                document.body.removeChild(exportContainer);
+        // Attendre que les images soient chargées avant de générer le PDF
+        const images = exportContainer.querySelectorAll('img');
+        const imagePromises = Array.from(images).map(img => {
+            return new Promise((resolve) => {
+                if (img.complete) {
+                    resolve();
+                } else {
+                    img.onload = resolve;
+                    img.onerror = resolve; // Continuer même si une image échoue
+                }
             });
-        }, 150);
+        });
+        
+        Promise.all(imagePromises).then(() => {
+            // Générer le PDF après un court délai pour assurer le rendu
+            setTimeout(() => {
+                html2pdf().set(opt).from(exportContainer).save().then(() => {
+                    document.body.removeChild(exportContainer);
+                }).catch(error => {
+                    console.error('Erreur lors de la génération du PDF:', error);
+                    document.body.removeChild(exportContainer);
+                });
+            }, 500);
+        });
     }
     window.exportToPDF = exportToPDF;
 
