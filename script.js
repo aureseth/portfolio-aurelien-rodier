@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
         exportContainer.style.backgroundColor = 'white';
         exportContainer.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
         
-        // Récupérer les données du CV
+        // Récupérer les données dynamiquement depuis allData
         const profilePic = document.getElementById('profile-pic').src;
         const name = 'Aurélien Rodier';
         const title = 'Product Owner Confirmé | Spécialiste Produit IA & SaaS';
@@ -578,7 +578,74 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkedin = 'linkedin.com/in/rodieraurelien';
         const website = 'aurelien-rodier.fr';
         
-        // Construire le contenu du CV
+        // Fonction pour générer les compétences par catégorie
+        const generateSkillsHTML = () => {
+            let skillsHTML = '';
+            Object.keys(allData.skills).forEach(category => {
+                const skills = allData.skills[category];
+                skillsHTML += `
+                    <div class="skill-category-export">
+                        <h3><i class="fas fa-cogs"></i> ${category}</h3>
+                        <div class="skill-badges-export">
+                            ${skills.map(skill => `<span class="skill-badge-export">${skill.name}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            return skillsHTML;
+        };
+        
+        // Fonction pour générer les expériences
+        const generateExperiencesHTML = () => {
+            return allData.jobs.map(job => `
+                <div class="experience-item-export">
+                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">${job.role}</h3>
+                    <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">${job.company} | <span style="color: #6b7280;">${job.period}</span></p>
+                    <div style="color: #6b7280; margin: 0.5rem 0 0 0; line-height: 1.5;">
+                        ${job.description}
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        ${job.tags.map(tag => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-right: 0.25rem;">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        };
+        
+        // Fonction pour générer les certifications
+        const generateCertificationsHTML = () => {
+            return allData.certifications.map(cert => `
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                    <i class="fas fa-certificate" style="color: #4f46e5;"></i>
+                    <div>
+                        <p style="margin: 0; font-weight: 600;">${cert.acronym} - ${cert.fullName}</p>
+                        <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">${cert.issuer} - ${cert.date}</p>
+                    </div>
+                </div>
+            `).join('');
+        };
+        
+        // Fonction pour générer les formations
+        const generateFormationsHTML = () => {
+            return allData.formations.map(formation => `
+                <div style="margin-bottom: 1rem;">
+                    <p style="margin: 0; font-weight: 600;">${formation.name}</p>
+                    <p style="margin: 0; font-size: 0.875rem; color: #6b7280;">${formation.school} - ${formation.date}</p>
+                </div>
+            `).join('');
+        };
+        
+        // Fonction pour générer les langues
+        const generateLanguagesHTML = () => {
+            return allData.languages.map(lang => `
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 1.25rem;">${lang.flag}</span>
+                    <span style="font-weight: 600;">${lang.lang}</span>
+                    <span style="color: #6b7280; font-size: 0.875rem;">- ${lang.level}</span>
+                </div>
+            `).join('');
+        };
+        
+        // Construire le contenu du CV optimisé pour 2 pages
         exportContainer.innerHTML = `
             <div class="cv-export-header">
                 <div style="display: flex; align-items: center; gap: 2rem;">
@@ -615,64 +682,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 <div class="cv-export-section">
                     <h2><i class="fas fa-briefcase"></i> Expériences Professionnelles</h2>
-                    <div class="experience-item-export">
-                        <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">Product Owner confirmé / Consultant Fonctionnel</h3>
-                        <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">Sogeti (SogetiLab) | <span style="color: #6b7280;">Octobre 2024 - Aujourd'hui</span></p>
-                        <ul style="color: #6b7280; margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
-                            <li>Piloté les études fonctionnelles pour application interne, réduisant de 20% les incompréhensions.</li>
-                            <li>Conçu solutions d'IA pour détection d'animaux marins, augmentant la précision de 15%.</li>
-                        </ul>
-                    </div>
-                    <div class="experience-item-export">
-                        <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">Responsable Innovation de Produits</h3>
-                        <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">Alten (Mission pour Enedis Lab) | <span style="color: #6b7280;">Mai 2023 - Janvier 2024</span></p>
-                        <ul style="color: #6b7280; margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
-                            <li>Mis en place gestion prédictive des interventions, réduisant les délais de 15%.</li>
-                            <li>Piloté transition du navigateur interne vers Edge et formé plus de 200 agents.</li>
-                        </ul>
-                    </div>
+                    ${generateExperiencesHTML()}
                 </div>
                 
-                <div class="cv-export-section">
-                    <h2><i class="fas fa-lightbulb"></i> Compétences</h2>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                        <div class="skill-category-export">
-                            <h3><i class="fas fa-cogs"></i> Gestion de Produit</h3>
-                            <div class="skill-badges-export">
-                                <span class="skill-badge-export">Product Ownership</span>
-                                <span class="skill-badge-export">Stratégie Produit</span>
-                                <span class="skill-badge-export">Roadmapping</span>
-                            </div>
-                        </div>
-                        <div class="skill-category-export">
-                            <h3><i class="fas fa-sync-alt"></i> Méthodologies</h3>
-                            <div class="skill-badges-export">
-                                <span class="skill-badge-export">Scrum</span>
-                                <span class="skill-badge-export">SAFe</span>
-                                <span class="skill-badge-export">Kanban</span>
-                            </div>
-                        </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="cv-export-section">
+                        <h2><i class="fas fa-lightbulb"></i> Compétences</h2>
+                        ${generateSkillsHTML()}
                     </div>
-                </div>
-                
-                <div class="cv-export-section">
-                    <h2><i class="fas fa-graduation-cap"></i> Formations & Certifications</h2>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
-                            <p style="margin: 0;">Certified SAFe 6 Practitioner (POPM) - 2024</p>
+                    
+                    <div class="cv-export-section">
+                        <h2><i class="fas fa-graduation-cap"></i> Formations & Certifications</h2>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Certifications</h3>
+                            ${generateCertificationsHTML()}
                         </div>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
-                            <p style="margin: 0;">Professional Scrum Product Owner I (PSPO I) - 2024</p>
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Formations</h3>
+                            ${generateFormationsHTML()}
                         </div>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
-                            <p style="margin: 0;">Professional Scrum Master I (PSM I) - 2024</p>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <i class="fas fa-graduation-cap" style="color: #4f46e5;"></i>
-                            <p style="margin: 0;">Product Manager (Titre RNCP Niv. 7) - 2024</p>
+                        <div>
+                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Langues</h3>
+                            ${generateLanguagesHTML()}
                         </div>
                     </div>
                 </div>
@@ -682,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ajouter le conteneur au DOM temporairement
         document.body.appendChild(exportContainer);
         
-        // Configuration optimisée pour l'export PDF
+        // Configuration optimisée pour l'export PDF en 2 pages
         const opt = {
             margin: 0.5,
             filename: 'CV_Aurelien_Rodier.pdf',
@@ -702,14 +733,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         
-        // Générer le PDF
-        html2pdf().set(opt).from(exportContainer).save().then(() => {
-            // Nettoyer après l'export
-            document.body.removeChild(exportContainer);
-        }).catch(error => {
-            console.error('Erreur lors de la génération du PDF:', error);
-            document.body.removeChild(exportContainer);
-        });
+        // Ajouter une courte pause pour permettre le rendu avant l'export
+        setTimeout(() => {
+            // Générer le PDF
+            html2pdf().set(opt).from(exportContainer).save().then(() => {
+                // Nettoyer après l'export
+                document.body.removeChild(exportContainer);
+            }).catch(error => {
+                console.error('Erreur lors de la génération du PDF:', error);
+                document.body.removeChild(exportContainer);
+            });
+        }, 150);
     }
     window.exportToPDF = exportToPDF;
 
