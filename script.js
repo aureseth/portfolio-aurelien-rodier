@@ -560,17 +560,155 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function exportToPDF() {
-        const element = document.querySelector('main'); // ou l'id du conteneur principal
+        // Créer un conteneur temporaire pour l'export
+        const exportContainer = document.createElement('div');
+        exportContainer.className = 'cv-export-container';
+        exportContainer.style.position = 'absolute';
+        exportContainer.style.left = '-9999px';
+        exportContainer.style.top = '0';
+        exportContainer.style.width = '1000px';
+        exportContainer.style.backgroundColor = 'white';
+        exportContainer.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        
+        // Récupérer les données du CV
+        const profilePic = document.getElementById('profile-pic').src;
+        const name = 'Aurélien Rodier';
+        const title = 'Product Owner Confirmé | Spécialiste Produit IA & SaaS';
+        const email = 'rodier.aurelien@orange.fr';
+        const linkedin = 'linkedin.com/in/rodieraurelien';
+        const website = 'aurelien-rodier.fr';
+        
+        // Construire le contenu du CV
+        exportContainer.innerHTML = `
+            <div class="cv-export-header">
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <img src="${profilePic}" alt="Aurélien Rodier" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);">
+                    <div>
+                        <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; margin: 0 0 0.5rem 0;">${name}</h1>
+                        <p style="font-size: 1.25rem; font-weight: 600; color: #4f46e5; margin: 0 0 1.5rem 0;">${title}</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
+                                <i class="fas fa-envelope" style="color: #4f46e5; width: 1.25rem;"></i>
+                                <span>${email}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
+                                <i class="fab fa-linkedin" style="color: #4f46e5; width: 1.25rem;"></i>
+                                <span>${linkedin}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.75rem; color: #374151;">
+                                <i class="fas fa-globe" style="color: #4f46e5; width: 1.25rem;"></i>
+                                <span>${website}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="https://aurelien-rodier.fr/qrcode_cv.png" alt="QR Code" style="width: 120px; height: 120px; border-radius: 8px; align-self: center;">
+            </div>
+            
+            <div class="cv-export-content">
+                <div class="cv-export-section">
+                    <h2><i class="fas fa-user"></i> Profil Professionnel</h2>
+                    <p style="color: #6b7280; line-height: 1.6;">
+                        Product Owner certifié (PSPO I, PSM I, SAFe 6), spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.
+                    </p>
+                </div>
+                
+                <div class="cv-export-section">
+                    <h2><i class="fas fa-briefcase"></i> Expériences Professionnelles</h2>
+                    <div class="experience-item-export">
+                        <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">Product Owner confirmé / Consultant Fonctionnel</h3>
+                        <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">Sogeti (SogetiLab) | <span style="color: #6b7280;">Octobre 2024 - Aujourd'hui</span></p>
+                        <ul style="color: #6b7280; margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+                            <li>Piloté les études fonctionnelles pour application interne, réduisant de 20% les incompréhensions.</li>
+                            <li>Conçu solutions d'IA pour détection d'animaux marins, augmentant la précision de 15%.</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item-export">
+                        <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin: 0 0 0.5rem 0;">Responsable Innovation de Produits</h3>
+                        <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0;">Alten (Mission pour Enedis Lab) | <span style="color: #6b7280;">Mai 2023 - Janvier 2024</span></p>
+                        <ul style="color: #6b7280; margin: 0.5rem 0 0 0; padding-left: 1.25rem;">
+                            <li>Mis en place gestion prédictive des interventions, réduisant les délais de 15%.</li>
+                            <li>Piloté transition du navigateur interne vers Edge et formé plus de 200 agents.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="cv-export-section">
+                    <h2><i class="fas fa-lightbulb"></i> Compétences</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="skill-category-export">
+                            <h3><i class="fas fa-cogs"></i> Gestion de Produit</h3>
+                            <div class="skill-badges-export">
+                                <span class="skill-badge-export">Product Ownership</span>
+                                <span class="skill-badge-export">Stratégie Produit</span>
+                                <span class="skill-badge-export">Roadmapping</span>
+                            </div>
+                        </div>
+                        <div class="skill-category-export">
+                            <h3><i class="fas fa-sync-alt"></i> Méthodologies</h3>
+                            <div class="skill-badges-export">
+                                <span class="skill-badge-export">Scrum</span>
+                                <span class="skill-badge-export">SAFe</span>
+                                <span class="skill-badge-export">Kanban</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cv-export-section">
+                    <h2><i class="fas fa-graduation-cap"></i> Formations & Certifications</h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
+                            <p style="margin: 0;">Certified SAFe 6 Practitioner (POPM) - 2024</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
+                            <p style="margin: 0;">Professional Scrum Product Owner I (PSPO I) - 2024</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-certificate" style="color: #4f46e5;"></i>
+                            <p style="margin: 0;">Professional Scrum Master I (PSM I) - 2024</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-graduation-cap" style="color: #4f46e5;"></i>
+                            <p style="margin: 0;">Product Manager (Titre RNCP Niv. 7) - 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Ajouter le conteneur au DOM temporairement
+        document.body.appendChild(exportContainer);
+        
+        // Configuration optimisée pour l'export PDF
         const opt = {
-            margin: 1,
+            margin: 0.5,
             filename: 'CV_Aurelien_Rodier.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true,
+                letterRendering: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            },
+            jsPDF: { 
+                unit: 'in', 
+                format: 'a4', 
+                orientation: 'portrait',
+                compress: true
+            }
         };
-        element.classList.add('print-mode');
-        html2pdf().set(opt).from(element).save().then(() => {
-            element.classList.remove('print-mode');
+        
+        // Générer le PDF
+        html2pdf().set(opt).from(exportContainer).save().then(() => {
+            // Nettoyer après l'export
+            document.body.removeChild(exportContainer);
+        }).catch(error => {
+            console.error('Erreur lors de la génération du PDF:', error);
+            document.body.removeChild(exportContainer);
         });
     }
     window.exportToPDF = exportToPDF;

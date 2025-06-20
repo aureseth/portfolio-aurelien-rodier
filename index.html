@@ -16,13 +16,271 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Lien vers votre nouveau fichier CSS -->
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <style>
+        /* Styles pour l'export PDF amélioré */
+        .cv-export-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin: 2rem auto;
+            position: relative;
+            max-width: 1000px;
+        }
+        
+        .cv-export-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+        }
+        
+        .cv-export-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 3rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f1f5f9 100%);
+        }
+        
+        .cv-export-content {
+            padding: 2rem 3rem;
+        }
+        
+        .cv-export-section {
+            margin-bottom: 2rem;
+        }
+        
+        .cv-export-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .cv-export-section h2 i {
+            color: #4f46e5;
+        }
+        
+        .experience-item-export {
+            border-left: 3px solid #e5e7eb;
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .experience-item-export::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 8px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #4f46e5;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #818cf8;
+        }
+        
+        .skill-category-export {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-category-export h3 {
+            color: #4f46e5;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .skill-badges-export {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .skill-badge-export {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        
+        /* Boutons de contrôle modernes */
+        .export-controls {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        
+        .export-btn-modern {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #4f46e5, #3730a3);
+            color: white;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+        
+        .export-btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .export-btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .export-btn-secondary:hover {
+            background-color: #f9fafb;
+            transform: translateY(-2px);
+        }
+        
+        /* Styles pour l'impression */
+        @media print {
+            body { 
+                background-color: white; 
+                padding: 0; 
+            }
+            .no-print { 
+                display: none !important; 
+            }
+            .cv-export-container { 
+                margin: 0; 
+                border-radius: 0; 
+                box-shadow: none; 
+            }
+            .cv-export-header { 
+                padding: 2rem; 
+            }
+            .cv-export-content { 
+                padding: 1.5rem; 
+            }
+            @page { 
+                margin: 1cm; 
+            }
+        }
+        
+        /* Modal pour l'export */
+        .export-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .export-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .export-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .export-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .export-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.5rem;
+        }
+        
+        .export-modal-close:hover {
+            color: #374151;
+        }
+        
+        .export-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .export-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .export-option:hover {
+            border-color: #4f46e5;
+            background-color: #f8fafc;
+        }
+        
+        .export-option.selected {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        
+        .export-option-icon {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+            color: white;
+        }
+    </style>
 </head>
 <body class="antialiased">
 
@@ -44,11 +302,8 @@
                         </a>
                         <a href="#contact" class="nav-link">Contact</a>
                     </div>
-                    <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 ml-8" onclick="exportToPDF()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                        </svg>
+                    <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 ml-8" onclick="showExportModal()">
+                        <i class="fas fa-download"></i>
                         <span>Exporter CV</span>
                     </button>
                     <button id="theme-toggle" class="ml-4 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
@@ -70,16 +325,62 @@
                 <a href="#formation" class="mobile-menu-link block py-2 px-4 text-sm rounded">Formation</a>
                 <a href="#divers" class="mobile-menu-link block py-2 px-4 text-sm rounded">Langues & Engagements</a>
                 <a href="#contact" class="mobile-menu-link block py-2 px-4 text-sm rounded">Contact</a>
-                <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 w-full mt-2" onclick="exportToPDF()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                    </svg>
+                <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 w-full mt-2" onclick="showExportModal()">
+                    <i class="fas fa-download"></i>
                     <span>Exporter CV</span>
                 </button>
             </div>
         </div>
     </header>
+
+    <!-- Panneau de contrôle d'export moderne (non imprimable) -->
+    <div class="export-controls no-print">
+        <button id="download-button" class="export-btn-modern" onclick="exportToPDF()">
+            <i class="fas fa-download"></i> PDF
+        </button>
+        <button onclick="window.print()" class="export-btn-modern export-btn-secondary">
+            <i class="fas fa-print"></i> Imprimer
+        </button>
+    </div>
+
+    <!-- Modal d'export -->
+    <div id="export-modal" class="export-modal no-print">
+        <div class="export-modal-content">
+            <div class="export-modal-header">
+                <h3 class="text-xl font-semibold">Exporter mon CV</h3>
+                <button class="export-modal-close" onclick="hideExportModal()">&times;</button>
+            </div>
+            <div class="export-options">
+                <div class="export-option" onclick="exportToPDF()">
+                    <div class="export-option-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Télécharger en PDF</h4>
+                        <p class="text-sm text-gray-600">Format professionnel optimisé pour l'impression</p>
+                    </div>
+                </div>
+                <div class="export-option" onclick="window.print()">
+                    <div class="export-option-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Imprimer directement</h4>
+                        <p class="text-sm text-gray-600">Utilisez la boîte de dialogue d'impression de votre navigateur</p>
+                    </div>
+                </div>
+                <div class="export-option" onclick="openModernCV()">
+                    <div class="export-option-icon">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Version moderne</h4>
+                        <p class="text-sm text-gray-600">Ouvrir la version CV moderne dans un nouvel onglet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
@@ -113,7 +414,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                             <span>rodier.aurelien@orange.fr</span>
                         </a>
-                        <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-contact-link font-semibold hover:text-[#E07A5F] transition-colors">
+                        <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-contact-link font-semibold hover:text-[#E07A5f] transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
                             <span>LinkedIn</span>
                         </a>
@@ -304,5 +605,35 @@
     </script>
 
     <script src="script.js" defer></script>
+    
+    <script>
+        // Fonctions d'export améliorées
+        function showExportModal() {
+            document.getElementById('export-modal').classList.add('show');
+        }
+        
+        function hideExportModal() {
+            document.getElementById('export-modal').classList.remove('show');
+        }
+        
+        function openModernCV() {
+            window.open('cv-modern.html', '_blank');
+            hideExportModal();
+        }
+        
+        // Fermer le modal en cliquant à l'extérieur
+        document.getElementById('export-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideExportModal();
+            }
+        });
+        
+        // Fermer le modal avec la touche Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideExportModal();
+            }
+        });
+    </script>
 </body>
 </html>
