@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Aurélien Rodier - Product Owner Confirmé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #f8fafc; /* Gris très clair */
+            color: #334155; /* Gris-bleu foncé pour le texte */
+        }
+        .cv-container {
+            max-width: 860px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background-color: #ffffff;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        h1 {
+            color: #1e293b;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+        h2 {
+            color: #1e293b;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        h3 {
+            color: #4f46e5; /* Indigo */
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .experience-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.75rem;
+            border-left: 3px solid #c7d2fe;
+        }
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -0.56rem; /* (18px / 2) - 3px border */
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            background-color: #4f46e5;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+        }
+        .profile-pic {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .qr-code {
+             width: 128px;
+             height: 128px;
+        }
+
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .cv-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="cv-container">
+        <header class="flex justify-between items-start gap-8 mb-10">
+            <div class="flex items-center gap-6">
+                <img src="https://media.licdn.com/dms/image/v2/D4E03AQEyY-hy_QX-nA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1685530478184?e=1755734400&v=beta&t=w0AzfXcoQa5VON0f_Qv2XRglVIiTcxm6QaqCdezbUPs" alt="Photo de profil Aurélien Rodier" class="profile-pic">
+                <div>
+                    <h1>AURÉLIEN RODIER</h1>
+                    <p class="text-xl font-medium text-indigo-600">Product Owner Confirmé | Spécialiste Produit IA & SaaS</p>
+                    <div class="mt-4 space-y-2 text-gray-600">
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                            <span>Rennes, France | Ouvert au télétravail</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                            <span>aurelien.rodier@email.com</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                            <span>+33 6 84 55 84 44</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <a href="https://www.linkedin.com/in/rodieraurelien/" target="_blank" class="text-indigo-600 hover:underline">linkedin.com/in/rodieraurelien</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAbFBMVEX///8AAADFxcX7+/v39/fZ2dnv7+/m5ubT09NKSkrf39/x8fG9vb1AQECrq6uVlZViYmLBwcGRkZF6enqOjo6bm5tOTk5dXV1jY2NUVFREREQ7Oztubm5NTU1dXV0+Pj5WVlZcXFyAgIAzMzOlpaXjXn2eAAAEVElEQVR4nO3d2XLiMBBA0SYFCoQsiSOE3P+V1iCtJx1SOp2uXrXz+0H2xJbYknXp6wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALiq46pL1eXqUnV3v6x2m12tbnNs3f/VbdYdO6zd05m4bi1f2U/XePbY27fH7W6f37d36Lq1/FvWzW0b38DTePz2v2rXGvOfz393+o53/3+XpOuq+X+sP3t/3t53ur5t14Lro9uO41E/d7/ef2m6rtZgPZ/f5+3tL6br2mJ93J/t7+2p6bq29aM+rJvXf226biy/69N64/7F03Vp/bg/3Z/4t2sV471+nN9/xP77yjpX16P+dH3a3+ev/X23bK8X9ffz27d/27rXlT99vN9/fX+cv/JvX7/d39/fv+5e2+b16f3tO1bXh/6uT/d37bJ+Vj8uT+dntV2//u1+v39X89P1av24T/Wv2/Wd+s39uD/d3/S3a/X8+nF/u3/vTtWz+fX8+v29eW3Xy/n1+/3d/U2bNfL+fX5+25bt9X+vj6vH9dft2v1+Pp+fX8PbtfK8fX9+v4+3K6V4+vb/V39TVt23/r4PtbP7bf7v+nbLtvv1/f1/a277Qd23/ry/ra/vaf9eH/bXt/W27Zt/14f14/rb9uu2b/Vx/Xj+tv2a7Zt9+P6cf0tu2bbdp/qR/Wj+lO3bdbuR/Wj+tu1a7d+VB/W37Zdu3erD+tv277dvVW/6v+qbds+Wl/qR/W3bdPuR/Wv+tu2b/ejetR/1+/b7sN6VP/W37b9tV61n9bfth3Xq/az+lu277av1nP72/bbtpfWs/vb9tm2vdaP62/b7tt+1s/qb9vO2w7rWf1t22Hb3vpZ/W3bb9t++1g/q79tu2/bbf1s/bbtt+3WfrZ/23bdtpv62f5tu27bZ/1s/7btt+2ufra/27bb9tt+1s/2d9t+2+7az/Z3237b7trP9nfbftvu2s/2d9t+297az/Z32/7b3trP9nfb/tte28/2d9t+297bz/Z3237b3trP9nfbftve28/2d9t+297az/Z32/7b3trP9nfbftvuWq/az+pv267bdtR6Vn/bdtx21HpWf9t23HbbjlqP62/bLttO16/az+pv2y7brttO16/aT9uu227brlpP267bLttuW0/brttu227bTtuu207brttu227bTtuu207brttu207bTtuu207bTtuu207bTtuu207brttu207brttu207brttu207bTtuu207bTtuu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207brttu207bTtuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/vgPzMzOK1d/l0sAAAAASUVORK5CYII=" alt="QR Code vers le CV en ligne" class="qr-code">
+                <a href="https://aurelien-rodier.fr/cv.html" target="_blank" class="text-xs text-gray-500 hover:underline no-print">CV en ligne</a>
+            </div>
+        </header>
+
+        <section>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                PROFIL PROFESSIONNEL
+            </h2>
+            <p class="text-justify text-gray-700 leading-relaxed">
+                Product Owner certifié (PSPO I, PSM I, SAFe 6) formé en 2020, spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA et l'automatisation. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact mesurable, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.
+            </p>
+        </section>
+
+        <section>
+            <h2>
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.07a2.25 2.25 0 01-2.25 2.25H5.625a2.25 2.25 0 01-2.25-2.25v-4.07a2.25 2.25 0 012.25-2.25h12.5a2.25 2.25 0 012.25 2.25z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5a9 9 0 018.25-6.065 9 9 0 018.25 6.065m-16.5 0a9 9 0 008.25 6.065 9 9 0 008.25-6.065m0 0H20.25m-16.5 0H3.75" /></svg>
+                EXPÉRIENCES PROFESSIONNELLES
+            </h2>
+            <div class="experience-item">
+                <h3>Product Owner confirmé/ Consultant Fonctionnel</h3>
+                <p class="font-semibold text-gray-800">Sogeti (SogetiLab) | <span class="text-gray-600 font-medium">Octobre 2024 – Aujourd'hui</span></p>
+                <ul class="list-disc pl-5 mt-3 text-gray-600 space-y-2">
+                    <li>**Piloté** les études fonctionnelles pour application interne, **réduisant de 20% les incompréhensions** et **accélérant le développement**.</li>
+                    <li>**Organisé** entretiens utilisateurs et prototypages, **augmentant de 15% l'alignement des fonctionnalités** avec les attentes.</li>
+                    <li>**Conçu** solutions d'IA pour détection d'animaux marins, **augmentant la précision de 15%** pour suivi écologique.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>Responsable Innovation de Produits</h3>
+                <p class="font-semibold text-gray-800">Alten (Mission pour Enedis Lab) | <span class="text-gray-600 font-medium">Mai 2023 – Janvier 2024</span></p>
+                 <ul class="list-disc pl-5 mt-3 text-gray-600 space-y-2">
+                    <li>**Mis en place** gestion prédictive des interventions, **réduisant les délais de 15%** et **augmentant la fiabilité du réseau de 10%**.</li>
+                    <li>**Piloté** transition du navigateur interne vers Edge, **formant plus de 200 agents** et assurant l'adoption des fonctions IA.</li>
+                    <li>**Conçu et animé** ateliers Microsoft Power Automate, **augmentant l'efficience opérationnelle des agents de 20%**.</li>
+                </ul>
+            </div>
+             <div class="experience-item">
+                <h3>Product Owner</h3>
+                <p class="font-semibold text-gray-800">Wemanity (Mission pour ADEO / Leroy Merlin) | <span class="text-gray-600 font-medium">Mai 2022 – Mai 2023</span></p>
+                <ul class="list-disc pl-5 mt-3 text-gray-600 space-y-2">
+                    <li>**Piloté** conception outil calcul pénalités fournisseurs, assurant **conformité réglementaire à 99%** et **réduisant les litiges de 25%**.</li>
+                    <li>**Orchestré** réunions parties prenantes, **améliorant de 20% l'alignement** sur les règles et exigences légales.</li>
+                    <li>**Collaboré** avec équipes UX/UI, **intégrant 80% des feedbacks** pour optimiser l'ergonomie.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3 class="text-indigo-700">Product Owner</h3>
+                <p class="font-semibold text-gray-800">eLamp | <span class="text-gray-600 font-medium">Mars 2020 – Mars 2022</span></p>
+                <ul class="list-disc pl-5 mt-3 text-gray-600 space-y-2">
+                    <li>**Géré** le backlog produit d'une plateforme RH SaaS, **augmentant la vélocité de l'équipe de 10%**.</li>
+                    <li>**Rédigé** user stories détaillées, **réduisant de 15% les clarifications** nécessaires avec les développeurs.</li>
+                    <li>**Contribué** à la roadmap produit, **réduisant le temps de mise sur le marché de 10%**.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM18 13.5a3.375 3.375 0 00-3.375-3.375L12.75 9.75l-1.875.525A3.375 3.375 0 009 12.75l.525 1.875 1.875 1.875a3.375 3.375 0 002.475 1.025h2.25a3.375 3.375 0 003.375-3.375l-.525-1.875L18 13.5z" /></svg>
+                COMPÉTENCES
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                <div>
+                    <h3 class="font-semibold text-indigo-600 mb-2">Gestion de Produit & Stratégie</h3>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Product Ownership, Stratégie Produit, Roadmap, Backlog</li>
+                        <li>User Stories, User Journey, KPI, MVP, Discovery, Delivery</li>
+                        <li>Analyse Concurrentielle, Veille Technologique</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-indigo-600 mb-2">Méthodologies Agiles</h3>
+                     <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Scrum, SAFe (Scaled Agile Framework), Kanban</li>
+                        <li>Lean, Design Thinking, Cérémonies Agiles</li>
+                        <li>Amélioration Continue, Approche Data-Driven</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-indigo-600 mb-2">Outils & Technologies</h3>
+                     <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Jira, Confluence, Figma (Notions), Make (Ex-Integromat)</li>
+                        <li>Microsoft Power Platform, Azure OpenAI, Flowise</li>
+                        <li>Google Analytics, Airtable, Notion, Trello, Slack</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-indigo-600 mb-2">Compétences Techniques</h3>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Analyse et Spécification Fonctionnelle, Recette</li>
+                        <li>Automatisation de Processus, IA Générative (RAG)</li>
+                        <li>Modélisation des Données, Architecture (Compréhension)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20M1 12v7a2 2 0 002 2h14a2 2 0 002-2v-7" /></svg>
+                FORMATIONS & CERTIFICATIONS
+            </h2>
+            <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                <li><span class="font-semibold">Certified SAFe 6 Practitioner (POPM)</span> | Scaled Agile, Inc. | 2024</li>
+                <li><span class="font-semibold">Professional Scrum Product Owner I (PSPO I)</span> | Scrum.org | 2024</li>
+                <li><span class="font-semibold">Professional Scrum Master I (PSM I)</span> | Scrum.org | 2024</li>
+                <li><span class="font-semibold">Formation d'Excellence Produit Noé</span> | Intervenants: Aircall, Blablacar... | 2024</li>
+                <li><span class="font-semibold">Product Manager (Titre RNCP Niv. 7)</span> | OpenClassrooms | 2020 – 2024</li>
+                <li><span class="font-semibold">Master 2 Pranet, Stratégie de communication digitale</span> | Université Rennes 2 | 2017</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.625M21 21l-5.25-11.625M3.75 5.25h16.5M4.5 19.5h15" /></svg>
+                LANGUES
+            </h2>
+             <ul class="list-disc pl-5 text-gray-700">
+                <li><span class="font-semibold">Français :</span> Natif (C2)</li>
+                <li><span class="font-semibold">Anglais :</span> Professionnel (B2)</li>
+                <li><span class="font-semibold">Italien :</span> Notions (A2)</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
