@@ -1,0 +1,232 @@
+{
+  "basics": {
+    "name": "Aurélien Rodier",
+    "label": "Product Owner | Business Analyst",
+    "email": "rodier.aurelien@orange.fr",
+    "phone": "+33 6 00 00 00 00",
+    "url": "https://aurelien-rodier.fr",
+    "summary": "Product Owner passionate about innovation and digital transformation. Specialized in digital product management, agility and artificial intelligence. Over 8 years of experience in designing and developing innovative solutions. Expert in agile methodologies and business requirements analysis.",
+    "location": {
+      "city": "Lyon",
+      "countryCode": "FR",
+      "region": "Auvergne-Rhône-Alpes"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "rodieraurelien",
+        "url": "https://linkedin.com/in/rodieraurelien"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Orange",
+      "position": "Product Owner",
+      "startDate": "2022-01-01",
+      "endDate": "",
+      "summary": "Product backlog management and feature prioritization for innovative digital applications.",
+      "highlights": [
+        "Product backlog management and feature prioritization",
+        "Close collaboration with development and design teams",
+        "User metrics analysis to optimize experience",
+        "Leading AI innovation projects",
+        "Implementation of user validation processes",
+        "Coordination with business and technical stakeholders"
+      ]
+    },
+    {
+      "name": "Orange",
+      "position": "Digital Project Manager",
+      "startDate": "2019-01-01",
+      "endDate": "2021-12-31",
+      "summary": "End-to-end digital project management with multidisciplinary team coordination.",
+      "highlights": [
+        "End-to-end digital project management",
+        "Coordination of multidisciplinary teams",
+        "Implementation of agile methodologies",
+        "Internal process optimization",
+        "Budget and planning management",
+        "Reporting and performance indicator monitoring"
+      ]
+    },
+    {
+      "name": "Orange",
+      "position": "Full Stack Developer",
+      "startDate": "2016-09-01",
+      "endDate": "2018-12-31",
+      "summary": "Web and mobile application development with microservices architecture.",
+      "highlights": [
+        "Web and mobile application development",
+        "Technologies: JavaScript, React, Node.js, Python",
+        "Microservices and cloud architecture",
+        "Junior developer mentoring",
+        "Performance optimization",
+        "CI/CD implementation"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Backlog Management",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Scrum Master"]
+    },
+    {
+      "name": "Business Requirements Analysis",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Business Analyst"]
+    },
+    {
+      "name": "Agile (Scrum, Kanban)",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Scrum Master", "Business Analyst"]
+    },
+    {
+      "name": "SAFe",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Release Train Engineer"]
+    },
+    {
+      "name": "User Research",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "UX Designer"]
+    },
+    {
+      "name": "A/B Testing",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Data Analyst"]
+    },
+    {
+      "name": "Roadmap Planning",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Product Manager"]
+    },
+    {
+      "name": "Stakeholder Management",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Project Manager"]
+    },
+    {
+      "name": "JavaScript",
+      "level": "Advanced",
+      "relevant_for": ["Full Stack Developer", "Frontend Developer"]
+    },
+    {
+      "name": "React",
+      "level": "Advanced",
+      "relevant_for": ["Full Stack Developer", "Frontend Developer"]
+    },
+    {
+      "name": "Node.js",
+      "level": "Advanced",
+      "relevant_for": ["Full Stack Developer", "Backend Developer"]
+    },
+    {
+      "name": "Python",
+      "level": "Intermediate",
+      "relevant_for": ["Full Stack Developer", "Data Scientist"]
+    },
+    {
+      "name": "SQL",
+      "level": "Advanced",
+      "relevant_for": ["Full Stack Developer", "Data Analyst"]
+    },
+    {
+      "name": "Git",
+      "level": "Expert",
+      "relevant_for": ["Full Stack Developer", "DevOps Engineer"]
+    },
+    {
+      "name": "Jira",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Scrum Master", "Project Manager"]
+    },
+    {
+      "name": "Confluence",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Business Analyst"]
+    },
+    {
+      "name": "Figma",
+      "level": "Intermediate",
+      "relevant_for": ["Product Owner", "UX Designer"]
+    },
+    {
+      "name": "Miro",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Scrum Master"]
+    },
+    {
+      "name": "Slack",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Project Manager"]
+    },
+    {
+      "name": "Notion",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Business Analyst"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University Lyon 1",
+      "area": "Computer Science",
+      "studyType": "Master's Degree",
+      "startDate": "2014-09-01",
+      "endDate": "2016-06-30",
+      "score": "Distinction"
+    },
+    {
+      "institution": "Scaled Agile",
+      "area": "SAFe Product Owner",
+      "studyType": "Certification",
+      "startDate": "2021-01-01",
+      "endDate": "2021-12-31"
+    },
+    {
+      "institution": "Scrum Alliance",
+      "area": "Scrum Master",
+      "studyType": "Certification",
+      "startDate": "2020-01-01",
+      "endDate": "2020-12-31"
+    }
+  ],
+  "languages": [
+    {
+      "language": "French",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "Fluent",
+      "level": "TOEIC 950"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Intermediate"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Artificial Intelligence",
+      "keywords": ["Machine Learning", "ChatGPT", "Innovation"]
+    },
+    {
+      "name": "Digital Transformation",
+      "keywords": ["Agility", "Innovation", "Processes"]
+    },
+    {
+      "name": "Product Management",
+      "keywords": ["Product Strategy", "UX", "Metrics"]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Agile Lyon Community",
+      "position": "Active Member",
+      "startDate": "2020-01-01",
+      "summary": "Participation in events and sharing experience on agility"
+    }
+  ]
+} 

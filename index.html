@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Lien vers votre nouveau fichier CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pdf-template.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -548,7 +549,8 @@
       </div>
     </script>
 
-    <script src="script.js" defer></script>
+    <script src="js/pdf-generator.js" defer></script>
+    <script src="js/main.js" defer></script>
     
     <script>
         // Fonctions d'export améliorées
@@ -574,5 +576,12 @@
             }
         });
     </script>
+
+    <!-- Modèle invisible pour la génération du PDF -->
+    <div id="cv-template-container" style="position: absolute; left: -9999px; top: -9999px; width: 210mm; background-color: white;">
+        <div id="cv-template">
+            <!-- Ce contenu sera généré par JavaScript -->
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,399 @@
+/* Styles dédiés à l'export PDF */
+.cv-pdf-container {
+    background-color: white;
+    color: #333;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20mm;
+    box-sizing: border-box;
+}
+
+.cv-pdf-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #4f46e5;
+    padding-bottom: 1rem;
+}
+
+.cv-pdf-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.5rem 0;
+}
+
+.cv-pdf-header .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4f46e5;
+    margin: 0 0 1rem 0;
+}
+
+.cv-pdf-header .contact-info {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.cv-pdf-section {
+    margin-bottom: 2rem;
+}
+
+.cv-pdf-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cv-pdf-section h2 i {
+    color: #4f46e5;
+}
+
+.cv-pdf-experience {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid #e5e7eb;
+    position: relative;
+}
+
+.cv-pdf-experience::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #4f46e5;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #818cf8;
+}
+
+.cv-pdf-experience h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+}
+
+.cv-pdf-experience .company {
+    font-weight: 600;
+    color: #4f46e5;
+    margin: 0 0 0.25rem 0;
+}
+
+.cv-pdf-experience .period {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0 0 0.5rem 0;
+}
+
+.cv-pdf-experience ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.cv-pdf-experience li {
+    margin-bottom: 0.25rem;
+    color: #374151;
+}
+
+.cv-pdf-skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.cv-pdf-skill-category {
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.cv-pdf-skill-category h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4f46e5;
+    margin: 0 0 0.75rem 0;
+}
+
+.cv-pdf-skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cv-pdf-skill-tag {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.cv-pdf-education {
+    margin-bottom: 1rem;
+}
+
+.cv-pdf-education h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+}
+
+.cv-pdf-education .institution {
+    font-weight: 500;
+    color: #4f46e5;
+    margin: 0 0 0.25rem 0;
+}
+
+.cv-pdf-education .year {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Styles pour l'impression */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+    
+    .cv-pdf-container {
+        margin: 0;
+        padding: 15mm;
+        box-shadow: none;
+        border: none;
+    }
+    
+    @page {
+        margin: 10mm;
+        size: A4;
+    }
+    
+    * {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+}
+
+/* Styles pour le modèle de CV classique */
+#cv-template {
+    font-family: 'Helvetica', Arial, sans-serif;
+    color: #333;
+    padding: 20mm;
+    line-height: 1.4;
+    font-size: 11pt;
+    background-color: white;
+    max-width: 210mm;
+    margin: 0 auto;
+}
+
+#cv-template h1 {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin: 0 0 8pt 0;
+    border-bottom: 2pt solid #3498db;
+    padding-bottom: 8pt;
+}
+
+#cv-template h2 {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #2c3e50;
+    border-bottom: 1pt solid #bdc3c7;
+    padding-bottom: 5pt;
+    margin-top: 10mm;
+    margin-bottom: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+}
+
+#cv-template h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #34495e;
+    margin: 6pt 0 3pt 0;
+}
+
+#cv-template h4 {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #3498db;
+    margin: 4pt 0 2pt 0;
+}
+
+#cv-template p {
+    margin: 4pt 0;
+    text-align: justify;
+}
+
+#cv-template ul {
+    margin: 4pt 0;
+    padding-left: 15pt;
+}
+
+#cv-template li {
+    margin: 2pt 0;
+    line-height: 1.3;
+}
+
+#cv-template .contact-info {
+    text-align: center;
+    font-size: 10pt;
+    color: #7f8c8d;
+    margin: 6pt 0;
+}
+
+#cv-template .section {
+    margin-bottom: 8mm;
+}
+
+#cv-template .experience-item {
+    margin-bottom: 6mm;
+    padding-left: 5pt;
+    border-left: 2pt solid #ecf0f1;
+}
+
+#cv-template .experience-item h3 {
+    color: #2c3e50;
+    margin-bottom: 2pt;
+}
+
+#cv-template .experience-item .company {
+    font-weight: bold;
+    color: #3498db;
+    font-size: 10pt;
+}
+
+#cv-template .experience-item .period {
+    font-style: italic;
+    color: #7f8c8d;
+    font-size: 9pt;
+    margin-bottom: 4pt;
+}
+
+#cv-template .experience-item ul {
+    margin-top: 3pt;
+}
+
+#cv-template .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4mm;
+    margin-top: 4mm;
+}
+
+#cv-template .skill-category {
+    background-color: #f8f9fa;
+    padding: 4mm;
+    border-radius: 2pt;
+    border: 1pt solid #e9ecef;
+}
+
+#cv-template .skill-category h3 {
+    font-size: 10pt;
+    color: #3498db;
+    margin-bottom: 3pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}
+
+#cv-template .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2pt;
+}
+
+#cv-template .skill-tag {
+    background-color: white;
+    border: 1pt solid #dee2e6;
+    padding: 1pt 4pt;
+    border-radius: 8pt;
+    font-size: 8pt;
+    color: #495057;
+}
+
+#cv-template .education-item {
+    margin-bottom: 4mm;
+    padding-left: 3pt;
+    border-left: 1pt solid #ecf0f1;
+}
+
+#cv-template .education-item h3 {
+    margin-bottom: 1pt;
+}
+
+#cv-template .education-item .institution {
+    font-weight: bold;
+    color: #3498db;
+    font-size: 10pt;
+}
+
+#cv-template .education-item .year {
+    font-style: italic;
+    color: #7f8c8d;
+    font-size: 9pt;
+}
+
+#cv-template .languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6mm;
+    margin-top: 3mm;
+}
+
+#cv-template .language-item {
+    flex: 1;
+    min-width: 40mm;
+}
+
+#cv-template .language-item h3 {
+    font-size: 10pt;
+    margin-bottom: 1pt;
+}
+
+#cv-template .language-item .level {
+    font-size: 9pt;
+    color: #7f8c8d;
+}
+
+/* Styles pour l'impression spécifique au modèle */
+@media print {
+    #cv-template {
+        padding: 15mm;
+        font-size: 10pt;
+    }
+    
+    #cv-template h1 {
+        font-size: 20pt;
+    }
+    
+    #cv-template h2 {
+        font-size: 12pt;
+        margin-top: 8mm;
+    }
+    
+    #cv-template h3 {
+        font-size: 10pt;
+    }
+    
+    #cv-template .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 3mm;
+    }
+} 
