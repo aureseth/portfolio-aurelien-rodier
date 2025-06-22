@@ -77,14 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { role: "Mentor de jeunes", organization: "Le Déclic", period: "depuis 04/2025", description: "Coach et accompagnant pour aider à la recherche d'alternances, stages et premiers emplois.", url: "https://le-declic.com/devenir-mentor-le-declic/", logo: "https://logo.clearbit.com/le-declic.com" },
             { role: "Gestion de la communication digitale", organization: "Croix Rouge Italienne", period: "Bénévole", description: "Gestion des contenus et des réseaux sociaux pour soutenir les actions de l'association.", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Croce_Rossa_Italiana_-_logo_%28Italy%2C_1994%29.svg" }
         ],
-        interests: [
-            { name: "Intelligence Artificielle", description: "Passionné par l'IA et ses applications dans le Product Management. Suivi des dernières innovations et expérimentation de nouveaux outils.", keywords: ["Machine Learning", "ChatGPT", "Innovation"], icon: "🤖" },
-            { name: "Transformation Numérique", description: "Intérêt pour les processus de transformation digitale et l'évolution des organisations vers l'agilité.", keywords: ["Agilité", "Innovation", "Processus"], icon: "🔄" },
-            { name: "Product Management", description: "Veille constante sur les meilleures pratiques du Product Management et les nouvelles méthodologies.", keywords: ["Stratégie Produit", "UX", "Métriques"], icon: "📊" }
-        ],
-        volunteer: [
-            { role: "Membre actif", organization: "Communauté Agile Lyon", period: "depuis 2020", description: "Participation aux événements et partage d'expérience sur l'agilité et les méthodologies de développement.", url: "https://www.meetup.com/fr-FR/agile-lyon/", logo: "https://logo.clearbit.com/meetup.com" }
-        ],
         certifications: [
             { acronym: 'SAFe 6', fullName: 'Certified Practitioner', issuer: 'SAFe', date: '09/2024', url: 'https://aurelien-rodier.fr/SAFE.pdf', description: "Démontre la compétence pour travailler en tant que membre d'un Agile Release Train (ART) dans un environnement SAFe (Scaled Agile Framework).", logo: 'https://logo.clearbit.com/scaledagile.com' },
             { acronym: 'PSPO I', fullName: 'Professional Scrum Product Owner', issuer: 'Scrum.org', date: '09/2024', url: 'https://www.credly.com/badges/7af61bdc-d81f-49af-b4ef-304aa464b1a4', description: "Valide une compréhension approfondie du framework Scrum et de la manière de maximiser la valeur d'un produit en tant que Product Owner.", logo: 'https://images.credly.com/size/680x680/images/591762c5-fae7-49c6-b326-e1756979928d/image.png' },
@@ -109,8 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         formationsList: document.getElementById('formations-list'),
         languagesList: document.getElementById('languages-list'),
         engagementsList: document.getElementById('engagements-list'),
-        interestsList: document.getElementById('interests-list'),
-        volunteerList: document.getElementById('volunteer-list'),
         contactForm: document.getElementById('contact-form'),
         toastNotification: document.getElementById('toast-notification'),
         sectionNav: document.getElementById('section-nav'),
@@ -197,8 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let logoHtml = '';
             if(type === 'language') {
                 logoHtml = `<span class="text-4xl">${item.flag}</span>`;
-            } else if (type === 'interest') {
-                logoHtml = `<span class="text-4xl">${item.icon}</span>`;
             } else if (item.logo) {
                 logoHtml = `<img src="${item.logo}" alt="Logo de ${item.organization || item.school || item.issuer}" class="w-12 h-12 rounded-md object-contain flex-shrink-0" onerror="this.style.display='none'">`;
             }
@@ -216,12 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'formation':
                     titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-[#E07A5F] underline">${item.name}</a>` : item.name}</p><p class="text-subtle font-semibold">${item.school} - ${item.date}</p></div>`;
-                    break;
-                case 'interest':
-                    titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.name}</p><p class="text-subtle">${item.keywords.join(', ')}</p></div>`;
-                    break;
-                case 'volunteer':
-                    titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.role}</p><p class="font-semibold text-[#E07A5F]">${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:underline">${item.organization}</a>` : item.organization} - ${item.period}</p></div>`;
                     break;
             }
             
@@ -393,8 +375,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         renderCardList(domElements.languagesList, allData.languages, 'language');
         renderCardList(domElements.engagementsList, allData.engagements, 'engagement');
-        renderCardList(domElements.interestsList, allData.interests, 'interest');
-        renderCardList(domElements.volunteerList, allData.volunteer, 'volunteer');
         renderCardList(domElements.certificationsList, allData.certifications, 'certification');
         renderCardList(domElements.formationsList, allData.formations, 'formation');
 
