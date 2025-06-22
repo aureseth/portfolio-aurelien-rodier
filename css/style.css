@@ -30,6 +30,45 @@ body.dark {
     color: #f9fafb;
 }
 
+/* Correction du bloc vert - masquer les éléments problématiques */
+#toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: none;
+    background-color: var(--accent-green);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 300px;
+    font-weight: 500;
+}
+
+#toast-notification.show {
+    display: block;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Masquer les éléments verts problématiques */
+.bg-\[\#4ade80\],
+.bg-green-400,
+.bg-green-500 {
+    background-color: transparent !important;
+}
+
 /* Header */
 .header-bg {
     background-color: rgba(255, 255, 255, 0.8);
@@ -47,6 +86,7 @@ body.dark .header-bg {
     color: #374151;
     transition: color 0.2s;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .nav-link:hover {
@@ -64,6 +104,8 @@ body.dark .nav-link:hover {
 .mobile-menu-link {
     color: #374151;
     transition: background-color 0.2s;
+    text-decoration: none;
+    display: block;
 }
 
 .mobile-menu-link:hover {
@@ -83,6 +125,8 @@ body.dark .mobile-menu-link:hover {
     background-color: var(--accent-green);
     color: white;
     transition: opacity 0.2s;
+    border: none;
+    cursor: pointer;
 }
 
 .export-btn:hover {
@@ -154,13 +198,14 @@ body.dark .section-bg-alt {
     border-radius: 0.5rem;
     color: #374151;
     transition: all 0.2s;
+    padding: 0.75rem;
+    width: 100%;
 }
 
 .contact-input:focus {
     outline: none;
-    ring: 2px;
-    ring-color: var(--accent-orange);
-    border-color: transparent;
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.1);
 }
 
 body.dark .contact-input {
@@ -175,6 +220,7 @@ body.dark .contact-input {
     border: 1px solid #d1d5db;
     color: #374151;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .section-nav-btn:hover {
@@ -198,43 +244,33 @@ body.dark .section-nav-btn:hover {
     transition: color 0.3s;
 }
 
-.scroll-arrow:hover {
-    color: var(--accent-orange);
-}
-
 body.dark .scroll-arrow {
     color: #9ca3af;
 }
 
 /* Curseur de frappe */
 .typing-cursor {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: .5;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 /* Panneau de détails des compétences */
 .skill-details-panel {
-    background-color: white;
-    border-radius: 0.5rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
+    margin-top: 1rem;
 }
 
 body.dark .skill-details-panel {
     background-color: #1f2937;
-    border-color: #374151;
 }
 
-/* Utilitaires Tailwind */
+/* Conteneur principal */
 .container {
     width: 100%;
     margin-left: auto;
@@ -267,6 +303,7 @@ body.dark .skill-details-panel {
     }
 }
 
+/* Utilitaires de mise en page */
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
@@ -438,7 +475,7 @@ body.dark .skill-details-panel {
 }
 
 .hover\:bg-opacity-90:hover {
-    --tw-bg-opacity: 0.9;
+    opacity: 0.9;
 }
 
 .hover\:text-\[\#E07A5F\]:hover {
@@ -669,12 +706,10 @@ body.dark .border-gray-800 {
     }
 }
 
-/* Scroll smooth */
 .scroll-smooth {
     scroll-behavior: smooth;
 }
 
-/* Min height */
 .min-h-screen {
     min-height: 100vh;
 }
@@ -683,7 +718,6 @@ body.dark .border-gray-800 {
     min-height: 400px;
 }
 
-/* Max width */
 .max-w-4xl {
     max-width: 56rem;
 }
@@ -696,7 +730,6 @@ body.dark .border-gray-800 {
     max-width: 80rem;
 }
 
-/* Grid */
 .grid {
     display: grid;
 }
@@ -725,7 +758,6 @@ body.dark .border-gray-800 {
     gap: 4rem;
 }
 
-/* Flex utilities */
 .flex-col {
     flex-direction: column;
 }
@@ -750,7 +782,6 @@ body.dark .border-gray-800 {
     justify-content: flex-start;
 }
 
-/* Sticky */
 .sticky {
     position: sticky;
 }
@@ -759,67 +790,45 @@ body.dark .border-gray-800 {
     top: 6rem;
 }
 
-/* List styles */
 .space-y-6 > * + * {
     margin-top: 1.5rem;
 }
 
-/* Button styles */
+/* Éléments de base */
 button {
     cursor: pointer;
+    border: none;
+    background: none;
 }
 
-/* Focus styles */
 .focus\:outline-none:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
 }
 
-/* SVG styles */
 svg {
     display: inline-block;
     vertical-align: middle;
 }
 
-/* Image styles */
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* Form styles */
 input, textarea {
     font-family: inherit;
 }
 
-/* Toast notification */
-#toast-notification {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1000;
-    background-color: var(--accent-green);
-    color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-}
-
-#toast-notification.show {
-    transform: translateX(0);
-}
-
-/* Section navigation */
+/* Navigation par sections */
 #section-nav {
     position: fixed;
     right: 1rem;
     bottom: 1rem;
-    z-index: 1000;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    z-index: 1000;
 }
 
 @media (min-width: 768px) {
@@ -831,12 +840,222 @@ input, textarea {
 
 /* Footer */
 footer {
-    text-align: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    background-color: #f9fafb;
     color: #6b7280;
+    text-align: center;
+    padding: 2rem 0;
 }
 
 body.dark footer {
+    background-color: #111827;
     color: #9ca3af;
+}
+
+/* Styles spécifiques pour les compétences */
+.skill-category-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.skill-category-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.skill-category-btn.active {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+body.dark .skill-category-btn {
+    background-color: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+}
+
+body.dark .skill-category-btn:hover {
+    background-color: #4b5563;
+}
+
+body.dark .skill-category-btn.active {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+.skill-tag {
+    background-color: #f3f4f6;
+    color: #374151;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    border: 1px solid #d1d5db;
+}
+
+.skill-tag:hover {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+body.dark .skill-tag {
+    background-color: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+}
+
+body.dark .skill-tag:hover {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+/* Timeline */
+.timeline-item {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.timeline-item:hover {
+    background-color: #f3f4f6;
+}
+
+body.dark .timeline-item:hover {
+    background-color: #374151;
+}
+
+.timeline-item.active {
+    background-color: var(--accent-orange);
+    color: white;
+}
+
+.timeline-dot-border {
+    border-color: var(--accent-orange);
+}
+
+.timeline-line {
+    border-color: #e5e7eb;
+}
+
+body.dark .timeline-line {
+    border-color: #4b5563;
+}
+
+/* Boutons de navigation des expériences */
+.experience-nav-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    transition: all 0.2s;
+}
+
+.experience-nav-btn:hover:not(:disabled) {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+.experience-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+body.dark .experience-nav-btn {
+    background-color: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+}
+
+body.dark .experience-nav-btn:hover:not(:disabled) {
+    background-color: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
+
+/* Effet de fondu */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile menu */
+#mobile-menu {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+body.dark #mobile-menu {
+    background-color: #1f2937;
+    border-color: #4b5563;
+}
+
+/* Thème toggle */
+#theme-toggle,
+#theme-toggle-mobile {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+#theme-toggle:hover,
+#theme-toggle-mobile:hover {
+    background-color: #f3f4f6;
+}
+
+body.dark #theme-toggle:hover,
+body.dark #theme-toggle-mobile:hover {
+    background-color: #374151;
+}
+
+/* Masquer les éléments problématiques */
+.bg-green-400,
+.bg-green-500,
+.bg-green-600 {
+    background-color: transparent !important;
+}
+
+/* Correction pour les cartes */
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.2s;
+}
+
+body.dark .card {
+    background-color: #1f2937;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body.dark .card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
