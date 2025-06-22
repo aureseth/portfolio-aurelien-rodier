@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - Aurélien Rodier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        .test-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .result.success { background-color: #d1ecf1; }
+        .result.error { background-color: #f8d7da; }
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug Test - Portfolio Aurélien Rodier</h1>
+    
+    <div class="debug-section">
+        <h2>1. Test du Serveur</h2>
+        <button class="test-btn" onclick="testServer()">Tester le serveur</button>
+        <div id="server-result" class="result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>2. Test du CSS</h2>
+        <button class="test-btn" onclick="testCSS()">Tester le CSS</button>
+        <div id="css-result" class="result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>3. Test du JavaScript</h2>
+        <button class="test-btn" onclick="testJS()">Tester le JavaScript</button>
+        <div id="js-result" class="result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>4. Test du Thème Sombre/Clair</h2>
+        <button class="test-btn" onclick="testTheme()">Tester le thème</button>
+        <div id="theme-result" class="result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>5. Test des Éléments DOM</h2>
+        <button class="test-btn" onclick="testDOM()">Tester les éléments DOM</button>
+        <div id="dom-result" class="result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>6. Aperçu du Site Principal</h2>
+        <iframe src="http://localhost:8000/" title="Site principal"></iframe>
+    </div>
+
+    <div class="debug-section">
+        <h2>7. Console JavaScript</h2>
+        <div id="console-output" style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Rediriger console.log vers notre div
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleOutput = document.getElementById('console-output');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleOutput.innerHTML += '<div style="color: #28a745;">' + args.join(' ') + '</div>';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleOutput.innerHTML += '<div style="color: #dc3545;">ERROR: ' + args.join(' ') + '</div>';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+
+        function testServer() {
+            const result = document.getElementById('server-result');
+            fetch('http://localhost:8000/')
+                .then(response => {
+                    if (response.ok) {
+                        result.innerHTML = '<span style="color: green;">✅ Serveur fonctionne (Status: ' + response.status + ')</span>';
+                        result.className = 'result success';
+                    } else {
+                        result.innerHTML = '<span style="color: red;">❌ Serveur erreur (Status: ' + response.status + ')</span>';
+                        result.className = 'result error';
+                    }
+                })
+                .catch(error => {
+                    result.innerHTML = '<span style="color: red;">❌ Erreur serveur: ' + error.message + '</span>';
+                    result.className = 'result error';
+                });
+        }
+
+        function testCSS() {
+            const result = document.getElementById('css-result');
+            fetch('http://localhost:8000/css/style.css')
+                .then(response => {
+                    if (response.ok) {
+                        response.text().then(css => {
+                            const hasDarkTheme = css.includes('body.dark');
+                            const hasVariables = css.includes('--accent-green');
+                            if (hasDarkTheme && hasVariables) {
+                                result.innerHTML = '<span style="color: green;">✅ CSS chargé avec thème sombre et variables</span>';
+                                result.className = 'result success';
+                            } else {
+                                result.innerHTML = '<span style="color: orange;">⚠️ CSS chargé mais thème sombre manquant</span>';
+                                result.className = 'result warning';
+                            }
+                        });
+                    } else {
+                        result.innerHTML = '<span style="color: red;">❌ CSS non trouvé</span>';
+                        result.className = 'result error';
+                    }
+                })
+                .catch(error => {
+                    result.innerHTML = '<span style="color: red;">❌ Erreur CSS: ' + error.message + '</span>';
+                    result.className = 'result error';
+                });
+        }
+
+        function testJS() {
+            const result = document.getElementById('js-result');
+            fetch('http://localhost:8000/js/main.js')
+                .then(response => {
+                    if (response.ok) {
+                        response.text().then(js => {
+                            const hasThemeToggle = js.includes('theme-toggle');
+                            const hasDOMContentLoaded = js.includes('DOMContentLoaded');
+                            if (hasThemeToggle && hasDOMContentLoaded) {
+                                result.innerHTML = '<span style="color: green;">✅ JavaScript chargé avec gestion des thèmes</span>';
+                                result.className = 'result success';
+                            } else {
+                                result.innerHTML = '<span style="color: orange;">⚠️ JavaScript chargé mais fonctionnalités manquantes</span>';
+                                result.className = 'result warning';
+                            }
+                        });
+                    } else {
+                        result.innerHTML = '<span style="color: red;">❌ JavaScript non trouvé</span>';
+                        result.className = 'result error';
+                    }
+                })
+                .catch(error => {
+                    result.innerHTML = '<span style="color: red;">❌ Erreur JavaScript: ' + error.message + '</span>';
+                    result.className = 'result error';
+                });
+        }
+
+        function testTheme() {
+            const result = document.getElementById('theme-result');
+            const iframe = document.querySelector('iframe');
+            
+            try {
+                // Tester si l'iframe peut accéder au contenu
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const themeToggle = iframeDoc.getElementById('theme-toggle');
+                
+                if (themeToggle) {
+                    result.innerHTML = '<span style="color: green;">✅ Bouton de thème trouvé</span>';
+                    result.className = 'result success';
+                    
+                    // Tester le clic
+                    themeToggle.click();
+                    setTimeout(() => {
+                        const isDark = iframeDoc.documentElement.classList.contains('dark');
+                        result.innerHTML += '<br><span style="color: blue;">Thème actuel: ' + (isDark ? 'Sombre' : 'Clair') + '</span>';
+                    }, 100);
+                } else {
+                    result.innerHTML = '<span style="color: red;">❌ Bouton de thème non trouvé</span>';
+                    result.className = 'result error';
+                }
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">❌ Erreur CORS: ' + error.message + '</span>';
+                result.className = 'result error';
+            }
+        }
+
+        function testDOM() {
+            const result = document.getElementById('dom-result');
+            const iframe = document.querySelector('iframe');
+            
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const elements = [
+                    'timeline-list',
+                    'job-details',
+                    'skill-categories-list',
+                    'skill-tags',
+                    'theme-toggle'
+                ];
+                
+                let found = 0;
+                elements.forEach(id => {
+                    if (iframeDoc.getElementById(id)) {
+                        found++;
+                    }
+                });
+                
+                if (found === elements.length) {
+                    result.innerHTML = '<span style="color: green;">✅ Tous les éléments DOM trouvés (' + found + '/' + elements.length + ')</span>';
+                    result.className = 'result success';
+                } else {
+                    result.innerHTML = '<span style="color: orange;">⚠️ Éléments DOM manquants (' + found + '/' + elements.length + ')</span>';
+                    result.className = 'result warning';
+                }
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">❌ Erreur CORS: ' + error.message + '</span>';
+                result.className = 'result error';
+            }
+        }
+
+        // Tests automatiques au chargement
+        window.addEventListener('load', function() {
+            console.log('🔍 Démarrage des tests automatiques...');
+            setTimeout(testServer, 500);
+            setTimeout(testCSS, 1000);
+            setTimeout(testJS, 1500);
+        });
+    </script>
+</body>
+</html> 
