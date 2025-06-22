@@ -70,102 +70,157 @@
     {
       "name": "Backlog Management",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Scrum Master"]
+      "relevant_for": ["Product Owner", "Scrum Master", "Product Manager", "Business Analyst"]
     },
     {
       "name": "Business Requirements Analysis",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Business Analyst"]
+      "relevant_for": ["Product Owner", "Business Analyst", "Product Manager", "Project Manager"]
     },
     {
       "name": "Agile (Scrum, Kanban)",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Scrum Master", "Business Analyst"]
+      "relevant_for": ["Product Owner", "Scrum Master", "Business Analyst", "Project Manager", "Team Lead"]
     },
     {
       "name": "SAFe",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "Release Train Engineer"]
+      "relevant_for": ["Product Owner", "Release Train Engineer", "Product Manager", "Program Manager"]
     },
     {
       "name": "User Research",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "UX Designer"]
+      "relevant_for": ["Product Owner", "UX Designer", "Product Manager", "Business Analyst"]
     },
     {
       "name": "A/B Testing",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "Data Analyst"]
+      "relevant_for": ["Product Owner", "Data Analyst", "Product Manager", "Marketing Manager"]
     },
     {
       "name": "Roadmap Planning",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Product Manager"]
+      "relevant_for": ["Product Owner", "Product Manager", "Program Manager", "Business Analyst"]
     },
     {
       "name": "Stakeholder Management",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Project Manager"]
+      "relevant_for": ["Product Owner", "Project Manager", "Business Analyst", "Program Manager"]
     },
     {
       "name": "JavaScript",
       "level": "Advanced",
-      "relevant_for": ["Full Stack Developer", "Frontend Developer"]
+      "relevant_for": ["Full Stack Developer", "Frontend Developer", "Backend Developer", "DevOps Engineer"]
     },
     {
       "name": "React",
       "level": "Advanced",
-      "relevant_for": ["Full Stack Developer", "Frontend Developer"]
+      "relevant_for": ["Full Stack Developer", "Frontend Developer", "UI Developer", "JavaScript Developer"]
     },
     {
       "name": "Node.js",
       "level": "Advanced",
-      "relevant_for": ["Full Stack Developer", "Backend Developer"]
+      "relevant_for": ["Full Stack Developer", "Backend Developer", "DevOps Engineer", "JavaScript Developer"]
     },
     {
       "name": "Python",
       "level": "Intermediate",
-      "relevant_for": ["Full Stack Developer", "Data Scientist"]
+      "relevant_for": ["Full Stack Developer", "Data Scientist", "Backend Developer", "DevOps Engineer"]
     },
     {
       "name": "SQL",
       "level": "Advanced",
-      "relevant_for": ["Full Stack Developer", "Data Analyst"]
+      "relevant_for": ["Full Stack Developer", "Data Analyst", "Backend Developer", "Business Analyst"]
     },
     {
       "name": "Git",
       "level": "Expert",
-      "relevant_for": ["Full Stack Developer", "DevOps Engineer"]
+      "relevant_for": ["Full Stack Developer", "DevOps Engineer", "Backend Developer", "Frontend Developer"]
     },
     {
       "name": "Jira",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Scrum Master", "Project Manager"]
+      "relevant_for": ["Product Owner", "Scrum Master", "Project Manager", "Business Analyst", "Team Lead"]
     },
     {
       "name": "Confluence",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "Business Analyst"]
+      "relevant_for": ["Product Owner", "Business Analyst", "Project Manager", "Technical Writer"]
     },
     {
       "name": "Figma",
       "level": "Intermediate",
-      "relevant_for": ["Product Owner", "UX Designer"]
+      "relevant_for": ["Product Owner", "UX Designer", "UI Designer", "Product Manager"]
     },
     {
       "name": "Miro",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "Scrum Master"]
+      "relevant_for": ["Product Owner", "Scrum Master", "UX Designer", "Business Analyst"]
     },
     {
       "name": "Slack",
       "level": "Expert",
-      "relevant_for": ["Product Owner", "Project Manager"]
+      "relevant_for": ["Product Owner", "Project Manager", "Team Lead", "Business Analyst"]
     },
     {
       "name": "Notion",
       "level": "Advanced",
-      "relevant_for": ["Product Owner", "Business Analyst"]
+      "relevant_for": ["Product Owner", "Business Analyst", "Project Manager", "Technical Writer"]
+    },
+    {
+      "name": "Project Management",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Project Manager", "Program Manager", "Business Analyst"]
+    },
+    {
+      "name": "Data Analysis",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Data Analyst", "Business Analyst", "Product Manager"]
+    },
+    {
+      "name": "Design Thinking",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "UX Designer", "Product Manager", "Business Analyst"]
+    },
+    {
+      "name": "Team Management",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Team Lead", "Project Manager", "Scrum Master"]
+    },
+    {
+      "name": "Communication",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Business Analyst", "Project Manager", "Team Lead"]
+    },
+    {
+      "name": "Product Strategy",
+      "level": "Expert",
+      "relevant_for": ["Product Owner", "Product Manager", "Business Analyst", "Program Manager"]
+    },
+    {
+      "name": "Product Metrics",
+      "level": "Advanced",
+      "relevant_for": ["Product Owner", "Product Manager", "Data Analyst", "Business Analyst"]
+    },
+    {
+      "name": "API Design",
+      "level": "Intermediate",
+      "relevant_for": ["Full Stack Developer", "Backend Developer", "API Developer", "DevOps Engineer"]
+    },
+    {
+      "name": "Cloud (AWS/Azure)",
+      "level": "Intermediate",
+      "relevant_for": ["Full Stack Developer", "DevOps Engineer", "Backend Developer", "Cloud Engineer"]
+    },
+    {
+      "name": "Docker",
+      "level": "Intermediate",
+      "relevant_for": ["Full Stack Developer", "DevOps Engineer", "Backend Developer", "Cloud Engineer"]
+    },
+    {
+      "name": "CI/CD",
+      "level": "Advanced",
+      "relevant_for": ["Full Stack Developer", "DevOps Engineer", "Backend Developer", "Cloud Engineer"]
     }
   ],
   "education": [
