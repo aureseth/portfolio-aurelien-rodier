@@ -123,17 +123,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let sections = [];
     let currentSectionIndex = 0;
 
+    // Fonction de scroll intelligente qui prend en compte le header
+    const scrollToJobTitle = () => {
+        const jobTitle = document.querySelector('.job-title');
+        const header = document.querySelector('header');
+        if (jobTitle && header) {
+            const headerHeight = header.offsetHeight;
+            const elementPosition = jobTitle.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerHeight - 20; // 20px de marge
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     function renderTimeline() {
         if (!domElements.timelineList) return;
-        domElements.timelineList.innerHTML = allData.jobs.map(job => `
+        domElements.timelineList.innerHTML = allData.jobs.map((job, index) => `
             <li>
-                <button id="${job.id}" class="timeline-item timeline-line w-full text-left relative pl-8 border-l-2 py-2 mb-4 transition-colors">
-                    <span class="timeline-dot-border absolute w-4 h-4 rounded-full -left-[9px] top-3 bg-accent-orange border-[3px]"></span>
-                    <h4 class="font-bold pointer-events-none">${job.role}</h4>
-                    <p class="text-sm pointer-events-none text-subtle">${job.company}</p>
+                <button id="${job.id}" class="timeline-item w-full text-left relative transition-all duration-300" data-index="${index}">
+                    <div class="timeline-item-title">${job.role}</div>
+                    <div class="timeline-item-company">${job.company}</div>
+                    <div class="timeline-item-period">${job.period}</div>
                 </button>
             </li>
         `).join('');
+        
+        // Ajouter les événements de clic
+        allData.jobs.forEach((job, index) => {
+            const button = document.getElementById(job.id);
+            if (button) {
+                button.addEventListener('click', () => {
+                    currentJobIndex = index;
+                    updateTimelineActive(index);
+                    renderJobDetails(index);
+                });
+            }
+        });
+        
         updateTimelineActive(currentJobIndex);
     }
 
@@ -142,21 +171,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const job = allData.jobs[index];
         domElements.jobDetailsContainer.innerHTML = `
             <div class="fade-in flex flex-col h-full">
-                <div>
-                    <h3 class="text-2xl font-bold main-title">${job.role}</h3>
-                    <p class="text-lg font-semibold text-[#E07A5F]">${job.company}</p>
-                    <p class="text-sm text-subtle mb-4">${job.period}</p>
-                    <div class="text-body leading-relaxed space-y-4">${job.description}</div>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        ${job.tags.map(tag => `<span class="bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 text-xs font-medium px-2.5 py-1 rounded-full">${tag}</span>`).join('')}
-                    </div>
+                <div class="job-header">
+                    <h3 class="job-title">${job.role}</h3>
+                    <p class="job-company">${job.company}</p>
+                    <p class="job-period">${job.period}</p>
                 </div>
-                <div class="mt-auto pt-6 flex justify-between">
-                    <button id="prev-job" class="experience-nav-btn p-2 rounded-full" aria-label="Expérience précédente">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <div class="job-description">${job.description}</div>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    ${job.tags.map(tag => `<span class="skill-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="experience-nav">
+                    <button id="prev-job" class="experience-nav-btn" aria-label="Expérience précédente">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
                     </button>
-                    <button id="next-job" class="experience-nav-btn p-2 rounded-full" aria-label="Expérience suivante">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <span class="text-sm text-subtle">${index + 1} / ${allData.jobs.length}</span>
+                    <button id="next-job" class="experience-nav-btn" aria-label="Expérience suivante">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
                     </button>
                 </div>
             </div>`;
@@ -164,29 +198,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevBtn = domElements.jobDetailsContainer.querySelector('#prev-job');
         const nextBtn = domElements.jobDetailsContainer.querySelector('#next-job');
 
-        const scrollToParcoursTop = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
         if (window.innerWidth < 768) {
+            // Comportements spécifiques pour mobile
             if (index === 0) {
+                // La première flèche 'précédent' navigue vers la section "À Propos"
                 prevBtn.onclick = () => document.getElementById('a-propos').scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                prevBtn.onclick = () => navigateJobs(-1);
+                // Les flèches 'précédent' intermédiaires scrollent vers le titre
+                prevBtn.onclick = () => {
+                    navigateJobs(-1);
+                    setTimeout(scrollToJobTitle, 300);
+                };
             }
             if (index === allData.jobs.length - 1) {
+                // La dernière flèche 'suivant' navigue vers la section "Compétences"
                 nextBtn.onclick = () => document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                nextBtn.onclick = () => navigateJobs(1);
+                // Les flèches 'suivant' intermédiaires scrollent vers le titre
+                nextBtn.onclick = () => {
+                    navigateJobs(1);
+                    setTimeout(scrollToJobTitle, 300);
+                };
             }
         } else {
+            // Comportements pour desktop avec scroll automatique
             prevBtn.disabled = index === 0;
             prevBtn.classList.toggle('opacity-50', index === 0);
             prevBtn.classList.toggle('cursor-not-allowed', index === 0);
-            prevBtn.onclick = () => { navigateJobs(-1); scrollToParcoursTop(); };
+            prevBtn.onclick = () => { 
+                navigateJobs(-1); 
+                // Scroll automatique vers le titre après un court délai pour laisser l'animation se terminer
+                setTimeout(scrollToJobTitle, 300);
+            };
 
             nextBtn.disabled = index === allData.jobs.length - 1;
             nextBtn.classList.toggle('opacity-50', index === allData.jobs.length - 1);
             nextBtn.classList.toggle('cursor-not-allowed', index === allData.jobs.length - 1);
-            nextBtn.onclick = () => { navigateJobs(1); scrollToParcoursTop(); };
+            nextBtn.onclick = () => { 
+                navigateJobs(1); 
+                // Scroll automatique vers le titre après un court délai pour laisser l'animation se terminer
+                setTimeout(scrollToJobTitle, 300);
+            };
         }
     }
 
@@ -230,24 +282,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateTimelineActive(index) {
+        // Retirer la classe active de tous les éléments
         document.querySelectorAll('.timeline-item').forEach(item => {
-            item.classList.remove('active', 'main-title');
+            item.classList.remove('active');
         });
-        const activeItem = document.getElementById(allData.jobs[index].id);
+        
+        // Ajouter la classe active à l'élément sélectionné
+        const activeItem = document.querySelector(`[data-index="${index}"]`);
         if (activeItem) {
-            activeItem.classList.add('active', 'main-title');
+            activeItem.classList.add('active');
         }
     }
     
     function renderCategories() {
         if (!domElements.skillCategoriesList) return;
         domElements.skillCategoriesList.innerHTML = Object.keys(allData.skills).map(category => `
-            <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border-2 border-transparent transition" data-category="${category}">
+            <button class="skill-category-btn" data-category="${category}">
                 ${category}
             </button>
         `).join('');
         
-        domElements.skillCategoriesList.querySelectorAll('.category-button').forEach(button => {
+        domElements.skillCategoriesList.querySelectorAll('.skill-category-btn').forEach(button => {
             button.addEventListener('click', () => {
                 activeCategory = button.dataset.category;
                 renderCategories();
@@ -273,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const skills = allData.skills[activeCategory] || [];
         if(domElements.skillsTitle) domElements.skillsTitle.textContent = activeCategory;
         domElements.skillTagsContainer.innerHTML = skills.map(skill => `
-            <button class="skill-tag card-bg text-subtle shadow-sm flex items-center justify-center gap-2 px-4 py-2 rounded-md transition" data-skill-name="${skill.name}">
+            <button class="skill-tag" data-skill-name="${skill.name}">
                 <span>${skill.name}</span>
             </button>
         `).join('');
@@ -292,11 +347,11 @@ document.addEventListener('DOMContentLoaded', () => {
             resetSkillsState();
         } else {
             activeSkill = skill;
-            document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
+            document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active'));
             if (domElements.skillTagsContainer) {
                 const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
                 if (tagToActivate) {
-                    tagToActivate.classList.add('active-clicked');
+                    tagToActivate.classList.add('active');
                 }
             }
             updateSkillDetailsPanel(skill);
@@ -345,7 +400,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentJobIndex = jobIndex;
                     renderJobDetails(currentJobIndex);
                     updateTimelineActive(currentJobIndex);
-                    document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Scroll automatique vers l'expérience sélectionnée
+                    setTimeout(scrollToJobTitle, 300);
                 }
             };
         });
@@ -367,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(domElements.skillDetailsPanel) {
             domElements.skillDetailsPanel.classList.remove('active-panel');
         }
-        document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
+        document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active'));
     }
     
     function init() {
@@ -415,11 +472,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const body = `Message de : ${formData.get('name')} (${formData.get('email')})\n\n${formData.get('message')}`;
                 window.location.href = `mailto:rodier.aurelien@orange.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
-                if(domElements.toastNotification) {
-                    domElements.toastNotification.textContent = "Ouverture de votre client de messagerie...";
-                    domElements.toastNotification.classList.add('show');
-                    setTimeout(() => domElements.toastNotification.classList.remove('show'), 4000);
-                }
+                // Utiliser le nouveau système de toast
+                showToast("Ouverture de votre client de messagerie...", "info", 4000);
+                
+                // Réinitialiser le formulaire
+                e.target.reset();
             });
         }
 
@@ -452,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
                 mobileMenuLinks.forEach(link => {
-                    link.classList.toggle('active-mobile', link.getAttribute('href') === `#${currentSectionId}`);
+                    link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
                 });
             }
 
@@ -480,20 +537,65 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Navigation au clavier améliorée
         window.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (currentSectionIndex < sections.length - 1) {
-                    sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-                }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (currentSectionIndex > 0) {
-                    sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-                }
+            switch(e.key) {
+                case 'ArrowDown':
+                case 'PageDown':
+                    e.preventDefault();
+                    if (currentSectionIndex < sections.length - 1) {
+                        sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                    }
+                    break;
+                case 'ArrowUp':
+                case 'PageUp':
+                    e.preventDefault();
+                    if (currentSectionIndex > 0) {
+                        sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                    }
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    break;
+                case 'Escape':
+                    // Fermer le menu mobile s'il est ouvert
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    // Fermer le modal d'export s'il est ouvert
+                    const exportModal = document.getElementById('export-modal');
+                    if (exportModal && exportModal.classList.contains('show')) {
+                        hideExportModal();
+                    }
+                    break;
             }
+        });
+        
+        // Animations de révélation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+        
+        // Observer tous les éléments avec la classe reveal-on-scroll
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+            observer.observe(el);
         });
         
         document.getElementById('home-link').addEventListener('click', (e) => {
@@ -542,6 +644,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         console.log('🎨 Thème actuel:', currentTheme);
         applyThemeIcons(currentTheme);
+    }
+
+    function showToast(message, type = 'success', duration = 4000) {
+        const toast = document.getElementById('toast-notification');
+        if (!toast) return;
+        
+        // Nettoyer les classes précédentes
+        toast.classList.remove('success', 'warning', 'error', 'info');
+        
+        // Ajouter la classe du type
+        toast.classList.add(type);
+        
+        // Définir le message
+        toast.textContent = message;
+        
+        // Afficher le toast
+        toast.classList.add('show');
+        
+        // Masquer automatiquement après la durée spécifiée
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, duration);
     }
 
     function startTypingEffect() {
