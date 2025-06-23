@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles personnalisés pour le portfolio */
+@layer base {
+  :root {
+    --accent-green: #4ade80;
+    --accent-orange: #E07A5F;
+    --main-dark: #3D405B;
+    --main-light: #F8F7F4;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-gray-700 dark:text-gray-300 hover:text-[var(--accent-orange)] dark:hover:text-[var(--accent-orange)] transition-colors duration-200 font-medium;
+  }
+  
+  .mobile-menu-link {
+    @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200;
+  }
+  
+  .export-btn {
+    @apply bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200;
+  }
+  
+  .main-title {
+    @apply text-gray-900 dark:text-white;
+  }
+  
+  .text-body {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+  
+  .text-subtle {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+  
+  .text-section-title {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+  
+  .text-contact-link {
+    @apply text-[var(--main-dark)] dark:text-gray-300;
+  }
+  
+  .card-bg {
+    @apply bg-white dark:bg-gray-800;
+  }
+  
+  .section-bg-alt {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+  
+  .header-bg {
+    @apply bg-white/80 dark:bg-gray-900/80;
+  }
+  
+  .contact-input {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[var(--accent-orange)] focus:border-transparent dark:text-white;
+  }
+  
+  .section-nav-btn {
+    @apply bg-white/80 dark:bg-gray-800/80 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 hover:shadow-lg;
+  }
+  
+  .scroll-arrow {
+    @apply text-gray-600 dark:text-gray-400 hover:text-[var(--accent-orange)] transition-colors duration-300;
+  }
+  
+  .typing-cursor {
+    @apply animate-pulse;
+  }
+  
+  .skill-details-panel {
+    @apply bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700;
+  }
+} 
