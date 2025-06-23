@@ -328,14 +328,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const skills = allData.skills[activeCategory] || [];
         if(domElements.skillsTitle) domElements.skillsTitle.textContent = activeCategory;
         domElements.skillTagsContainer.innerHTML = skills.map(skill => `
-            <button class="skill-tag" data-skill-name="${skill.name}">
-                <span>${skill.name}</span>
-            </button>
+            <button class="skill-tag">${skill.name}</button>
         `).join('');
         
         domElements.skillTagsContainer.querySelectorAll('.skill-tag').forEach(button => {
             button.addEventListener('click', () => {
-                const skillName = button.dataset.skillName;
+                const skillName = button.textContent;
                 const skillData = allData.skills[activeCategory].find(s => s.name === skillName);
                 handleSkillClick(skillData);
             });
@@ -921,6 +919,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     window.exportToPDF = exportToPDF;
+
+    // Animation reveal-on-scroll (ancienne version)
+    function revealOnScroll() {
+        const reveals = document.querySelectorAll('.reveal-on-scroll');
+        const windowHeight = window.innerHeight;
+        reveals.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 60) {
+                el.classList.add('revealed');
+            } else {
+                el.classList.remove('revealed');
+            }
+        });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('resize', revealOnScroll);
+    document.addEventListener('DOMContentLoaded', revealOnScroll);
 
     init();
 });
