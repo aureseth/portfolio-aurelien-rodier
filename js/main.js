@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-document.addEventListener('DOMContentLoaded', () => {
-
-    (function() {
-        try {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        } catch (e) { /* Ignore */ }
-=======
 console.log('🚀 JavaScript main.js chargé');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { 
             console.error('❌ Erreur lors de l\'initialisation du thème:', e);
         }
->>>>>>> ameliorations-esthetiques
     })();
 
     const allData = {
@@ -100,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { role: "Mentor de jeunes", organization: "Le Déclic", period: "depuis 04/2025", description: "Coach et accompagnant pour aider à la recherche d'alternances, stages et premiers emplois.", url: "https://le-declic.com/devenir-mentor-le-declic/", logo: "https://logo.clearbit.com/le-declic.com" },
             { role: "Gestion de la communication digitale", organization: "Croix Rouge Italienne", period: "Bénévole", description: "Gestion des contenus et des réseaux sociaux pour soutenir les actions de l'association.", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Croce_Rossa_Italiana_-_logo_%28Italy%2C_1994%29.svg" }
         ],
-<<<<<<< HEAD
         interests: [
             { name: "Intelligence Artificielle", description: "Passionné par l'IA et ses applications dans le Product Management. Suivi des dernières innovations et expérimentation de nouveaux outils.", keywords: ["Machine Learning", "ChatGPT", "Innovation"], icon: "🤖" },
             { name: "Transformation Numérique", description: "Intérêt pour les processus de transformation digitale et l'évolution des organisations vers l'agilité.", keywords: ["Agilité", "Innovation", "Processus"], icon: "🔄" },
@@ -109,8 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         volunteer: [
             { role: "Membre actif", organization: "Communauté Agile Lyon", period: "depuis 2020", description: "Participation aux événements et partage d'expérience sur l'agilité et les méthodologies de développement.", url: "https://www.meetup.com/fr-FR/agile-lyon/", logo: "https://logo.clearbit.com/meetup.com" }
         ],
-=======
->>>>>>> ameliorations-esthetiques
         certifications: [
             { acronym: 'SAFe 6', fullName: 'Certified Practitioner', issuer: 'SAFe', date: '09/2024', url: 'https://aurelien-rodier.fr/SAFE.pdf', description: "Démontre la compétence pour travailler en tant que membre d'un Agile Release Train (ART) dans un environnement SAFe (Scaled Agile Framework).", logo: 'https://logo.clearbit.com/scaledagile.com' },
             { acronym: 'PSPO I', fullName: 'Professional Scrum Product Owner', issuer: 'Scrum.org', date: '09/2024', url: 'https://www.credly.com/badges/7af61bdc-d81f-49af-b4ef-304aa464b1a4', description: "Valide une compréhension approfondie du framework Scrum et de la manière de maximiser la valeur d'un produit en tant que Product Owner.", logo: 'https://images.credly.com/size/680x680/images/591762c5-fae7-49c6-b326-e1756979928d/image.png' },
@@ -135,11 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
         formationsList: document.getElementById('formations-list'),
         languagesList: document.getElementById('languages-list'),
         engagementsList: document.getElementById('engagements-list'),
-<<<<<<< HEAD
         interestsList: document.getElementById('interests-list'),
         volunteerList: document.getElementById('volunteer-list'),
-=======
->>>>>>> ameliorations-esthetiques
         contactForm: document.getElementById('contact-form'),
         toastNotification: document.getElementById('toast-notification'),
         sectionNav: document.getElementById('section-nav'),
@@ -152,35 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeCategory = 'Gestion de Produit';
     let sections = [];
     let currentSectionIndex = 0;
-
-<<<<<<< HEAD
-    function renderTimeline() {
-        if (!domElements.timelineList) return;
-        domElements.timelineList.innerHTML = allData.jobs.map(job => `
-            <li>
-                <button id="${job.id}" class="timeline-item timeline-line w-full text-left relative pl-8 border-l-2 py-2 mb-4 transition-colors">
-                    <span class="timeline-dot-border absolute w-4 h-4 rounded-full -left-[9px] top-3 bg-accent-orange border-[3px]"></span>
-                    <h4 class="font-bold pointer-events-none">${job.role}</h4>
-                    <p class="text-sm pointer-events-none text-subtle">${job.company}</p>
-                </button>
-            </li>
-        `).join('');
-=======
-    // Fonction de scroll intelligente qui prend en compte le header
-    const scrollToJobTitle = () => {
-        const jobTitle = document.querySelector('.job-title');
-        const header = document.querySelector('header');
-        if (jobTitle && header) {
-            const headerHeight = header.offsetHeight;
-            const elementPosition = jobTitle.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.scrollY - headerHeight - 20; // 20px de marge
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    };
 
     function renderTimeline() {
         if (!domElements.timelineList) return;
@@ -206,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
->>>>>>> ameliorations-esthetiques
         updateTimelineActive(currentJobIndex);
     }
 
@@ -215,23 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const job = allData.jobs[index];
         domElements.jobDetailsContainer.innerHTML = `
             <div class="fade-in flex flex-col h-full">
-<<<<<<< HEAD
-                <div>
-                    <h3 class="text-2xl font-bold main-title">${job.role}</h3>
-                    <p class="text-lg font-semibold text-[#E07A5F]">${job.company}</p>
-                    <p class="text-sm text-subtle mb-4">${job.period}</p>
-                    <div class="text-body leading-relaxed space-y-4">${job.description}</div>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        ${job.tags.map(tag => `<span class="bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 text-xs font-medium px-2.5 py-1 rounded-full">${tag}</span>`).join('')}
-                    </div>
-                </div>
-                <div class="mt-auto pt-6 flex justify-between">
-                    <button id="prev-job" class="experience-nav-btn p-2 rounded-full" aria-label="Expérience précédente">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                    </button>
-                    <button id="next-job" class="experience-nav-btn p-2 rounded-full" aria-label="Expérience suivante">
-                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-=======
                 <div class="job-header">
                     <h3 class="job-title">${job.role}</h3>
                     <p class="job-company">${job.company}</p>
@@ -252,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
->>>>>>> ameliorations-esthetiques
                     </button>
                 </div>
             </div>`;
@@ -260,26 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevBtn = domElements.jobDetailsContainer.querySelector('#prev-job');
         const nextBtn = domElements.jobDetailsContainer.querySelector('#next-job');
 
-<<<<<<< HEAD
-        const scrollToParcoursTop = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        if (window.innerWidth < 768) {
-            if (index === 0) {
-                prevBtn.onclick = () => document.getElementById('a-propos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                prevBtn.onclick = () => navigateJobs(-1);
-            }
-            if (index === allData.jobs.length - 1) {
-                nextBtn.onclick = () => document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                nextBtn.onclick = () => navigateJobs(1);
-            }
-        } else {
-            prevBtn.disabled = index === 0;
-            prevBtn.classList.toggle('opacity-50', index === 0);
-            prevBtn.classList.toggle('cursor-not-allowed', index === 0);
-            prevBtn.onclick = () => { navigateJobs(-1); scrollToParcoursTop(); };
-=======
         if (window.innerWidth < 768) {
             // Comportements spécifiques pour mobile
             if (index === 0) {
@@ -312,20 +224,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Scroll automatique vers le titre après un court délai pour laisser l'animation se terminer
                 setTimeout(scrollToJobTitle, 300);
             };
->>>>>>> ameliorations-esthetiques
 
             nextBtn.disabled = index === allData.jobs.length - 1;
             nextBtn.classList.toggle('opacity-50', index === allData.jobs.length - 1);
             nextBtn.classList.toggle('cursor-not-allowed', index === allData.jobs.length - 1);
-<<<<<<< HEAD
-            nextBtn.onclick = () => { navigateJobs(1); scrollToParcoursTop(); };
-=======
             nextBtn.onclick = () => { 
                 navigateJobs(1); 
                 // Scroll automatique vers le titre après un court délai pour laisser l'animation se terminer
                 setTimeout(scrollToJobTitle, 300);
             };
->>>>>>> ameliorations-esthetiques
         }
     }
 
@@ -335,11 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let logoHtml = '';
             if(type === 'language') {
                 logoHtml = `<span class="text-4xl">${item.flag}</span>`;
-<<<<<<< HEAD
             } else if (type === 'interest') {
                 logoHtml = `<span class="text-4xl">${item.icon}</span>`;
-=======
->>>>>>> ameliorations-esthetiques
             } else if (item.logo) {
                 logoHtml = `<img src="${item.logo}" alt="Logo de ${item.organization || item.school || item.issuer}" class="w-12 h-12 rounded-md object-contain flex-shrink-0" onerror="this.style.display='none'">`;
             }
@@ -358,15 +262,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'formation':
                     titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-[#E07A5F] underline">${item.name}</a>` : item.name}</p><p class="text-subtle font-semibold">${item.school} - ${item.date}</p></div>`;
                     break;
-<<<<<<< HEAD
                 case 'interest':
                     titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.name}</p><p class="text-subtle">${item.keywords.join(', ')}</p></div>`;
                     break;
                 case 'volunteer':
                     titleHtml = `<div class="flex-grow"><p class="font-bold text-lg main-title">${item.role}</p><p class="font-semibold text-[#E07A5F]">${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:underline">${item.organization}</a>` : item.organization} - ${item.period}</p></div>`;
                     break;
-=======
->>>>>>> ameliorations-esthetiques
             }
             
             return `
@@ -383,14 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateTimelineActive(index) {
-<<<<<<< HEAD
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            item.classList.remove('active', 'main-title');
-        });
-        const activeItem = document.getElementById(allData.jobs[index].id);
-        if (activeItem) {
-            activeItem.classList.add('active', 'main-title');
-=======
         // Retirer la classe active de tous les éléments
         document.querySelectorAll('.timeline-item').forEach(item => {
             item.classList.remove('active');
@@ -400,27 +293,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeItem = document.querySelector(`[data-index="${index}"]`);
         if (activeItem) {
             activeItem.classList.add('active');
->>>>>>> ameliorations-esthetiques
         }
     }
     
     function renderCategories() {
         if (!domElements.skillCategoriesList) return;
         domElements.skillCategoriesList.innerHTML = Object.keys(allData.skills).map(category => `
-<<<<<<< HEAD
-            <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border-2 border-transparent transition" data-category="${category}">
-=======
             <button class="skill-category-btn" data-category="${category}">
->>>>>>> ameliorations-esthetiques
                 ${category}
             </button>
         `).join('');
         
-<<<<<<< HEAD
-        domElements.skillCategoriesList.querySelectorAll('.category-button').forEach(button => {
-=======
         domElements.skillCategoriesList.querySelectorAll('.skill-category-btn').forEach(button => {
->>>>>>> ameliorations-esthetiques
             button.addEventListener('click', () => {
                 activeCategory = button.dataset.category;
                 renderCategories();
@@ -446,22 +330,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const skills = allData.skills[activeCategory] || [];
         if(domElements.skillsTitle) domElements.skillsTitle.textContent = activeCategory;
         domElements.skillTagsContainer.innerHTML = skills.map(skill => `
-<<<<<<< HEAD
-            <button class="skill-tag card-bg text-subtle shadow-sm flex items-center justify-center gap-2 px-4 py-2 rounded-md transition" data-skill-name="${skill.name}">
-                <span>${skill.name}</span>
-            </button>
-=======
             <button class="skill-tag">${skill.name}</button>
->>>>>>> ameliorations-esthetiques
         `).join('');
         
         domElements.skillTagsContainer.querySelectorAll('.skill-tag').forEach(button => {
             button.addEventListener('click', () => {
-<<<<<<< HEAD
-                const skillName = button.dataset.skillName;
-=======
                 const skillName = button.textContent;
->>>>>>> ameliorations-esthetiques
                 const skillData = allData.skills[activeCategory].find(s => s.name === skillName);
                 handleSkillClick(skillData);
             });
@@ -473,19 +347,11 @@ document.addEventListener('DOMContentLoaded', () => {
             resetSkillsState();
         } else {
             activeSkill = skill;
-<<<<<<< HEAD
-            document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
-            if (domElements.skillTagsContainer) {
-                const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
-                if (tagToActivate) {
-                    tagToActivate.classList.add('active-clicked');
-=======
             document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active'));
             if (domElements.skillTagsContainer) {
                 const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
                 if (tagToActivate) {
                     tagToActivate.classList.add('active');
->>>>>>> ameliorations-esthetiques
                 }
             }
             updateSkillDetailsPanel(skill);
@@ -534,13 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentJobIndex = jobIndex;
                     renderJobDetails(currentJobIndex);
                     updateTimelineActive(currentJobIndex);
-<<<<<<< HEAD
-                    document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
-=======
-                    
-                    // Scroll automatique vers l'expérience sélectionnée
                     setTimeout(scrollToJobTitle, 300);
->>>>>>> ameliorations-esthetiques
                 }
             };
         });
@@ -562,11 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(domElements.skillDetailsPanel) {
             domElements.skillDetailsPanel.classList.remove('active-panel');
         }
-<<<<<<< HEAD
-        document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
-=======
         document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active'));
->>>>>>> ameliorations-esthetiques
     }
     
     function init() {
@@ -583,11 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         renderCardList(domElements.languagesList, allData.languages, 'language');
         renderCardList(domElements.engagementsList, allData.engagements, 'engagement');
-<<<<<<< HEAD
         renderCardList(domElements.interestsList, allData.interests, 'interest');
         renderCardList(domElements.volunteerList, allData.volunteer, 'volunteer');
-=======
->>>>>>> ameliorations-esthetiques
         renderCardList(domElements.certificationsList, allData.certifications, 'certification');
         renderCardList(domElements.formationsList, allData.formations, 'formation');
 
@@ -619,19 +472,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const body = `Message de : ${formData.get('name')} (${formData.get('email')})\n\n${formData.get('message')}`;
                 window.location.href = `mailto:rodier.aurelien@orange.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
-<<<<<<< HEAD
                 if(domElements.toastNotification) {
                     domElements.toastNotification.textContent = "Ouverture de votre client de messagerie...";
                     domElements.toastNotification.classList.add('show');
                     setTimeout(() => domElements.toastNotification.classList.remove('show'), 4000);
                 }
-=======
-                // Utiliser le nouveau système de toast
-                showToast("Ouverture de votre client de messagerie...", "info", 4000);
-                
-                // Réinitialiser le formulaire
-                e.target.reset();
->>>>>>> ameliorations-esthetiques
             });
         }
 
@@ -664,11 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
                 mobileMenuLinks.forEach(link => {
-<<<<<<< HEAD
                     link.classList.toggle('active-mobile', link.getAttribute('href') === `#${currentSectionId}`);
-=======
-                    link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
->>>>>>> ameliorations-esthetiques
                 });
             }
 
@@ -696,24 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-<<<<<<< HEAD
-        window.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (currentSectionIndex < sections.length - 1) {
-                    sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-                }
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (currentSectionIndex > 0) {
-                    sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        });
-        
-=======
         // Navigation au clavier améliorée
         window.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -775,7 +598,6 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.observe(el);
         });
         
->>>>>>> ameliorations-esthetiques
         document.getElementById('home-link').addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -783,21 +605,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const themeToggle = document.getElementById('theme-toggle');
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-<<<<<<< HEAD
-=======
         console.log('🔘 Boutons de thème trouvés:', { themeToggle: !!themeToggle, themeToggleMobile: !!themeToggleMobile });
         
->>>>>>> ameliorations-esthetiques
         if (themeToggle) {
             themeToggleMobile.innerHTML = themeToggle.innerHTML;
         }
         const allToggles = [themeToggle, themeToggleMobile];
         
         const applyThemeIcons = (theme) => {
-<<<<<<< HEAD
-=======
             console.log('🎨 Application des icônes de thème:', theme);
->>>>>>> ameliorations-esthetiques
             allToggles.forEach(toggle => {
                 if (!toggle) return;
                 const lightIcon = toggle.querySelector('#theme-icon-light');
@@ -810,25 +626,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const toggleTheme = () => {
-<<<<<<< HEAD
-            const isDark = document.documentElement.classList.toggle('dark');
-            const newTheme = isDark ? 'dark' : 'light';
-=======
             console.log('🔄 Changement de thème...');
             const isDark = document.documentElement.classList.toggle('dark');
             const newTheme = isDark ? 'dark' : 'light';
             console.log('Nouveau thème:', newTheme);
->>>>>>> ameliorations-esthetiques
             localStorage.setItem('theme', newTheme);
             applyThemeIcons(newTheme);
         };
         
         allToggles.forEach(toggle => {
-<<<<<<< HEAD
-            if(toggle) toggle.addEventListener('click', toggleTheme);
-        });
-        applyThemeIcons(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-=======
             if(toggle) {
                 console.log('📝 Ajout d\'écouteur d\'événement sur le bouton de thème');
                 toggle.addEventListener('click', toggleTheme);
@@ -860,7 +666,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toast.classList.remove('show');
         }, duration);
->>>>>>> ameliorations-esthetiques
     }
 
     function startTypingEffect() {
@@ -1117,8 +922,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.exportToPDF = exportToPDF;
 
-<<<<<<< HEAD
-=======
     // Animation reveal-on-scroll (ancienne version)
     function revealOnScroll() {
         const reveals = document.querySelectorAll('.reveal-on-scroll');
@@ -1136,6 +939,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', revealOnScroll);
     document.addEventListener('DOMContentLoaded', revealOnScroll);
 
->>>>>>> ameliorations-esthetiques
+    // Fonction de scroll intelligente qui prend en compte le header
+    function scrollToJobTitle() {
+        const jobTitle = document.querySelector('.job-title');
+        const header = document.querySelector('header');
+        if (jobTitle && header) {
+            const headerHeight = header.offsetHeight;
+            const elementPosition = jobTitle.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerHeight - 20; // 20px de marge
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
     init();
 });
