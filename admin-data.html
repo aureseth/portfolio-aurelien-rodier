@@ -21,6 +21,27 @@
             from { transform: translateX(-100%); }
             to { transform: translateX(0); }
         }
+        .test-btn {
+            background: var(--accent-primary, #81B29A);
+            color: #fff;
+            border: none;
+            padding: 0.7em 1.4em;
+            border-radius: 0.6em;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 4px 0 rgba(60,60,60,0.04);
+        }
+        .test-btn:hover {
+            background: var(--accent-secondary, #E07A5F);
+            color: #fff;
+        }
+        #test-results .success { color: #218838; font-weight: 600; }
+        #test-results .error { color: #dc3545; font-weight: 600; }
+        #test-results .warning { color: #e67e22; font-weight: 600; }
+        #test-results .result-line { display: flex; align-items: center; gap: 0.5em; }
+        #test-results .result-icon { font-size: 1.2em; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -41,6 +62,21 @@
             </div>
         </div>
     </header>
+
+    <!-- Section Tests & Diagnostics -->
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8 flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+            🧪 Tests & Diagnostics
+        </h2>
+        <div class="flex flex-wrap gap-3">
+            <button class="test-btn" onclick="testServer()">Tester le serveur</button>
+            <button class="test-btn" onclick="testData()">Tester les données</button>
+            <button class="test-btn" onclick="testCSS()">Tester le CSS</button>
+            <button class="test-btn" onclick="testJS()">Tester le JS</button>
+        </div>
+        <div id="test-results" class="mt-2 space-y-2"></div>
+        <div id="admin-console" class="bg-gray-50 rounded p-2 text-xs font-mono h-24 overflow-y-auto"></div>
+    </div>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -180,5 +216,92 @@
     <script src="js/pdf-generator.js"></script>
     <script src="validate-skills-tags.js"></script>
     <script src="js/admin-data.js"></script>
+    <script>
+    // Redirige console.log et error vers la console admin
+    (function() {
+        const adminConsole = document.getElementById('admin-console');
+        const origLog = console.log;
+        const origErr = console.error;
+        console.log = function(...args) {
+            origLog.apply(console, args);
+            if(adminConsole) {
+                adminConsole.innerHTML += '<div style="color:#218838;">' + args.join(' ') + '</div>';
+                adminConsole.scrollTop = adminConsole.scrollHeight;
+            }
+        };
+        console.error = function(...args) {
+            origErr.apply(console, args);
+            if(adminConsole) {
+                adminConsole.innerHTML += '<div style="color:#dc3545;">ERROR: ' + args.join(' ') + '</div>';
+                adminConsole.scrollTop = adminConsole.scrollHeight;
+            }
+        };
+    })();
+    function showTestResult(type, msg) {
+        const results = document.getElementById('test-results');
+        const icons = {success:'✅', error:'❌', warning:'⚠️'};
+        const icon = icons[type] || '';
+        const line = `<div class="result-line ${type}"><span class="result-icon">${icon}</span>${msg}</div>`;
+        if(results) results.innerHTML += line;
+    }
+    function clearTestResults() {
+        const results = document.getElementById('test-results');
+        if(results) results.innerHTML = '';
+    }
+    function testServer() {
+        clearTestResults();
+        fetch('/')
+            .then(r => r.ok ? showTestResult('success', 'Serveur accessible (Status: '+r.status+')') : showTestResult('error', 'Erreur serveur (Status: '+r.status+')'))
+            .catch(e => showTestResult('error', 'Erreur serveur: '+e.message));
+    }
+    function testData() {
+        fetch('/data/resume.fr.json')
+            .then(r => r.ok ? r.json() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(data => {
+                if(data && typeof data === 'object') showTestResult('success', 'Données JSON valides (resume.fr.json)');
+                else showTestResult('warning', 'Fichier JSON chargé mais structure inattendue');
+            })
+            .catch(e => showTestResult('error', 'Erreur données: '+e));
+    }
+    function testCSS() {
+        fetch('/css/style.css')
+            .then(r => r.ok ? r.text() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(css => {
+                const hasDark = css.includes('body.dark');
+                const hasVars = css.includes('--accent-primary');
+                if(hasDark && hasVars) showTestResult('success', 'CSS chargé avec dark mode et variables');
+                else showTestResult('warning', 'CSS chargé mais dark mode ou variables manquants');
+            })
+            .catch(e => showTestResult('error', 'Erreur CSS: '+e));
+    }
+    function testJS() {
+        fetch('/js/main.js')
+            .then(r => r.ok ? r.text() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(js => {
+                const hasTheme = js.includes('theme-toggle');
+                const hasDOMContent = js.includes('DOMContentLoaded');
+                if(hasTheme && hasDOMContent) showTestResult('success', 'JS chargé avec gestion des thèmes');
+                else showTestResult('warning', 'JS chargé mais fonctionnalités manquantes');
+            })
+            .catch(e => showTestResult('error', 'Erreur JS: '+e));
+    }
+    </script>
+
+    <!-- Checklist de Recette Manuelle -->
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-2">📋 Checklist de Recette Manuelle</h2>
+        <ul class="list-disc pl-6 text-gray-800 text-base space-y-1">
+            <li>Le bouton de thème sombre/clair fonctionne</li>
+            <li>La navigation entre les sections fonctionne</li>
+            <li>Les compétences s'affichent et sont interactives</li>
+            <li>L'export PDF génère un fichier valide</li>
+            <li>Le menu mobile s'ouvre et se ferme correctement</li>
+            <li>Aucun bloc vert indésirable n'apparaît</li>
+        </ul>
+    </div>
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-2">📱 Aperçu du Site</h2>
+        <iframe src="/" title="Aperçu du site" class="w-full rounded border h-96"></iframe>
+    </div>
 </body>
 </html> 

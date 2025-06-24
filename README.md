@@ -103,4 +103,37 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ---
 
-**Portfolio optimisé et prêt pour la production ! 🚀** 
+**Portfolio optimisé et prêt pour la production ! 🚀**
+
+## Présentation
+Portfolio interactif de Product Owner (Agilité, IA, Transformation Numérique).
+
+## Structure du projet
+- `index.html` : page principale du portfolio
+- `css/style.css` : design system centralisé (variables CSS, dark mode, responsive)
+- `js/main.js` : logique dynamique du site
+- `admin-data.html` : dashboard d'administration, tests & diagnostics, checklist de recette manuelle, aperçu live du site
+- `debug-test.html` : tests techniques automatisés (serveur, CSS, JS, données)
+- `data/` : données JSON (CV FR/EN)
+- `portfolio-gemini.html` : version alternative ou inspiration
+
+## Tests & Diagnostics
+- **Tests techniques** : via `debug-test.html` ou la section dédiée dans `admin-data.html`
+- **Checklist manuelle** : dans `admin-data.html` (points à vérifier visuellement)
+- **Aperçu live** : iframe dans `admin-data.html`
+- **test-site.html** : supprimé (doublon, fonctionnalités intégrées ailleurs)
+
+## Design System
+- Toutes les couleurs, fonds, bordures, accents, transitions sont gérés par variables CSS dans `style.css`
+- Mode sombre/clair natif, responsive, accessibilité renforcée
+
+## Déploiement
+- Pousser sur GitHub déclenche la mise à jour automatique du site
+- Pour tester localement : `python3 -m http.server` puis ouvrir `http://localhost:8000/`
+
+## Contribution
+- Fork, branche dédiée, PR bienvenue
+- Pour ajouter des tests, suivre la structure de `admin-data.html` ou `debug-test.html`
+
+## Historique
+- 2024 : refonte UI/UX, centralisation des tests, suppression de test-site.html 
