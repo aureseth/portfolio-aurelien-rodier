@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self';">
     
     <title>Aurélien Rodier - Product Owner</title>
     <meta name="description" content="CV interactif d'Aurélien Rodier, Product Owner spécialisé en Agilité, IA et Transformation Numérique. Découvrez mon parcours, mes compétences et mes projets.">
@@ -13,14 +14,14 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 
-    <!-- Suppression de Tailwind CSS CDN pour éviter les conflits -->
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS personnalisé complet -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS pour le template PDF -->
+    <link rel="stylesheet" href="css/pdf-template.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -228,20 +229,154 @@
         }
         
         .export-option-icon {
-            width: 2rem;
-            height: 2rem;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #4f46e5, #0ea5e9);
-            color: white;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            color: #4f46e5;
         }
         
         /* Masquer l'option d'impression sur mobile */
         @media (max-width: 768px) {
             .desktop-only {
                 display: none !important;
+            }
+        }
+
+        /* Styles pour la modale de personnalisation PDF */
+        #pdf-options-modal {
+            border: none;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            background: white;
+        }
+
+        #pdf-options-modal::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        #pdf-options-form {
+            padding: 2rem;
+        }
+
+        #pdf-options-form h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        #pdf-options-form fieldset {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #pdf-options-form legend {
+            font-weight: 600;
+            color: #374151;
+            padding: 0 0.5rem;
+        }
+
+        #pdf-options-form input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        #pdf-options-form label {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            color: #374151;
+        }
+
+        #pdf-options-form label:hover {
+            color: #4f46e5;
+        }
+
+        #pdf-options-form div:last-child {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        #generate-pdf-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #generate-pdf-btn:hover {
+            background-color: #3730a3;
+        }
+
+        #cancel-modal-btn {
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #cancel-modal-btn:hover {
+            background-color: #e5e7eb;
+            border-color: #9ca3af;
+        }
+
+        /* Support pour le mode sombre */
+        @media (prefers-color-scheme: dark) {
+            #pdf-options-modal {
+                background: #1f2937;
+                color: white;
+            }
+
+            #pdf-options-form h2 {
+                color: white;
+            }
+
+            #pdf-options-form fieldset {
+                border-color: #4b5563;
+            }
+
+            #pdf-options-form legend {
+                color: #d1d5db;
+            }
+
+            #pdf-options-form label {
+                color: #d1d5db;
+            }
+
+            #pdf-options-form label:hover {
+                color: #60a5fa;
+            }
+
+            #cancel-modal-btn {
+                background-color: #374151;
+                color: #d1d5db;
+                border-color: #4b5563;
+            }
+
+            #cancel-modal-btn:hover {
+                background-color: #4b5563;
+                border-color: #6b7280;
             }
         }
     </style>
@@ -266,10 +401,14 @@
                         </a>
                         <a href="#contact" class="nav-link">Contact</a>
                     </div>
-                    <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 ml-8" onclick="showExportModal()">
+                    <button id="bouton-telecharger-cv" class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 ml-8">
                         <i class="fas fa-download"></i>
                         <span>Exporter CV</span>
                     </button>
+                    <a href="admin-data.html" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 ml-4 hidden" title="Administration des données">
+                        <i class="fas fa-cog"></i>
+                        <span class="hidden md:inline">Admin</span>
+                    </a>
                     <button id="theme-toggle" class="ml-4 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
                         <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -289,43 +428,17 @@
                 <a href="#formation" class="mobile-menu-link block py-2 px-4 text-sm rounded">Formation</a>
                 <a href="#divers" class="mobile-menu-link block py-2 px-4 text-sm rounded">Langues & Engagements</a>
                 <a href="#contact" class="mobile-menu-link block py-2 px-4 text-sm rounded">Contact</a>
-                <button class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 w-full mt-2" onclick="showExportModal()">
+                <button id="bouton-telecharger-cv-mobile" class="export-btn flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--accent-green)] text-white hover:bg-opacity-90 transition-all duration-200 w-full mt-2">
                     <i class="fas fa-download"></i>
                     <span>Exporter CV</span>
                 </button>
+                <a href="admin-data.html" class="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 w-full mt-2">
+                    <i class="fas fa-cog"></i>
+                    <span>Administration</span>
+                </a>
             </div>
         </div>
     </header>
-
-    <!-- Modal d'export -->
-    <div id="export-modal" class="export-modal no-print">
-        <div class="export-modal-content">
-            <div class="export-modal-header">
-                <h3 class="text-xl font-semibold">Exporter mon CV</h3>
-                <button class="export-modal-close" onclick="hideExportModal()">&times;</button>
-            </div>
-            <div class="export-options">
-                <div class="export-option" onclick="exportToPDF()">
-                    <div class="export-option-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold">Télécharger en PDF</h4>
-                        <p class="text-sm text-gray-600">Format professionnel optimisé pour l'impression</p>
-                    </div>
-                </div>
-                <div class="export-option" onclick="window.print()">
-                    <div class="export-option-icon">
-                        <i class="fas fa-print"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold">Imprimer directement</h4>
-                        <p class="text-sm text-gray-600">Utilisez la boîte de dialogue d'impression de votre navigateur</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <main>
         <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
@@ -373,18 +486,32 @@
                     <img id="profile-pic" src="https://aurelien-rodier.fr/Profil%20cPanel.png" alt="Photo de profil d'Aurélien Rodier" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-lg border-4 border-white dark:border-gray-800" onerror="this.onerror=null;this.src='https://placehold.co/320x320/F8F7F4/3D405B?text=Photo';">
                 </div>
             </div>
+            <div class="flex justify-center mt-8">
+                <a href="#parcours" aria-label="Aller à la section Parcours" class="down-arrow-bounce">
+                    <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </a>
+            </div>
         </section>
 
         <div class="container mx-auto px-6">
             <section id="parcours" class="py-20 reveal-on-scroll">
-                <div class="md:grid md:grid-cols-3 md:gap-12 card-bg p-8 rounded-lg shadow-lg">
+                <div class="md:grid md:grid-cols-3 md:gap-12 card-bg p-8 rounded-lg shadow-lg" role="region" aria-labelledby="parcours-title">
                     <div class="col-span-1 timeline-list-container">
-                         <h2 class="text-3xl font-bold mb-8 text-center md:text-left">Parcours Professionnel</h2>
-                        <ul id="timeline-list"></ul>
+                         <h2 id="parcours-title" class="text-3xl font-bold mb-8 text-center md:text-left">Parcours Professionnel</h2>
+                        <ul id="timeline-list" class="timeline-line" role="list"></ul>
                     </div>
                     <div class="col-span-2 mt-12 md:mt-0">
                         <div id="job-details" class="min-h-[400px] flex flex-col justify-between"></div>
                     </div>
+                </div>
+                <div class="flex justify-center mt-8">
+                    <a href="#competences" aria-label="Aller à la section Compétences" class="down-arrow-bounce">
+                        <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </a>
                 </div>
             </section>
     
@@ -408,6 +535,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-center mt-8">
+                    <a href="#formation" aria-label="Aller à la section Formation & Certifications" class="down-arrow-bounce">
+                        <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </a>
+                </div>
             </section>
             
             <section id="formation" class="py-20 section-bg-alt">
@@ -425,20 +559,35 @@
                         <div id="formations-list" class="space-y-6"></div>
                     </div>
                 </div>
+                <div class="flex justify-center mt-8">
+                    <a href="#langues" aria-label="Aller à la section Langues & Engagements" class="down-arrow-bounce">
+                        <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </a>
+                </div>
             </section>
             
             <section id="divers" class="py-20">
                  <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    <span>Langues & Engagements</span>
+                    <span>Langues, Intérêts & Engagements</span>
                  </h2>
-                 <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+                 <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
                     <div>
                         <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Langues</h3>
                         <div id="languages-list" class="space-y-6"></div>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Engagements Bénévoles</h3>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Intérêts</h3>
+                        <div id="interests-list" class="space-y-6"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Bénévolat</h3>
+                        <div id="volunteer-list" class="space-y-6"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Engagements</h3>
                         <div id="engagements-list" class="space-y-6"></div>
                     </div>
                  </div>
@@ -549,31 +698,41 @@
       </div>
     </script>
 
+    <script src="js/pdf-generator.js" defer></script>
     <script src="js/main.js" defer></script>
-    
-    <script>
-        // Fonctions d'export améliorées
-        function showExportModal() {
-            document.getElementById('export-modal').classList.add('show');
-        }
-        
-        function hideExportModal() {
-            document.getElementById('export-modal').classList.remove('show');
-        }
-        
-        // Fermer le modal en cliquant à l'extérieur
-        document.getElementById('export-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideExportModal();
-            }
-        });
-        
-        // Fermer le modal avec la touche Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideExportModal();
-            }
-        });
-    </script>
+
+    <!-- Modèle invisible pour la génération du PDF -->
+    <div id="cv-template-container" style="position: absolute; left: -9999px; top: -9999px; width: 210mm; background-color: white;">
+        <div id="cv-pdf-content">
+            <!-- Ce contenu sera généré par JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modale de personnalisation PDF -->
+    <dialog id="pdf-options-modal">
+        <form id="pdf-options-form">
+            <h2>Options de téléchargement</h2>
+            <fieldset>
+                <legend>Langue</legend>
+                <input type="radio" id="lang-fr" name="language" value="fr" checked><label for="lang-fr">Français</label>
+                <input type="radio" id="lang-en" name="language" value="en"><label for="lang-en">Anglais</label>
+            </fieldset>
+            <fieldset>
+                <legend>Rôle</legend>
+                <input type="radio" id="role-po" name="role" value="Product Owner" checked><label for="role-po">Product Owner</label>
+                <input type="radio" id="role-ba" name="role" value="Business Analyst"><label for="role-ba">Business Analyst</label>
+            </fieldset>
+            
+            <!-- Zone de statut -->
+            <div id="pdf-status" class="hidden p-3 rounded-lg mb-4">
+                <p id="pdf-status-text"></p>
+            </div>
+            
+            <div>
+                <button type="submit" id="generate-pdf-btn">Télécharger</button>
+                <button type="button" id="cancel-modal-btn">Annuler</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>

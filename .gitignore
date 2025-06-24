@@ -1,0 +1,40 @@
+# Dépendances
+node_modules/
+package-lock.json
+
+# Fichiers de développement
+.DS_Store
+*.log
+*.tmp
+
+# Fichiers de build
+css/input.css
+tailwind.config.js
+
+# Fichiers de test (si jamais ils sont recréés)
+test-*.js
+debug-*.js
+run-*.js
+cleanup.js
+test-runner.html
+
+# Fichiers de documentation de test
+*TEST*.md
+*GUIDE*.md
+*RAPPORT*.md
+*CORRECTION*.md
+*DIAGNOSTIC*.md
+*PHASE*.md
+
+# Fichiers de données de test
+*test*.json
+exemple_*.pdf
+cv-*.html
+*DeepSeek*.html
+
+# Fichiers de validation
+validate-*.js
+
+# Fichiers système
+.DS_Store
+Thumbs.db 

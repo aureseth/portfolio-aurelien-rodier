@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration des Données CV - Aurélien Rodier</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .test-btn {
+            background: var(--accent-primary, #81B29A);
+            color: #fff;
+            border: none;
+            padding: 0.7em 1.4em;
+            border-radius: 0.6em;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 4px 0 rgba(60,60,60,0.04);
+        }
+        .test-btn:hover {
+            background: var(--accent-secondary, #E07A5F);
+            color: #fff;
+        }
+        #test-results .success { color: #218838; font-weight: 600; }
+        #test-results .error { color: #dc3545; font-weight: 600; }
+        #test-results .warning { color: #e67e22; font-weight: 600; }
+        #test-results .result-line { display: flex; align-items: center; gap: 0.5em; }
+        #test-results .result-icon { font-size: 1.2em; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">Administration CV</h1>
+                    <span class="ml-3 px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">Admin</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">← Retour au site</a>
+                    <button id="export-data" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                        📤 Exporter les données
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section Tests & Diagnostics -->
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8 flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+            🧪 Tests & Diagnostics
+        </h2>
+        <div class="flex flex-wrap gap-3">
+            <button class="test-btn" onclick="testServer()">Tester le serveur</button>
+            <button class="test-btn" onclick="testData()">Tester les données</button>
+            <button class="test-btn" onclick="testCSS()">Tester le CSS</button>
+            <button class="test-btn" onclick="testJS()">Tester le JS</button>
+        </div>
+        <div id="test-results" class="mt-2 space-y-2"></div>
+        <div id="admin-console" class="bg-gray-50 rounded p-2 text-xs font-mono h-24 overflow-y-auto"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Navigation Tabs -->
+        <div class="mb-8">
+            <nav class="flex space-x-8 border-b border-gray-200">
+                <button class="tab-button active px-3 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600" data-tab="skills">
+                    🎯 Compétences
+                </button>
+                <button class="tab-button px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="experiences">
+                    💼 Expériences
+                </button>
+                <button class="tab-button px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="education">
+                    🎓 Formation
+                </button>
+                <button class="tab-button px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="languages">
+                    🌍 Langues
+                </button>
+                <button class="tab-button px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700" data-tab="interests">
+                    🎨 Centres d'intérêt
+                </button>
+            </nav>
+        </div>
+
+        <!-- Skills Tab -->
+        <div id="skills-tab" class="tab-content active">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Gestion des Compétences</h2>
+                    <button id="add-skill-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        ➕ Ajouter une compétence
+                    </button>
+                </div>
+
+                <!-- Skills List -->
+                <div id="skills-list" class="space-y-4">
+                    <!-- Skills will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Experiences Tab -->
+        <div id="experiences-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Gestion des Expériences</h2>
+                    <button id="add-experience-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        ➕ Ajouter une expérience
+                    </button>
+                </div>
+
+                <!-- Experiences List -->
+                <div id="experiences-list" class="space-y-4">
+                    <!-- Experiences will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Tab -->
+        <div id="education-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Gestion de la Formation</h2>
+                    <button id="add-education-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        ➕ Ajouter une formation
+                    </button>
+                </div>
+
+                <!-- Education List -->
+                <div id="education-list" class="space-y-4">
+                    <!-- Education will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Languages Tab -->
+        <div id="languages-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Gestion des Langues</h2>
+                    <button id="add-language-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        ➕ Ajouter une langue
+                    </button>
+                </div>
+
+                <!-- Languages List -->
+                <div id="languages-list" class="space-y-4">
+                    <!-- Languages will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Interests Tab -->
+        <div id="interests-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Gestion des Centres d'Intérêt</h2>
+                    <button id="add-interest-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        ➕ Ajouter un centre d'intérêt
+                    </button>
+                </div>
+
+                <!-- Interests List -->
+                <div id="interests-list" class="space-y-4">
+                    <!-- Interests will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for adding/editing items -->
+    <div id="modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modal-title" class="text-lg font-semibold text-gray-900">Ajouter un élément</h3>
+                        <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div id="modal-content">
+                        <!-- Modal content will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="fixed top-4 right-4 z-50"></div>
+
+    <!-- Scripts -->
+    <script src="js/pdf-generator.js"></script>
+    <script src="validate-skills-tags.js"></script>
+    <script src="js/admin-data.js"></script>
+    <script>
+    // Redirige console.log et error vers la console admin
+    (function() {
+        const adminConsole = document.getElementById('admin-console');
+        const origLog = console.log;
+        const origErr = console.error;
+        console.log = function(...args) {
+            origLog.apply(console, args);
+            if(adminConsole) {
+                adminConsole.innerHTML += '<div style="color:#218838;">' + args.join(' ') + '</div>';
+                adminConsole.scrollTop = adminConsole.scrollHeight;
+            }
+        };
+        console.error = function(...args) {
+            origErr.apply(console, args);
+            if(adminConsole) {
+                adminConsole.innerHTML += '<div style="color:#dc3545;">ERROR: ' + args.join(' ') + '</div>';
+                adminConsole.scrollTop = adminConsole.scrollHeight;
+            }
+        };
+    })();
+    function showTestResult(type, msg) {
+        const results = document.getElementById('test-results');
+        const icons = {success:'✅', error:'❌', warning:'⚠️'};
+        const icon = icons[type] || '';
+        const line = `<div class="result-line ${type}"><span class="result-icon">${icon}</span>${msg}</div>`;
+        if(results) results.innerHTML += line;
+    }
+    function clearTestResults() {
+        const results = document.getElementById('test-results');
+        if(results) results.innerHTML = '';
+    }
+    function testServer() {
+        clearTestResults();
+        fetch('/')
+            .then(r => r.ok ? showTestResult('success', 'Serveur accessible (Status: '+r.status+')') : showTestResult('error', 'Erreur serveur (Status: '+r.status+')'))
+            .catch(e => showTestResult('error', 'Erreur serveur: '+e.message));
+    }
+    function testData() {
+        fetch('/data/resume.fr.json')
+            .then(r => r.ok ? r.json() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(data => {
+                if(data && typeof data === 'object') showTestResult('success', 'Données JSON valides (resume.fr.json)');
+                else showTestResult('warning', 'Fichier JSON chargé mais structure inattendue');
+            })
+            .catch(e => showTestResult('error', 'Erreur données: '+e));
+    }
+    function testCSS() {
+        fetch('/css/style.css')
+            .then(r => r.ok ? r.text() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(css => {
+                const hasDark = css.includes('body.dark');
+                const hasVars = css.includes('--accent-primary');
+                if(hasDark && hasVars) showTestResult('success', 'CSS chargé avec dark mode et variables');
+                else showTestResult('warning', 'CSS chargé mais dark mode ou variables manquants');
+            })
+            .catch(e => showTestResult('error', 'Erreur CSS: '+e));
+    }
+    function testJS() {
+        fetch('/js/main.js')
+            .then(r => r.ok ? r.text() : Promise.reject('Erreur HTTP: '+r.status))
+            .then(js => {
+                const hasTheme = js.includes('theme-toggle');
+                const hasDOMContent = js.includes('DOMContentLoaded');
+                if(hasTheme && hasDOMContent) showTestResult('success', 'JS chargé avec gestion des thèmes');
+                else showTestResult('warning', 'JS chargé mais fonctionnalités manquantes');
+            })
+            .catch(e => showTestResult('error', 'Erreur JS: '+e));
+    }
+    </script>
+
+    <!-- Checklist de Recette Manuelle -->
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-2">📋 Checklist de Recette Manuelle</h2>
+        <ul class="list-disc pl-6 text-gray-800 text-base space-y-1">
+            <li>Le bouton de thème sombre/clair fonctionne</li>
+            <li>La navigation entre les sections fonctionne</li>
+            <li>Les compétences s'affichent et sont interactives</li>
+            <li>L'export PDF génère un fichier valide</li>
+            <li>Le menu mobile s'ouvre et se ferme correctement</li>
+            <li>Aucun bloc vert indésirable n'apparaît</li>
+        </ul>
+    </div>
+    <div class="bg-white card-bg rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-2">📱 Aperçu du Site</h2>
+        <iframe src="/" title="Aperçu du site" class="w-full rounded border h-96"></iframe>
+    </div>
+</body>
+</html> 

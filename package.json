@@ -1,0 +1,23 @@
+{
+  "name": "portfolio-aurelien-rodier",
+  "version": "1.0.0",
+  "description": "Portfolio interactif d'Aurélien Rodier - Product Owner",
+  "main": "index.html",
+  "scripts": {
+    "build": "tailwindcss -i ./css/input.css -o ./css/style.css --watch",
+    "build-prod": "tailwindcss -i ./css/input.css -o ./css/style.css --minify",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "product-owner",
+    "cv",
+    "pdf"
+  ],
+  "author": "Aurélien Rodier",
+  "license": "MIT",
+  "devDependencies": {
+    "playwright": "^1.53.1",
+    "tailwindcss": "^3.4.0"
+  }
+}

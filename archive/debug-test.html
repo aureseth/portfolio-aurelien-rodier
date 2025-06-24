@@ -84,7 +84,7 @@
 
     <div class="debug-section">
         <h2>6. Aperçu du Site Principal</h2>
-        <iframe src="http://localhost:8000/" title="Site principal"></iframe>
+        <iframe src="/" title="Site principal"></iframe>
     </div>
 
     <div class="debug-section">
@@ -112,7 +112,7 @@
 
         function testServer() {
             const result = document.getElementById('server-result');
-            fetch('http://localhost:8000/')
+            fetch('/')
                 .then(response => {
                     if (response.ok) {
                         result.innerHTML = '<span style="color: green;">✅ Serveur fonctionne (Status: ' + response.status + ')</span>';
@@ -130,12 +130,12 @@
 
         function testCSS() {
             const result = document.getElementById('css-result');
-            fetch('http://localhost:8000/css/style.css')
+            fetch('/css/style.css')
                 .then(response => {
                     if (response.ok) {
                         response.text().then(css => {
                             const hasDarkTheme = css.includes('body.dark');
-                            const hasVariables = css.includes('--accent-green');
+                            const hasVariables = css.includes('--accent-green') || css.includes('--accent-primary');
                             if (hasDarkTheme && hasVariables) {
                                 result.innerHTML = '<span style="color: green;">✅ CSS chargé avec thème sombre et variables</span>';
                                 result.className = 'result success';
@@ -157,7 +157,7 @@
 
         function testJS() {
             const result = document.getElementById('js-result');
-            fetch('http://localhost:8000/js/main.js')
+            fetch('/js/main.js')
                 .then(response => {
                     if (response.ok) {
                         response.text().then(js => {

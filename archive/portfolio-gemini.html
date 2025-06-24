@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- SEO et Partage -->
     <title>Aurélien Rodier - Product Owner</title>
     <meta name="description" content="CV interactif d'Aurélien Rodier, Product Owner spécialisé en Agilité, IA et Transformation Numérique. Découvrez mon parcours, mes compétences et mes projets.">
     <meta property="og:title" content="Aurélien Rodier - Product Owner Interactif">
@@ -11,6 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png">
     
+    <!-- Favicon 👨‍💻 -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -104,13 +106,10 @@
             background-color: #374151;
         }
         
-        .category-button.active {
+        .skill-filter-btn.active {
+            background-color: var(--accent-green) !important;
+            color: white !important;
             border-color: var(--accent-green) !important;
-            color: var(--accent-green) !important;
-            font-weight: 600;
-        }
-        .dark .category-button.active {
-            color: var(--accent-green) !important;
         }
 
         .contact-input {
@@ -187,8 +186,10 @@
              background-color: var(--bg-dark);
         }
 
+
+        /* Structure et animations */
         html { scroll-behavior: smooth; }
-        section { scroll-margin-top: 5.5rem; } 
+        section { scroll-margin-top: 5rem; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: var(--accent-green); transition: width 0.3s ease; }
         .nav-link.active::after, .nav-link:hover::after { width: 100%; }
         .timeline-list-container { top: 7rem; align-self: flex-start; }
@@ -207,23 +208,22 @@
         #toast-notification { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: #3D405B; color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out; z-index: 2000; }
         #toast-notification.show { bottom: 2rem; }
         
-        #accueil {
-            background-color: var(--bg-light);
-        }
-        .dark #accueil {
-            background-color: var(--bg-dark);
-        }
-        #accueil h1 { color: var(--text-light); }
-        .dark #accueil h1 { color: var(--text-dark); }
-        #accueil h2 { color: var(--accent-orange); }
-        #accueil .scroll-arrow { color: var(--text-muted-light); }
-        .dark #accueil .scroll-arrow { color: var(--text-muted-dark); }
+        /* Animation "Machine à écrire" */
         .typing-cursor {
-            border-right-color: var(--accent-orange);
+            border-right: .15em solid var(--accent-orange);
+            animation: blink-caret .75s step-end infinite;
         }
         @keyframes blink-caret {
             from, to { border-color: transparent }
             50% { border-color: var(--accent-orange); }
+        }
+        .down-arrow-bounce {
+          display: inline-block;
+          animation: bounce 1.2s infinite;
+        }
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(8px); }
         }
     </style>
 </head>
@@ -231,23 +231,21 @@
 
     <header class="header-bg backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-4">
-            <nav class="flex justify-between items-center gap-4">
-                <a href="#accueil" id="home-link" class="transition-opacity hover:opacity-80 flex-shrink-0">
-                    <img src="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png" alt="Logo Aurélien Rodier" class="h-14 w-14 rounded-full object-cover">
+            <nav class="flex justify-between items-center">
+                <a href="#accueil" id="home-link" class="transition-opacity hover:opacity-80">
+                    <img src="https://aurelien-rodier.fr/img/Notion%20Face%20Aurelien.png" alt="Logo Aurélien Rodier" class="h-12 w-12 rounded-full object-cover">
                 </a>
-                <div class="hidden md:flex items-center justify-end flex-grow">
-                    <div class="flex items-center space-x-8">
-                        <a href="#a-propos" class="nav-link">À Propos</a>
-                        <a href="#parcours" class="nav-link">Parcours</a>
-                        <a href="#competences" class="nav-link">Compétences</a>
-                        <a href="#formation" class="nav-link">Formation</a>
-                        <a href="#divers" class="nav-link text-center leading-tight">
-                            <span>Langues</span>
-                            <span>& Engagements</span>
-                        </a>
-                        <a href="#contact" class="nav-link">Contact</a>
-                    </div>
-                    <button id="theme-toggle" class="ml-12 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#a-propos" class="nav-link">À Propos</a>
+                    <a href="#parcours" class="nav-link">Parcours</a>
+                    <a href="#competences" class="nav-link">Compétences</a>
+                    <a href="#formation" class="nav-link">Formation</a>
+                    <a href="#divers" class="nav-link text-center leading-tight">
+                        <span>Langues</span>
+                        <span>& Engagements</span>
+                    </a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                    <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
                         <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     </button>
@@ -271,22 +269,24 @@
     </header>
 
     <main>
-        <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+        <!-- Header dynamique en plein écran -->
+        <section id="accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4 bg-gray-900 text-white">
             <div class="max-w-4xl mx-auto">
                 <h1 class="text-5xl md:text-7xl font-bold tracking-tight">Aurélien Rodier</h1>
-                <h2 class="mt-4 text-2xl md:text-4xl font-medium h-10 md:h-12">
+                <h2 class="mt-4 text-2xl md:text-4xl text-[#E07A5F] font-medium h-10 md:h-12">
                     <span id="typing-effect"></span><span class="typing-cursor"></span>
                 </h2>
                 <div class="mt-12">
-                    <a href="#a-propos" class="scroll-arrow transition duration-300" aria-label="Découvrir la suite">
+                    <a href="#a-propos" class="text-gray-300 hover:text-white transition duration-300" aria-label="Découvrir la suite">
                         <svg class="w-10 h-10 mx-auto animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section id="a-propos" class="py-20">
-            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12">
+        <!-- Section de description "À Propos" -->
+        <section id="a-propos" class="pt-24">
+            <div class="container mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-center gap-12">
                 <div class="w-full md:w-2/3 text-left">
                     <h2 class="text-3xl md:text-4xl font-bold main-title leading-tight mb-6">À Propos de Moi</h2>
                     <div class="space-y-4 text-lg text-body leading-relaxed">
@@ -318,6 +318,15 @@
             </div>
         </section>
 
+        <!-- À la fin de la section À propos -->
+        <div class="flex justify-center mt-8">
+          <a href="#parcours" aria-label="Aller à la section Parcours" class="down-arrow-bounce">
+            <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </a>
+        </div>
+
         <div class="container mx-auto px-6">
             <section id="parcours" class="py-20">
                 <div class="md:grid md:grid-cols-3 md:gap-12 card-bg p-8 rounded-lg shadow-lg">
@@ -331,6 +340,15 @@
                 </div>
             </section>
     
+            <!-- À la fin de la section Parcours -->
+            <div class="flex justify-center mt-8">
+              <a href="#competences" aria-label="Aller à la section Compétences" class="down-arrow-bounce">
+                <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+            </div>
+
             <section id="competences" class="py-20">
                 <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
@@ -352,7 +370,16 @@
                     </div>
                 </div>
             </section>
-            
+    
+            <!-- À la fin de la section Compétences -->
+            <div class="flex justify-center mt-8">
+              <a href="#formation" aria-label="Aller à la section Formation & Certifications" class="down-arrow-bounce">
+                <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+            </div>
+
             <section id="formation" class="py-20 section-bg-alt">
                 <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
@@ -370,6 +397,15 @@
                 </div>
             </section>
             
+            <!-- À la fin de la section Formation & Certifications -->
+            <div class="flex justify-center mt-8">
+              <a href="#langues" aria-label="Aller à la section Langues & Engagements" class="down-arrow-bounce">
+                <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+            </div>
+
             <section id="divers" class="py-20">
                  <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -386,7 +422,16 @@
                     </div>
                  </div>
             </section>
-            
+    
+            <!-- À la fin de la section Langues & Engagements -->
+            <div class="flex justify-center mt-8">
+              <a href="#contact" aria-label="Aller à la section Contact" class="down-arrow-bounce">
+                <svg class="w-8 h-8 text-orange-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </a>
+            </div>
+
             <section id="contact" class="py-20 section-bg-alt">
                 <div class="text-center mb-12">
                      <h2 class="text-4xl font-bold text-center mb-4 inline-flex items-center justify-center w-full gap-4">
@@ -562,11 +607,8 @@
         let currentJobIndex = 0;
         let activeSkill = null; 
         let activeCategory = 'Gestion de Produit';
-        let sections = [];
-        let currentSectionIndex = 0;
 
         function renderTimeline() {
-            if (!domElements.timelineList) return;
             domElements.timelineList.innerHTML = allData.jobs.map(job => `
                 <li>
                     <button id="${job.id}" class="timeline-item timeline-line w-full text-left relative pl-8 border-l-2 py-2 mb-4 transition-colors">
@@ -580,7 +622,6 @@
         }
 
         function renderJobDetails(index) {
-            if (!domElements.jobDetailsContainer) return;
             const job = allData.jobs[index];
             domElements.jobDetailsContainer.innerHTML = `
                 <div class="fade-in flex flex-col h-full">
@@ -606,31 +647,30 @@
             const prevBtn = domElements.jobDetailsContainer.querySelector('#prev-job');
             const nextBtn = domElements.jobDetailsContainer.querySelector('#next-job');
 
-            const scrollToParcoursTop = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            if (window.innerWidth < 768) {
-                // Mobile behavior correction
-                if (index === 0) {
-                    prevBtn.onclick = () => document.getElementById('a-propos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    prevBtn.onclick = () => navigateJobs(-1); // No scroll jump
-                }
-                if (index === allData.jobs.length - 1) {
-                    nextBtn.onclick = () => document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    nextBtn.onclick = () => navigateJobs(1); // No scroll jump
-                }
+            if (index === 0) {
+                 if (window.innerWidth < 768) {
+                    prevBtn.onclick = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 } else {
+                    prevBtn.disabled = true;
+                    prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                 }
             } else {
-                // Desktop behavior
-                prevBtn.disabled = index === 0;
-                prevBtn.classList.toggle('opacity-50', index === 0);
-                prevBtn.classList.toggle('cursor-not-allowed', index === 0);
-                prevBtn.onclick = () => { navigateJobs(-1); scrollToParcoursTop(); };
-
-                nextBtn.disabled = index === allData.jobs.length - 1;
-                nextBtn.classList.toggle('opacity-50', index === allData.jobs.length - 1);
-                nextBtn.classList.toggle('cursor-not-allowed', index === allData.jobs.length - 1);
-                nextBtn.onclick = () => { navigateJobs(1); scrollToParcoursTop(); };
+                prevBtn.disabled = false;
+                 prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                prevBtn.onclick = () => navigateJobs(-1);
+            }
+            
+            if (index === allData.jobs.length - 1) {
+                 if (window.innerWidth < 768) {
+                    nextBtn.onclick = () => document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 } else {
+                    nextBtn.disabled = true;
+                    nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                 }
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                nextBtn.onclick = () => navigateJobs(1);
             }
         }
 
@@ -684,9 +724,8 @@
         }
         
         function renderCategories() {
-            if (!domElements.skillCategoriesList) return;
             domElements.skillCategoriesList.innerHTML = Object.keys(allData.skills).map(category => `
-                <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border-2 border-transparent transition" data-category="${category}">
+                <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border" data-category="${category}">
                     ${category}
                 </button>
             `).join('');
@@ -702,7 +741,6 @@
                     } else {
                         resetSkillsState();
                     }
-                    document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
             
@@ -715,7 +753,7 @@
         function renderSkills() {
             if (!domElements.skillTagsContainer) return;
             const skills = allData.skills[activeCategory] || [];
-            if(domElements.skillsTitle) domElements.skillsTitle.textContent = activeCategory;
+            domElements.skillsTitle.textContent = activeCategory;
             domElements.skillTagsContainer.innerHTML = skills.map(skill => `
                 <button class="skill-tag card-bg text-subtle shadow-sm flex items-center justify-center gap-2 px-4 py-2 rounded-md transition" data-skill-name="${skill.name}">
                     <span>${skill.name}</span>
@@ -737,11 +775,9 @@
             } else {
                 activeSkill = skill;
                 document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
-                if (domElements.skillTagsContainer) {
-                    const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
-                    if (tagToActivate) {
-                        tagToActivate.classList.add('active-clicked');
-                    }
+                const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
+                if (tagToActivate) {
+                    tagToActivate.classList.add('active-clicked');
                 }
                 updateSkillDetailsPanel(skill);
             }
@@ -749,7 +785,6 @@
         
         function updateSkillDetailsPanel(skill) {
             const panel = domElements.skillDetailsPanel;
-            if (!panel) return;
             panel.innerHTML = ''; 
 
             const jobsForThisSkill = allData.jobs.filter(job => job.tags.includes(skill.name));
@@ -803,9 +838,11 @@
                 currentJobIndex = newIndex;
                 renderJobDetails(currentJobIndex);
                 updateTimelineActive(currentJobIndex);
+                if (window.innerWidth < 768) {
+                    domElements.jobDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         }
-
         function resetSkillsState() {
             activeSkill = null;
             if(domElements.skillDetailsPanel) {
@@ -817,8 +854,7 @@
         function init() {
             startTypingEffect();
 
-            sections = Array.from(document.querySelectorAll('main > section, main > div > section'));
-
+            // Check if elements exist before rendering
             if (domElements.timelineList) {
                 renderTimeline();
                 if (allData.jobs.length > 0) {
@@ -836,6 +872,7 @@
                 renderSkills();
             }
 
+            // --- Écouteurs d'événements ---
             if (domElements.timelineList) {
                 domElements.timelineList.addEventListener('click', (e) => {
                     const item = e.target.closest('.timeline-item');
@@ -845,7 +882,9 @@
                             currentJobIndex = jobIndex;
                             renderJobDetails(currentJobIndex);
                             updateTimelineActive(currentJobIndex);
-                            document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            if (domElements.jobDetailsContainer) {
+                                domElements.jobDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
                         }
                     }
                 });
@@ -871,74 +910,71 @@
                 document.getElementById('mobile-menu').classList.toggle('hidden');
             });
             
+            const sections = Array.from(document.querySelectorAll('main > section'));
+            let currentSectionIndex = 0;
+
             const updateNavs = () => {
                 const scrollY = window.scrollY;
-                const offset = window.innerHeight * 0.4;
-                
-                let newCurrentSectionIndex = -1;
+                const viewportHeight = window.innerHeight;
+
+                if (domElements.sectionNav) {
+                    domElements.sectionNav.classList.toggle('visible', scrollY > viewportHeight * 0.2);
+                }
+
+                let closestSectionIndex = -1;
+                let smallestDistance = Infinity;
 
                 sections.forEach((section, index) => {
                     const sectionTop = section.offsetTop;
-                    const sectionHeight = section.offsetHeight;
-                    if (scrollY >= sectionTop - offset && scrollY < sectionTop + sectionHeight - offset) {
-                         newCurrentSectionIndex = index;
+                    // Adjust distance calculation to be more accurate around the top of the viewport
+                    const distance = Math.abs(scrollY - sectionTop + (viewportHeight * 0.2));
+
+                    if (distance < smallestDistance) {
+                        smallestDistance = distance;
+                        closestSectionIndex = index;
                     }
                 });
-
-                if (newCurrentSectionIndex !== -1 && newCurrentSectionIndex !== currentSectionIndex) {
-                    currentSectionIndex = newCurrentSectionIndex;
+                
+                if(currentSectionIndex !== closestSectionIndex && closestSectionIndex !== -1){
+                    currentSectionIndex = closestSectionIndex;
+                    
                     const currentSectionId = sections[currentSectionIndex].id;
-
                     const navLinks = document.querySelectorAll('header nav a.nav-link');
+                    const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+
                     navLinks.forEach(link => {
                         link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
                     });
 
-                    const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
                     mobileMenuLinks.forEach(link => {
-                        link.classList.toggle('active-mobile', link.getAttribute('href') === `#${currentSectionId}`);
+                        link.classList.remove('active-mobile');
+                        if (link.getAttribute('href') === `#${currentSectionId}`) {
+                            link.classList.add('active-mobile');
+                        }
                     });
                 }
-
-                if (domElements.sectionNav) {
-                    domElements.sectionNav.classList.toggle('visible', scrollY > window.innerHeight * 0.5);
-                    if (domElements.navUp) domElements.navUp.style.display = currentSectionIndex > 0 ? 'flex' : 'none';
-                    if (domElements.navDown) domElements.navDown.style.display = (currentSectionIndex < sections.length - 1 && currentSectionIndex !== -1) ? 'flex' : 'none';
-                }
+                
+                if (domElements.navUp) domElements.navUp.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
+                if (domElements.navDown) domElements.navDown.style.display = currentSectionIndex === sections.length - 1 ? 'none' : 'flex';
             };
-            
-            window.addEventListener('scroll', updateNavs, { passive: true });
+
+            window.addEventListener('scroll', updateNavs);
             
             if (domElements.navUp) {
                 domElements.navUp.addEventListener('click', () => {
                     if (currentSectionIndex > 0) {
-                        sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                        sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 });
             }
+            
             if (domElements.navDown) {
                 domElements.navDown.addEventListener('click', () => {
                      if (currentSectionIndex < sections.length - 1) {
-                        sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                        sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 });
             }
-
-            window.addEventListener('keydown', (e) => {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    if (currentSectionIndex < sections.length - 1) {
-                        sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-                    }
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (currentSectionIndex > 0) {
-                        sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
             
             document.getElementById('home-link').addEventListener('click', (e) => {
                 e.preventDefault();
@@ -977,6 +1013,7 @@
             applyThemeIcons(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
         }
 
+        // --- Animation "Machine à écrire" ---
         function startTypingEffect() {
             const typingElement = document.getElementById('typing-effect');
             if (!typingElement) return;
