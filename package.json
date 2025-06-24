@@ -8,10 +8,16 @@
     "build-prod": "tailwindcss -i ./css/input.css -o ./css/style.css --minify",
     "dev": "python3 -m http.server 8000"
   },
-  "keywords": ["portfolio", "product-owner", "cv", "pdf"],
+  "keywords": [
+    "portfolio",
+    "product-owner",
+    "cv",
+    "pdf"
+  ],
   "author": "Aurélien Rodier",
   "license": "MIT",
   "devDependencies": {
+    "playwright": "^1.53.1",
     "tailwindcss": "^3.4.0"
   }
-} 
+}
