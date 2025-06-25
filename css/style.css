@@ -511,3 +511,19 @@ html.dark .section-bg-alt {
         font-size: 1rem;
     }
 }
+
+#accueil, #a-propos, #parcours, #competences, #formation, #divers, #contact {
+  scroll-margin-top: 90px;
+}
+
+@media (max-width: 1024px) {
+  #accueil, #a-propos, #parcours, #competences, #formation, #divers, #contact {
+    scroll-margin-top: 70px;
+  }
+}
+
+@media (max-width: 640px) {
+  #accueil, #a-propos, #parcours, #competences, #formation, #divers, #contact {
+    scroll-margin-top: 56px;
+  }
+}
