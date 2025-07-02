@@ -37,4 +37,10 @@ validate-*.js
 
 # Fichiers système
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Fichiers personnels et générés
+*.docx
+*.md
+cree_toutes_les_connexions.json
+bien-etre.html 

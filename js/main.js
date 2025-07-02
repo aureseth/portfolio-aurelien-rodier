@@ -1,19 +1,19 @@
-console.log('🚀 JavaScript main.js chargé');
+// console.log('🚀 JavaScript main.js chargé');
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('📄 DOM chargé, initialisation...');
+    // console.log('📄 DOM chargé, initialisation...');
 
     (function() {
         try {
-            console.log('🎨 Initialisation du thème...');
+            // console.log('🎨 Initialisation du thème...');
             const theme = localStorage.getItem('theme');
-            console.log('Thème stocké:', theme);
+            // console.log('Thème stocké:', theme);
             if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
-                console.log('✅ Thème sombre appliqué');
+                // console.log('✅ Thème sombre appliqué');
             } else {
                 document.documentElement.classList.remove('dark');
-                console.log('✅ Thème clair appliqué');
+                // console.log('✅ Thème clair appliqué');
             }
         } catch (e) { 
             console.error('❌ Erreur lors de l\'initialisation du thème:', e);
@@ -529,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const themeToggle = document.getElementById('theme-toggle');
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-        console.log('🔘 Boutons de thème trouvés:', { themeToggle: !!themeToggle, themeToggleMobile: !!themeToggleMobile });
+        // console.log('🔘 Boutons de thème trouvés:', { themeToggle: !!themeToggle, themeToggleMobile: !!themeToggleMobile });
         
         if (themeToggle) {
             themeToggleMobile.innerHTML = themeToggle.innerHTML;
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allToggles = [themeToggle, themeToggleMobile];
         
         const applyThemeIcons = (theme) => {
-            console.log('🎨 Application des icônes de thème:', theme);
+            // console.log('🎨 Application des icônes de thème:', theme);
             allToggles.forEach(toggle => {
                 if (!toggle) return;
                 const lightIcon = toggle.querySelector('#theme-icon-light');
@@ -550,23 +550,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const toggleTheme = () => {
-            console.log('🔄 Changement de thème...');
+            // console.log('🔄 Changement de thème...');
             const isDark = document.documentElement.classList.toggle('dark');
             const newTheme = isDark ? 'dark' : 'light';
-            console.log('Nouveau thème:', newTheme);
+            // console.log('Nouveau thème:', newTheme);
             localStorage.setItem('theme', newTheme);
             applyThemeIcons(newTheme);
         };
         
         allToggles.forEach(toggle => {
             if(toggle) {
-                console.log('📝 Ajout d\'écouteur d\'événement sur le bouton de thème');
+                // console.log('📝 Ajout d\'écouteur d\'événement sur le bouton de thème');
                 toggle.addEventListener('click', toggleTheme);
             }
         });
         
         const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        console.log('🎨 Thème actuel:', currentTheme);
+        // console.log('🎨 Thème actuel:', currentTheme);
         applyThemeIcons(currentTheme);
     }
 
@@ -846,19 +846,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.exportToPDF = exportToPDF;
 
-    // Animation reveal-on-scroll (ancienne version)
-    function revealOnScroll() {
-        const reveals = document.querySelectorAll('.reveal-on-scroll');
-        const windowHeight = window.innerHeight;
-        reveals.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            if (elementTop < windowHeight - 60) {
-                el.classList.add('revealed');
-            } else {
-                el.classList.remove('revealed');
-            }
-        });
-    }
     window.addEventListener('scroll', revealOnScroll);
     window.addEventListener('resize', revealOnScroll);
     document.addEventListener('DOMContentLoaded', revealOnScroll);
