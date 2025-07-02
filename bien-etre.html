@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boîte à Outils Relationnelle : Aider et se Protéger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony Palette -->
+    <!-- Application Structure Plan: A single-page app with a fixed sidebar navigation for intuitive access to different thematic sections: 'Accueil', 'Comprendre la Dynamique', 'Stratégies d'Action', 'Ressources à Rennes', and 'Outils Pratiques'. This task-oriented structure is chosen over a linear report format to allow the user to quickly find the specific information they need (e.g., immediate coping strategies vs. deep psychological understanding), thus enhancing usability for a user in distress. Key interactions include toggling views between helping the partner and self-preservation, filterable resource lists, and interactive concept explainers (accordions/diagrams) to make complex information digestible. -->
+    <!-- Visualization & Content Choices: Psychological Schemas -> Goal: Organize/Inform -> Viz: Interactive Radar Chart (illustrative) & Accordion Cards -> Interaction: Click-to-reveal -> Justification: Breaks down dense theory into manageable, explorable chunks. Chart.js used for visual engagement. Karpman Triangle -> Goal: Organize -> Viz: HTML/CSS Diagram with Clickable Vertices for Descriptions -> Interaction: Click on a role to display its definition -> Justification: Visually represents the core toxic dynamic and allows for interactive learning of each role. Do's & Don'ts -> Goal: Guide -> Viz: Icon-driven lists -> Justification: Quick, scannable advice. Resources -> Goal: Provide -> Viz: Filterable card list -> Justification: Improves on a static list, making it a usable tool. Audio Content -> Goal: Inform (Passive) -> Viz: HTML5 Audio Player -> Justification: Provides an alternative consumption method for report summary/key takeaways. LLM Feature 1 (Reformuler) -> Goal: Communication Aid -> Viz: Text Input/Output -> Interaction: User input, LLM reformulates text -> Justification: Directly addresses communication challenges with dynamic, AI-powered rephrasing. LLM Feature 2 (Réflexion) -> Goal: Emotional Processing -> Viz: Text Input/Output -> Interaction: User input, LLM provides reflective summary -> Justification: Offers a unique, private journaling and self-awareness tool using AI. NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4B4B4B;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            background-color: #EADDCD;
+            color: #5D4037;
+            font-weight: 600;
+        }
+        .nav-link:not(.active):hover {
+            background-color: #F5F1EB;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EFEBE9;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .karpman-triangle {
+            position: relative;
+            width: 300px;
+            height: 260px;
+            margin: 2rem auto;
+        }
+        .karpman-vertex {
+            position: absolute;
+            width: 100px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .karpman-vertex:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.1);
+        }
+        .karpman-vertex.active-vertex {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.2);
+            border: 2px solid #5D4037;
+        }
+        .karpman-line {
+            position: absolute;
+            background-color: #D7CCC8;
+            transform-origin: 0 0;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #5D4037;
+            color: #5D4037;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            max-height: 400px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .karpman-description-container {
+            min-height: 100px; /* Ensure space even when empty */
+        }
+        .llm-output-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-height: 80px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #333;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #5D4037;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="md:w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/50 md:fixed md:h-full">
+            <div class="p-6">
+                <h1 class="text-xl font-bold text-stone-700">Boîte à Outils</h1>
+                <p class="text-sm text-stone-500 mt-1">Aider et se Protéger</p>
+            </div>
+            <ul class="flex md:flex-col p-2 md:p-4 space-x-2 md:space-x-0 md:space-y-2 overflow-x-auto">
+                <li><a href="#accueil" class="nav-link flex items-center p-3 rounded-lg">🏠 Accueil</a></li>
+                <li><a href="#dynamique" class="nav-link flex items-center p-3 rounded-lg">🧠 Comprendre</a></li>
+                <li><a href="#strategies" class="nav-link flex items-center p-3 rounded-lg">🛠️ Stratégies</a></li>
+                <li><a href="#ressources" class="nav-link flex items-center p-3 rounded-lg">📍 Ressources</a></li>
+                <li><a href="#outils" class="nav-link flex items-center p-3 rounded-lg">🧘 Outils Pratiques</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-4 sm:p-6 lg:p-8">
+            <!-- Section: Accueil -->
+            <section id="accueil" class="content-section">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-stone-800 mb-4">Naviguer les défis relationnels avec compassion et force</h2>
+                    <p class="text-lg text-stone-600 mb-6">
+                        Bienvenue dans votre espace de soutien. Aider un proche qui souffre tout en se protégeant est un chemin complexe et souvent solitaire. Cette application est conçue pour vous fournir des clés de compréhension, des stratégies concrètes et des ressources fiables pour transformer cette dynamique difficile. Vous n'êtes pas seul(e).
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="card p-6 rounded-xl">
+                            <h3 class="font-bold text-xl text-stone-700 mb-2">Comprendre pour mieux agir</h3>
+                            <p class="text-stone-600">Explorez les mécanismes psychologiques qui sous-tendent la situation pour mieux cerner les enjeux et adapter votre soutien.</p>
+                        </div>
+                        <div class="card p-6 rounded-xl">
+                            <h3 class="font-bold text-xl text-stone-700 mb-2">Prendre soin de vous</h3>
+                            <p class="text-stone-600">Découvrez des stratégies essentielles pour gérer la culpabilité, poser des limites et vous libérer du rôle de "sauveur" pour ne pas vous épuiser.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Comprendre la Dynamique -->
+            <section id="dynamique" class="content-section">
+                <h2 class="text-3xl font-bold text-stone-800 mb-2">Décrypter les Dynamiques Psychologiques</h2>
+                <p class="text-lg text-stone-600 mb-8">Comprendre les schémas de pensée et les rôles inconscients est la première étape pour briser les cycles répétitifs et douloureux.</p>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-700 mb-4">Schémas Précoces Inadaptés</h3>
+                        <p class="text-stone-600 mb-4">Ce sont des modèles de pensée et de sentiment profondément enracinés, souvent développés durant l'enfance, qui filtrent la réalité et influencent les réactions de votre partenaire.</p>
+                        <div class="space-y-2" id="schemas-accordion"></div>
+                        <div class="mt-8">
+                             <h4 class="font-semibold text-stone-700 mb-2">Visualisation (Illustrative)</h4>
+                             <p class="text-sm text-stone-500 mb-4">Ce graphique illustre comment plusieurs schémas peuvent coexister avec des intensités différentes. Il ne s'agit pas d'un diagnostic, mais d'une représentation visuelle du concept.</p>
+                             <div class="chart-container">
+                                 <canvas id="schemasChart"></canvas>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-700 mb-4">Distorsions Cognitives</h3>
+                        <p class="text-stone-600 mb-4">Ce sont des raccourcis mentaux qui déforment la réalité et renforcent les croyances négatives. Les reconnaître est essentiel pour une communication apaisée.</p>
+                        <div class="space-y-2" id="distortions-accordion"></div>
+                        
+                        <h3 class="text-2xl font-bold text-stone-700 mt-8 mb-4">Le Triangle Dramatique de Karpman</h3>
+                        <p class="text-stone-600 mb-4">Ce modèle illustre une dynamique relationnelle toxique où les individus alternent entre trois rôles inconscients. Cliquez sur chaque rôle pour en savoir plus.</p>
+                        <div class="karpman-triangle" aria-label="Triangle de Karpman avec les sommets Victime, Persécuteur et Sauveur">
+                            <button class="karpman-vertex bg-amber-100 text-amber-800" style="top: 0; left: 100px;" data-role="Victime">Victime</button>
+                            <button class="karpman-vertex bg-red-100 text-red-800" style="bottom: 0; left: 0;" data-role="Persécuteur">Persécuteur</button>
+                            <button class="karpman-vertex bg-sky-100 text-sky-800" style="bottom: 0; right: 0;" data-role="Sauveur">Sauveur</button>
+                            <!-- Lines for visual connection -->
+                            <div class="karpman-line" style="width: 250px; height: 2px; top: 30px; left: 25px; transform: rotate(0deg);"></div>
+                            <div class="karpman-line" style="width: 280px; height: 2px; top: 30px; left: 25px; transform: rotate(60deg);"></div>
+                            <div class="karpman-line" style="width: 280px; height: 2px; top: 258px; left: 150px; transform: rotate(120deg);"></div>
+                        </div>
+                        <div id="karpman-description" class="karpman-description-container card p-4 rounded-xl mt-4 text-stone-600 hidden"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Stratégies d'Action -->
+            <section id="strategies" class="content-section">
+                <h2 class="text-3xl font-bold text-stone-800 mb-2">Stratégies d'Action au Quotidien</h2>
+                <p class="text-lg text-stone-600 mb-8">Trouver le juste équilibre entre soutenir l'autre et vous protéger. Naviguez entre les deux approches pour des conseils ciblés.</p>
+                <div class="border-b border-gray-200 mb-6">
+                    <nav class="flex -mb-px" id="strategies-tabs">
+                        <button class="tab-btn active w-1/2 py-4 px-1 text-center font-medium text-lg" data-target="aider-content">🤝 Aider votre partenaire</button>
+                        <button class="tab-btn w-1/2 py-4 px-1 text-center font-medium text-lg text-gray-500" data-target="proteger-content">🛡️ Vous préserver</button>
+                    </nav>
+                </div>
+                
+                <div id="aider-content" class="strategies-content-pane">
+                    <h3 class="text-2xl font-bold text-stone-700 mb-6">Communiquer avec Empathie et Efficacité</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-lg text-green-700 mb-3">✔️ À faire</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-green-500 mr-3 mt-1">✓</span><div><strong class="font-semibold">Écouter activement :</strong> Validez ses émotions sans juger. "Je comprends que ce soit dur pour toi."</div></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-3 mt-1">✓</span><div><strong class="font-semibold">Parler au "Je" :</strong> Exprimez vos ressentis. "Je m'inquiète quand je te vois t'isoler."</div></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-3 mt-1">✓</span><div><strong class="font-semibold">Être présent, même en silence :</strong> Proposez une présence simple et non pressante.</div></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-3 mt-1">✓</span><div><strong class="font-semibold">Valoriser les petits pas :</strong> Reconnaissez chaque effort, aussi minime soit-il.</div></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-red-700 mb-3">❌ À éviter</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-red-500 mr-3 mt-1">✗</span><div><strong class="font-semibold">Minimiser sa souffrance :</strong> Évitez les "Ça va aller" ou "Secoue-toi un peu".</div></li>
+                                <li class="flex items-start"><span class="text-red-500 mr-3 mt-1">✗</span><div><strong class="font-semibold">Forcer la discussion :</strong> La pression peut entraîner un retrait encore plus grand.</div></li>
+                                <li class="flex items-start"><span class="text-red-500 mr-3 mt-1">✗</span><div><strong class="font-semibold">Prendre la colère personnellement :</strong> C'est souvent un symptôme de la détresse, pas une attaque contre vous.</div></li>
+                                <li class="flex items-start"><span class="text-red-500 mr-3 mt-1">✗</span><div><strong class="font-semibold">Argumenter contre les distorsions :</strong> Ne dites pas "C'est faux", mais questionnez doucement : "Cette pensée t'aide-t-elle ?".</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="proteger-content" class="strategies-content-pane hidden">
+                    <h3 class="text-2xl font-bold text-stone-700 mb-6">Se Protéger pour Mieux Soutenir</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-lg text-stone-700 mb-3">Gérer la Culpabilité</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Acceptez vos émotions :</strong> Il est normal de ressentir de la frustration ou de la fatigue. Soyez compatissant envers vous-même.</div></li>
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Fixez des objectifs réalistes :</strong> Vous ne pouvez pas tout faire, ni tout contrôler. Acceptez vos limites.</div></li>
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Prenez du temps pour vous :</strong> Planifiez des activités qui vous ressourcent. Ce n'est pas égoïste, c'est vital.</div></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-stone-700 mb-3">Poser des Limites Saines</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Définissez votre rôle :</strong> Vous êtes un soutien, pas un sauveur. Vous ne pouvez pas faire le travail à sa place.</div></li>
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Ne portez pas seul le fardeau :</strong> Si l'aide est constamment nécessaire, un soutien professionnel est requis.</div></li>
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Communiquez vos limites :</strong> Exprimez clairement et calmement vos besoins et ce que vous ne pouvez pas accepter.</div></li>
+                                <li class="flex items-start"><span class="text-sky-500 mr-3 mt-1">●</span><div><strong class="font-semibold">Cherchez du soutien :</strong> Parlez à des amis, à votre famille, ou rejoignez un groupe de soutien pour aidants.</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Ressources -->
+            <section id="ressources" class="content-section">
+                <h2 class="text-3xl font-bold text-stone-800 mb-2">Ressources Professionnelles à Rennes</h2>
+                <p class="text-lg text-stone-600 mb-8">Trouver le bon soutien est une étape essentielle. Voici une liste de professionnels et d'associations pour vous et votre partenaire.</p>
+                <div class="mb-6">
+                    <input type="text" id="resource-search" placeholder="Rechercher par nom, spécialité..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-400 focus:border-stone-400 transition">
+                </div>
+                <div class="border-b border-gray-200 mb-6">
+                    <nav class="flex -mb-px" id="resources-tabs">
+                        <button class="tab-btn active w-1/3 py-4 px-1 text-center font-medium" data-category="psy-individuel">Individuel</button>
+                        <button class="tab-btn w-1/3 py-4 px-1 text-center font-medium text-gray-500" data-category="psy-couple">Couple</button>
+                        <button class="tab-btn w-1/3 py-4 px-1 text-center font-medium text-gray-500" data-category="association">Associations</button>
+                    </nav>
+                </div>
+                <div id="resources-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Resource cards will be injected here by JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Section: Outils -->
+            <section id="outils" class="content-section">
+                <h2 class="text-3xl font-bold text-stone-800 mb-2">Outils Pratiques et Approches Indirectes</h2>
+                <p class="text-lg text-stone-600 mb-8">Pour un partenaire résistant à la thérapie, des approches plus douces peuvent ouvrir la voie au bien-être sans confrontation directe.</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-700 mb-4">La Pleine Conscience (Mindfulness)</h3>
+                        <p class="text-stone-600 mb-4">La pleine conscience aide à observer ses pensées et émotions sans jugement, réduisant ainsi leur emprise. C'est une compétence qui se cultive avec la pratique.</p>
+                        <div class="card p-6 rounded-xl">
+                            <h4 class="font-semibold text-lg text-stone-700 mb-3">Exercice simple : Les 5 Sens</h4>
+                            <p class="text-stone-600 mb-4">Ancrez-vous dans le moment présent avec cet exercice rapide. Prenez une grande inspiration et identifiez :</p>
+                            <ul class="space-y-2 list-disc list-inside text-stone-600">
+                                <li><strong>5</strong> choses que vous pouvez VOIR</li>
+                                <li><strong>4</strong> choses que vous pouvez SENTIR (au toucher)</li>
+                                <li><strong>3</strong> choses que vous pouvez ENTENDRE</li>
+                                <li><strong>2</strong> choses que vous pouvez ODORER</li>
+                                <li><strong>1</strong> chose que vous pouvez GOÛTER</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-700 mb-4">Thérapie d'Acceptation et d'Engagement (ACT)</h3>
+                        <p class="text-stone-600 mb-4">L'ACT ne cherche pas à éliminer les pensées négatives, mais à développer la flexibilité psychologique pour agir en accord avec ses valeurs, même en présence de difficultés.</p>
+                        <div class="card p-6 rounded-xl">
+                             <h4 class="font-semibold text-lg text-stone-700 mb-3">Applications recommandées</h4>
+                             <p class="text-stone-600 mb-4">Ces applications peuvent être une porte d'entrée accessible et privée vers la méditation et la pleine conscience.</p>
+                             <ul class="space-y-2" id="apps-list">
+                                <!-- App list will be injected here -->
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-stone-700 mb-4">Écouter pour Comprendre (Audio)</h3>
+                    <p class="text-stone-600 mb-4">
+                        Parfois, écouter un résumé ou une explication peut faciliter l'assimilation d'informations complexes. Vous pouvez télécharger et héberger un fichier audio (par exemple, un résumé des concepts clés du rapport) et l'intégrer ci-dessous.
+                    </p>
+                    <div class="card p-6 rounded-xl">
+                        <h4 class="font-semibold text-lg text-stone-700 mb-3">Résumé Audio du Rapport</h4>
+                        <audio controls class="w-full mt-2 rounded-lg" aria-label="Résumé audio du rapport">
+                            <source src="VOTRE_URL_AUDIO_ICI.mp3" type="audio/mpeg">
+                            Votre navigateur ne supporte pas l'élément audio.
+                        </audio>
+                        <p class="text-sm text-stone-500 mt-2">
+                            Remplacez "VOTRE_URL_AUDIO_ICI.mp3" par le lien direct vers votre fichier audio (par exemple, un résumé que vous avez enregistré).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-12 max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-stone-700 mb-4">Reformuler avec clarté ✨</h3>
+                    <p class="text-stone-600 mb-4">
+                        Tapez une phrase difficile, émotionnelle ou conflictuelle. L'IA vous aidera à la reformuler de manière plus constructive ou à utiliser des "messages en Je" pour une meilleure communication.
+                    </p>
+                    <div class="card p-6 rounded-xl">
+                        <textarea id="rephrase-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-400 focus:border-stone-400 transition" rows="4" placeholder="Exprimez votre pensée ici..."></textarea>
+                        <button id="rephrase-btn" class="mt-4 w-full bg-stone-700 text-white py-2 px-4 rounded-lg hover:bg-stone-800 transition flex items-center justify-center">
+                            <span id="rephrase-btn-text">Reformuler avec clarté</span>
+                            <div id="rephrase-spinner" class="loading-spinner hidden ml-2"></div>
+                        </button>
+                        <div id="rephrase-output" class="llm-output-box mt-4 text-stone-600"></div>
+                    </div>
+                </div>
+
+                <div class="mt-12 max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-stone-700 mb-4">Mon espace de réflexion ✨</h3>
+                    <p class="text-stone-600 mb-4">
+                        Écrivez ce qui vous pèse, une situation que vous avez vécue ou vos émotions du moment. L'IA vous offrira une réflexion neutre ou une question pour vous aider à explorer vos pensées.
+                    </p>
+                    <div class="card p-6 rounded-xl">
+                        <textarea id="reflect-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-400 focus:border-stone-400 transition" rows="4" placeholder="Décrivez votre situation ou vos émotions..."></textarea>
+                        <button id="reflect-btn" class="mt-4 w-full bg-stone-700 text-white py-2 px-4 rounded-lg hover:bg-stone-800 transition flex items-center justify-center">
+                            <span id="reflect-btn-text">Réfléchir avec Gemini</span>
+                            <div id="reflect-spinner" class="loading-spinner hidden ml-2"></div>
+                        </button>
+                        <div id="reflect-output" class="llm-output-box mt-4 text-stone-600"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    function showSection(hash) {
+        const targetHash = hash || '#accueil';
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === targetHash);
+        });
+        contentSections.forEach(section => {
+            section.classList.toggle('active', '#' + section.id === targetHash);
+        });
+    }
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetHash = this.getAttribute('href');
+            history.pushState(null, null, targetHash);
+            showSection(targetHash);
+        });
+    });
+
+    window.addEventListener('popstate', () => {
+        showSection(window.location.hash);
+    });
+
+    showSection(window.location.hash);
+    
+    // --- ACCORDIONS ---
+    const schemasData = [
+        { title: "Manque Affectif", content: "La certitude que les autres ne fourniront pas le soutien affectif nécessaire (attention, affection, empathie)." },
+        { title: "Imperfection/Honte", content: "Le sentiment d'être imparfait, 'mauvais' ou inférieur, craignant le jugement des autres." },
+        { title: "Abandon/Instabilité", content: "La peur que les personnes importantes ne puissent pas continuer à apporter un soutien fiable et stable." },
+        { title: "Isolement Social", content: "Le sentiment d'être différent, coupé du reste du monde et de ne faire partie d'aucun groupe." },
+        { title: "Fusionnement", content: "Un sentiment de vide ou de crise identitaire en l'absence d'une relation fusionnelle." },
+        { title: "Assujettissement", content: "La suppression de ses propres désirs pour répondre aux besoins des autres, souvent par peur de les blesser." }
+    ];
+
+    const distortionsData = [
+        { title: "Télépathie", content: "Croire savoir ce que les autres pensent sans aucune preuve." },
+        { title: "Filtre Mental", content: "Se focaliser sur un détail négatif au point d'occulter tout le reste." },
+        { title: "Surgénéralisation", content: "Tirer une conclusion négative globale à partir d'un seul événement." },
+        { title: "Personnalisation", content: "Se sentir responsable d'événements extérieurs qui ne dépendent pas de soi." },
+        { title: "Pensée Tout ou Rien", content: "Voir les choses en noir et blanc, sans nuances." },
+        { title: "Raisonnement Émotionnel", content: "Croire que ses émotions reflètent la réalité objective." },
+    ];
+
+    function createAccordion(containerId, data) {
+        const container = document.getElementById(containerId);
+        data.forEach((item, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'card rounded-lg overflow-hidden';
+            
+            const button = document.createElement('button');
+            button.className = 'w-full p-4 text-left font-semibold flex justify-between items-center transition-colors hover:bg-stone-50';
+            button.innerHTML = `<span>${item.title}</span><span class="transform transition-transform duration-300">▼</span>`;
+            
+            const content = document.createElement('div');
+            content.className = 'accordion-content px-4';
+            content.innerHTML = `<p class="pb-4 text-stone-600">${item.content}</p>`;
+
+            wrapper.appendChild(button);
+            wrapper.appendChild(content);
+            container.appendChild(wrapper);
+
+            button.addEventListener('click', () => {
+                const isOpening = content.style.maxHeight === '0px' || !content.style.maxHeight;
+                // Close all others
+                container.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
+                container.querySelectorAll('button span:last-child').forEach(s => s.style.transform = 'rotate(0deg)');
+                
+                if (isOpening) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    button.querySelector('span:last-child').style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    }
+
+    createAccordion('schemas-accordion', schemasData);
+    createAccordion('distortions-accordion', distortionsData);
+
+    // --- STRATEGIES TABS ---
+    const strategiesTabs = document.getElementById('strategies-tabs');
+    const strategiesPanes = document.querySelectorAll('.strategies-content-pane');
+    strategiesTabs.addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+            strategiesTabs.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            strategiesPanes.forEach(pane => {
+                pane.classList.add('hidden');
+                if(pane.id === e.target.dataset.target) {
+                    pane.classList.remove('hidden');
+                }
+            });
+        }
+    });
+
+    // --- RESOURCES ---
+    const resourcesData = [
+        // Individuel
+        { category: "psy-individuel", name: "Emeric Biver", specialty: "Psychopraticien, Approche existentielle et intégrative", contact: "Rennes" },
+        { category: "psy-individuel", name: "David Ison", specialty: "Psychopraticien, Gestalt-thérapie", contact: "Rennes" },
+        { category: "psy-individuel", name: "Benjamin Gauducheau", specialty: "Gestalt-praticien (dépression, anxiété)", contact: "Rennes" },
+        { category: "psy-individuel", name: "Zehra Demir", specialty: "Psychologue, TCC & EMDR (en ligne)", contact: "Rennes" },
+        { category: "psy-individuel", name: "Rémi Abida", specialty: "Psychologue, Approche centrée sur la personne", contact: "Rennes" },
+        // Couple
+        { category: "psy-couple", name: "Stéphane Arfi", specialty: "Thérapeute de couple", contact: "Rennes" },
+        { category: "psy-couple", name: "Gwenn Melscoet", specialty: "Thérapie de couple, Médiation CNV", contact: "Rennes" },
+        // Associations
+        { category: "association", name: "UNAFAM Ille-et-Vilaine", specialty: "Soutien aux familles de malades psychiques, groupes de parole", contact: "02 99 53 88 93 | 35@unafam.org" },
+        { category: "association", name: "CREFAP", specialty: "Centre Ressource Familles et Maladies Psychiques", contact: "02 99 33 60 22 | crefap@ch-guillaumeregnier.fr" },
+        { category: "association", name: "Lueur d'espoir SOS Dépression 35", specialty: "Écoute téléphonique et permanences", contact: "02 99 83 65 28" },
+        { category: "association", name: "SOS Amitié Rennes", specialty: "Écoute anonyme 24h/24 et 7j/7", contact: "09 72 39 40 50" },
+    ];
+    
+    const resourcesList = document.getElementById('resources-list');
+    const resourcesTabs = document.getElementById('resources-tabs');
+    const resourceSearch = document.getElementById('resource-search');
+    let currentCategory = 'psy-individuel';
+
+    function renderResources(category, searchTerm = '') {
+        resourcesList.innerHTML = '';
+        const filteredData = resourcesData.filter(r => 
+            r.category === category && 
+            (r.name.toLowerCase().includes(searchTerm.toLowerCase()) || r.specialty.toLowerCase().includes(searchTerm.toLowerCase()))
+        );
+
+        if (filteredData.length === 0) {
+            resourcesList.innerHTML = `<p class="text-stone-500 col-span-full text-center">Aucune ressource trouvée pour cette recherche.</p>`;
+            return;
+        }
+        
+        filteredData.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'resource-card card p-5 rounded-xl flex flex-col justify-between';
+            card.innerHTML = `
+                <div>
+                    <h4 class="font-bold text-lg text-stone-800">${r.name}</h4>
+                    <p class="text-stone-600 text-sm mt-1">${r.specialty}</p>
+                </div>
+                <p class="text-stone-500 text-xs mt-4 font-mono">${r.contact}</p>
+            `;
+            resourcesList.appendChild(card);
+        });
+    }
+
+    resourcesTabs.addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+            currentCategory = e.target.dataset.category;
+            resourcesTabs.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            renderResources(currentCategory, resourceSearch.value);
+        }
+    });
+
+    resourceSearch.addEventListener('input', () => {
+        renderResources(currentCategory, resourceSearch.value);
+    });
+
+    renderResources(currentCategory);
+
+    // --- APPS LIST ---
+    const appsData = [
+        { name: "Petit Bambou", features: "Séances guidées, large contenu gratuit." },
+        { name: "Mind", features: "Programmes thématiques, design épuré." },
+        { name: "Calm", features: "Aide au sommeil, musiques de concentration." },
+        { name: "Insight Timer", features: "Immense bibliothèque gratuite." },
+    ];
+    const appsListContainer = document.getElementById('apps-list');
+    appsData.forEach(app => {
+        const li = document.createElement('li');
+        li.className = "flex items-start";
+        li.innerHTML = `<span class="text-sky-500 mr-3 mt-1">📱</span><div><strong class="font-semibold">${app.name}:</strong> ${app.features}</div>`;
+        appsListContainer.appendChild(li);
+    });
+
+    // --- SCHEMAS CHART ---
+    const ctx = document.getElementById('schemasChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: schemasData.map(s => s.title.split(' ')[0]),
+            datasets: [{
+                label: 'Intensité du Schéma (Illustratif)',
+                data: [8, 6, 7, 5, 4, 6],
+                backgroundColor: 'rgba(93, 64, 55, 0.2)',
+                borderColor: 'rgb(93, 64, 55)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgb(93, 64, 55)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(93, 64, 55)'
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                    pointLabels: { 
+                        font: { size: 12 },
+                        color: '#4B4B4B'
+                    },
+                    ticks: {
+                        backdropColor: 'rgba(255, 255, 255, 0.75)',
+                        stepSize: 2
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 10
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ` Intensité: ${context.raw}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // --- KARPMAN TRIANGLE INTERACTIVITY ---
+    const karpmanVertices = document.querySelectorAll('.karpman-vertex');
+    const karpmanDescription = document.getElementById('karpman-description');
+
+    const karpmanRoles = {
+        "Victime": "La Victime se sent impuissante, incapable de résoudre ses problèmes, et cherche constamment à être secourue ou prise en charge. Elle évite la responsabilité de ses propres actions.",
+        "Persécuteur": "Le Persécuteur critique, blâme, contrôle, et humilie. Il exerce un pouvoir sur la Victime et le Sauveur, souvent en projetant ses propres frustrations et insécurités.",
+        "Sauveur": "Le Sauveur se sent responsable des problèmes des autres et tente de les aider, souvent sans que son aide soit sollicitée ou nécessaire. Il a besoin d'une Victime pour se sentir valorisé et puissant, et peut involontairement empêcher l'autonomie de la Victime."
+    };
+
+    karpmanVertices.forEach(vertex => {
+        vertex.addEventListener('click', function() {
+            const role = this.dataset.role;
+
+            // Remove active class from all vertices
+            karpmanVertices.forEach(v => v.classList.remove('active-vertex'));
+            // Add active class to the clicked vertex
+            this.classList.add('active-vertex');
+
+            // Update description
+            karpmanDescription.innerHTML = `<strong>${role} :</strong> ${karpmanRoles[role]}`;
+            karpmanDescription.classList.remove('hidden');
+        });
+    });
+
+    // --- GEMINI LLM INTEGRATIONS ---
+    const apiKey = ""; // API key will be provided by the Canvas runtime if left empty.
+
+    // Feature 1: Rephrase with Clarity
+    const rephraseInput = document.getElementById('rephrase-input');
+    const rephraseBtn = document.getElementById('rephrase-btn');
+    const rephraseBtnText = document.getElementById('rephrase-btn-text');
+    const rephraseSpinner = document.getElementById('rephrase-spinner');
+    const rephraseOutput = document.getElementById('rephrase-output');
+
+    rephraseBtn.addEventListener('click', async () => {
+        const prompt = rephraseInput.value;
+        if (!prompt.trim()) {
+            rephraseOutput.textContent = "Veuillez entrer du texte à reformuler.";
+            return;
+        }
+
+        rephraseBtn.disabled = true;
+        rephraseBtnText.textContent = "Reformulation...";
+        rephraseSpinner.classList.remove('hidden');
+        rephraseOutput.textContent = "";
+
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: `Reformule cette phrase de manière plus claire, constructive ou sous forme de "message en Je", sans changer le sens fondamental, et en français : "${prompt}"` }] });
+        const payload = { contents: chatHistory };
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                rephraseOutput.textContent = text;
+            } else {
+                rephraseOutput.textContent = "Désolé, je n'ai pas pu reformuler cela. Veuillez réessayer.";
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'appel à l\'API Gemini (Reformuler):', error);
+            rephraseOutput.textContent = "Une erreur est survenue lors de la reformulation. Veuillez vérifier votre connexion.";
+        } finally {
+            rephraseBtn.disabled = false;
+            rephraseBtnText.textContent = "Reformuler avec clarté";
+            rephraseSpinner.classList.add('hidden');
+        }
+    });
+
+    // Feature 2: Reflection Space
+    const reflectInput = document.getElementById('reflect-input');
+    const reflectBtn = document.getElementById('reflect-btn');
+    const reflectBtnText = document.getElementById('reflect-btn-text');
+    const reflectSpinner = document.getElementById('reflect-spinner');
+    const reflectOutput = document.getElementById('reflect-output');
+
+    reflectBtn.addEventListener('click', async () => {
+        const prompt = reflectInput.value;
+        if (!prompt.trim()) {
+            reflectOutput.textContent = "Veuillez décrire vos pensées ou une situation.";
+            return;
+        }
+
+        reflectBtn.disabled = true;
+        reflectBtnText.textContent = "Réflexion en cours...";
+        reflectSpinner.classList.remove('hidden');
+        reflectOutput.textContent = "";
+
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: `Je vais te décrire une situation ou mes émotions. Ton rôle est de fournir une brève réflexion empathique, neutre et non-jugeante sur le contenu, ou de poser une question ouverte pour m'aider à explorer mes pensées. Ne me donne pas de conseils directs. Réponds en français. Voici ce que je veux exprimer : "${prompt}"` }] });
+        const payload = { contents: chatHistory };
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                reflectOutput.textContent = text;
+            } else {
+                reflectOutput.textContent = "Désolé, je n'ai pas pu générer de réflexion. Veuillez réessayer.";
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'appel à l\'API Gemini (Réflexion):', error);
+            reflectOutput.textContent = "Une erreur est survenue lors de la réflexion. Veuillez vérifier votre connexion.";
+        } finally {
+            reflectBtn.disabled = false;
+            reflectBtnText.textContent = "Réfléchir avec Gemini";
+            reflectSpinner.classList.add('hidden');
+        }
+    });
+});
+</script>
+</body>
+</html>
