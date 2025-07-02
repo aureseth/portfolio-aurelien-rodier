@@ -1,5 +1,7 @@
 # 🚀 Guide de Production - Portfolio Aurélien Rodier
 
+Ce document détaille les aspects techniques, les optimisations et les procédures de déploiement pour le portfolio d'Aurélien Rodier en environnement de production.
+
 ## ✅ Optimisations appliquées
 
 ### 🔧 **Corrections de sécurité**
@@ -116,9 +118,9 @@ Le script `cleanup.js` supprime automatiquement les scripts de test de la page.
 - ✅ Génération PDF Product Owner FR
 - ✅ Génération PDF Business Analyst EN
 - ✅ Interface d'administration
-- ✅ Formulaire de contact
+- ��� Formulaire de contact
 
-## 🎯 Fonctionnalités principales
+## 🎯 Fonctionnalités principales (Production)
 
 ### **Génération PDF**
 - Support multilingue (FR/EN)
@@ -137,7 +139,7 @@ Le script `cleanup.js` supprime automatiquement les scripts de test de la page.
 - Validation des formulaires
 - Protection contre les injections
 
-## 📈 Performance
+## 📈 Performance (Production)
 
 ### **Optimisations CSS**
 - Tailwind CSS local (pas de CDN)
@@ -183,33 +185,4 @@ Pour toute question ou problème :
 
 ---
 
-**Portfolio optimisé et prêt pour la production ! 🎉**
-
-# Documentation Production - Portfolio Aurélien Rodier
-
-## Fonctionnalités principales
-- Portfolio interactif, responsive, dark mode
-- Dashboard d'administration (`admin-data.html`) avec :
-  - Tests techniques (serveur, CSS, JS, données)
-  - Checklist de recette manuelle
-  - Aperçu live du site
-- Données JSON multilingues
-- Design system centralisé (variables CSS)
-
-## Tests & Recette
-- **Tests techniques** : section dédiée dans `admin-data.html` ou `debug-test.html`
-- **Checklist manuelle** : dans `admin-data.html`
-- **Aperçu live** : iframe dans `admin-data.html`
-- **test-site.html** : supprimé (doublon)
-
-## Déploiement
-- Pousser sur GitHub = mise à jour automatique du site
-- Pour tester localement : `python3 -m http.server` puis ouvrir `http://localhost:8000/`
-
-## Maintenance
-- Modifier les données dans `data/`
-- Adapter le design via `css/style.css` (variables CSS)
-- Ajouter des tests dans `admin-data.html` si besoin
-
-## Historique
-- 2024 : refonte UI/UX, centralisation des tests, suppression de test-site.html 
+**Portfolio optimisé et prêt pour la production ! 🎉** 
