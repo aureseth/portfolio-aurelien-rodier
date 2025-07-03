@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     (function() {
@@ -112,9 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentJobIndex = 0;
     let activeSkill = null; 
     let activeCategory = 'Gestion de Produit';
+    let sections = [];
+    let currentSectionIndex = 0;
 
     function renderTimeline() {
-        if(!domElements.timelineList) return;
+        if (!domElements.timelineList) return;
         domElements.timelineList.innerHTML = allData.jobs.map(job => `
             <li>
                 <button id="${job.id}" class="timeline-item timeline-line w-full text-left relative pl-8 border-l-2 py-2 mb-4 transition-colors">
@@ -128,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderJobDetails(index) {
-        if(!domElements.jobDetailsContainer) return;
+        if (!domElements.jobDetailsContainer) return;
         const job = allData.jobs[index];
         domElements.jobDetailsContainer.innerHTML = `
             <div class="fade-in flex flex-col h-full">
@@ -154,30 +155,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevBtn = domElements.jobDetailsContainer.querySelector('#prev-job');
         const nextBtn = domElements.jobDetailsContainer.querySelector('#next-job');
 
-        if (index === 0) {
-             if (window.innerWidth < 768) {
-                prevBtn.onclick = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
-             } else {
-                prevBtn.disabled = true;
-                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
-             }
-        } else {
-            prevBtn.disabled = false;
-             prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            prevBtn.onclick = () => navigateJobs(-1);
-        }
-        
-        if (index === allData.jobs.length - 1) {
-             if (window.innerWidth < 768) {
+        // --- Scroll to top of section on arrow click ---
+        const scrollToSectionTop = () => document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (window.innerWidth < 768) {
+            if (index === 0) {
+                prevBtn.onclick = () => document.getElementById('a-propos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                prevBtn.onclick = () => { navigateJobs(-1); scrollToSectionTop(); };
+            }
+            if (index === allData.jobs.length - 1) {
                 nextBtn.onclick = () => document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
-             } else {
-                nextBtn.disabled = true;
-                nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
-             }
+            } else {
+                nextBtn.onclick = () => { navigateJobs(1); scrollToSectionTop(); };
+            }
         } else {
-            nextBtn.disabled = false;
-            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            nextBtn.onclick = () => navigateJobs(1);
+            prevBtn.disabled = index === 0;
+            prevBtn.classList.toggle('opacity-50', index === 0);
+            prevBtn.classList.toggle('cursor-not-allowed', index === 0);
+            prevBtn.onclick = () => { navigateJobs(-1); scrollToSectionTop(); };
+
+            nextBtn.disabled = index === allData.jobs.length - 1;
+            nextBtn.classList.toggle('opacity-50', index === allData.jobs.length - 1);
+            nextBtn.classList.toggle('cursor-not-allowed', index === allData.jobs.length - 1);
+            nextBtn.onclick = () => { navigateJobs(1); scrollToSectionTop(); };
         }
     }
 
@@ -233,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCategories() {
         if (!domElements.skillCategoriesList) return;
         domElements.skillCategoriesList.innerHTML = Object.keys(allData.skills).map(category => `
-            <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border" data-category="${category}">
+            <button class="category-button card-bg text-subtle w-full text-left p-4 rounded-lg border-2 border-transparent transition" data-category="${category}">
                 ${category}
             </button>
         `).join('');
@@ -249,6 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     resetSkillsState();
                 }
+                // --- Scroll to top of section on category click ---
+                document.getElementById('competences').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
         
@@ -259,9 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function renderSkills() {
-        if (!domElements.skillTagsContainer || !domElements.skillsTitle) return;
+        if (!domElements.skillTagsContainer) return;
         const skills = allData.skills[activeCategory] || [];
-        domElements.skillsTitle.textContent = activeCategory;
+        if(domElements.skillsTitle) domElements.skillsTitle.textContent = activeCategory;
         domElements.skillTagsContainer.innerHTML = skills.map(skill => `
             <button class="skill-tag card-bg text-subtle shadow-sm flex items-center justify-center gap-2 px-4 py-2 rounded-md transition" data-skill-name="${skill.name}">
                 <span>${skill.name}</span>
@@ -283,9 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             activeSkill = skill;
             document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
-            const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
-            if (tagToActivate) {
-                tagToActivate.classList.add('active-clicked');
+            if (domElements.skillTagsContainer) {
+                const tagToActivate = domElements.skillTagsContainer.querySelector(`[data-skill-name="${skill.name}"]`);
+                if (tagToActivate) {
+                    tagToActivate.classList.add('active-clicked');
+                }
             }
             updateSkillDetailsPanel(skill);
         }
@@ -293,6 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function updateSkillDetailsPanel(skill) {
         const panel = domElements.skillDetailsPanel;
+        if (!panel) return;
         panel.innerHTML = ''; 
 
         const jobsForThisSkill = allData.jobs.filter(job => job.tags.includes(skill.name));
@@ -346,111 +352,142 @@ document.addEventListener('DOMContentLoaded', () => {
             currentJobIndex = newIndex;
             renderJobDetails(currentJobIndex);
             updateTimelineActive(currentJobIndex);
-            domElements.jobDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
+
     function resetSkillsState() {
         activeSkill = null;
-        domElements.skillDetailsPanel.classList.remove('active-panel');
+        if(domElements.skillDetailsPanel) {
+            domElements.skillDetailsPanel.classList.remove('active-panel');
+        }
         document.querySelectorAll('.skill-tag').forEach(t => t.classList.remove('active-clicked'));
     }
     
     function init() {
-        renderTimeline();
-        renderJobDetails(currentJobIndex);
+        startTypingEffect();
+
+        sections = Array.from(document.querySelectorAll('main > section, main > div > section'));
+
+        if (domElements.timelineList) {
+            renderTimeline();
+            if (allData.jobs.length > 0) {
+                renderJobDetails(currentJobIndex);
+            }
+        }
         
         renderCardList(domElements.languagesList, allData.languages, 'language');
         renderCardList(domElements.engagementsList, allData.engagements, 'engagement');
         renderCardList(domElements.certificationsList, allData.certifications, 'certification');
         renderCardList(domElements.formationsList, allData.formations, 'formation');
 
-        renderCategories();
-        renderSkills();
+        if (domElements.skillCategoriesList) {
+            renderCategories();
+            renderSkills();
+        }
 
         // --- Écouteurs d'événements ---
-        domElements.timelineList.addEventListener('click', (e) => {
-            const item = e.target.closest('.timeline-item');
-            if (item) {
-                const jobIndex = allData.jobs.findIndex(job => job.id === item.id);
-                if (jobIndex > -1) {
-                    currentJobIndex = jobIndex;
-                    renderJobDetails(currentJobIndex);
-                    updateTimelineActive(currentJobIndex);
-                    domElements.jobDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (domElements.timelineList) {
+            domElements.timelineList.addEventListener('click', (e) => {
+                const item = e.target.closest('.timeline-item');
+                if (item) {
+                    const jobIndex = allData.jobs.findIndex(job => job.id === item.id);
+                    if (jobIndex > -1) {
+                        currentJobIndex = jobIndex;
+                        renderJobDetails(currentJobIndex);
+                        updateTimelineActive(currentJobIndex);
+                        // --- Scroll to top of section on timeline click ---
+                        document.getElementById('parcours').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
-            }
-        });
+            });
+        }
         
-        domElements.contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const subject = formData.get('subject') || 'Contact depuis aurelien-rodier.fr';
-            const body = `Message de : ${formData.get('name')} (${formData.get('email')})\n\n${formData.get('message')}`;
-            window.location.href = `mailto:rodier.aurelien@orange.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            
-            domElements.toastNotification.textContent = "Ouverture de votre client de messagerie...";
-            domElements.toastNotification.classList.add('show');
-            setTimeout(() => domElements.toastNotification.classList.remove('show'), 4000);
-        });
+        if (domElements.contactForm) {
+            domElements.contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const subject = formData.get('subject') || 'Contact depuis aurelien-rodier.fr';
+                const body = `Message de : ${formData.get('name')} (${formData.get('email')})\n\n${formData.get('message')}`;
+                window.location.href = `mailto:rodier.aurelien@orange.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                if(domElements.toastNotification) {
+                    domElements.toastNotification.textContent = "Ouverture de votre client de messagerie...";
+                    domElements.toastNotification.classList.add('show');
+                    setTimeout(() => domElements.toastNotification.classList.remove('show'), 4000);
+                }
+            });
+        }
 
         document.getElementById('menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
         
-        const sections = Array.from(document.querySelectorAll('main > section'));
-        let currentSectionIndex = 0;
-
         const updateNavs = () => {
             const scrollY = window.scrollY;
-            const viewportHeight = window.innerHeight;
-
-            domElements.sectionNav.classList.toggle('visible', scrollY > viewportHeight * 0.2);
-
-            let closestSectionIndex = 0;
-            let smallestDistance = Infinity;
+            const offset = window.innerHeight * 0.4;
+            
+            let newCurrentSectionIndex = -1;
 
             sections.forEach((section, index) => {
                 const sectionTop = section.offsetTop;
-                const distance = Math.abs(scrollY - sectionTop + (viewportHeight / 2) - (section.offsetHeight / 2));
-
-                if (distance < smallestDistance) {
-                    smallestDistance = distance;
-                    closestSectionIndex = index;
+                const sectionHeight = section.offsetHeight;
+                if (scrollY >= sectionTop - offset && scrollY < sectionTop + sectionHeight - offset) {
+                     newCurrentSectionIndex = index;
                 }
             });
-            
-            if(currentSectionIndex !== closestSectionIndex){
-                currentSectionIndex = closestSectionIndex;
-                
-                const currentSectionId = sections[currentSectionIndex].id;
-                const navLinks = document.querySelectorAll('header nav a.nav-link');
-                const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
 
+            if (newCurrentSectionIndex !== -1 && newCurrentSectionIndex !== currentSectionIndex) {
+                currentSectionIndex = newCurrentSectionIndex;
+                const currentSectionId = sections[currentSectionIndex].id;
+
+                const navLinks = document.querySelectorAll('header nav a.nav-link');
                 navLinks.forEach(link => {
                     link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
                 });
 
+                const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
                 mobileMenuLinks.forEach(link => {
-                    link.classList.remove('active-mobile');
-                    if (link.getAttribute('href') === `#${currentSectionId}`) {
-                        link.classList.add('active-mobile');
-                    }
+                    link.classList.toggle('active-mobile', link.getAttribute('href') === `#${currentSectionId}`);
                 });
             }
-            
-            domElements.navUp.style.display = currentSectionIndex === 0 ? 'none' : 'flex';
-            domElements.navDown.style.display = currentSectionIndex === sections.length - 1 ? 'none' : 'flex';
-        };
 
-        window.addEventListener('scroll', updateNavs);
-        domElements.navUp.addEventListener('click', () => {
-            if (currentSectionIndex > 0) {
-                sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (domElements.sectionNav) {
+                domElements.sectionNav.classList.toggle('visible', scrollY > window.innerHeight * 0.5);
+                if (domElements.navUp) domElements.navUp.style.display = currentSectionIndex > 0 ? 'flex' : 'none';
+                if (domElements.navDown) domElements.navDown.style.display = (currentSectionIndex < sections.length - 1 && currentSectionIndex !== -1) ? 'flex' : 'none';
             }
-        });
-        domElements.navDown.addEventListener('click', () => {
-             if (currentSectionIndex < sections.length - 1) {
-                sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        
+        window.addEventListener('scroll', updateNavs, { passive: true });
+        
+        if (domElements.navUp) {
+            domElements.navUp.addEventListener('click', () => {
+                if (currentSectionIndex > 0) {
+                    sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+        if (domElements.navDown) {
+            domElements.navDown.addEventListener('click', () => {
+                 if (currentSectionIndex < sections.length - 1) {
+                    sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (currentSectionIndex < sections.length - 1) {
+                    sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (currentSectionIndex > 0) {
+                    sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
         
@@ -461,11 +498,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const themeToggle = document.getElementById('theme-toggle');
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-        themeToggleMobile.innerHTML = themeToggle.innerHTML;
+        if (themeToggle) {
+            themeToggleMobile.innerHTML = themeToggle.innerHTML;
+        }
         const allToggles = [themeToggle, themeToggleMobile];
         
         const applyThemeIcons = (theme) => {
             allToggles.forEach(toggle => {
+                if (!toggle) return;
                 const lightIcon = toggle.querySelector('#theme-icon-light');
                 const darkIcon = toggle.querySelector('#theme-icon-dark');
                 if(lightIcon && darkIcon) {
@@ -482,230 +522,46 @@ document.addEventListener('DOMContentLoaded', () => {
             applyThemeIcons(newTheme);
         };
         
-        allToggles.forEach(toggle => toggle.addEventListener('click', toggleTheme));
+        allToggles.forEach(toggle => {
+            if(toggle) toggle.addEventListener('click', toggleTheme);
+        });
         applyThemeIcons(localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    }
+
+    function startTypingEffect() {
+        const typingElement = document.getElementById('typing-effect');
+        if (!typingElement) return;
+
+        const words = ["Passionné d'innovation", "Product Owner confirmé", "Expert en agilité", "Spécialiste IA"];
+        let i = 0;
+        let j = 0;
+        let currentWord = "";
+        let isDeleting = false;
+
+        function type() {
+            currentWord = words[i];
+            if (isDeleting) {
+                j--;
+            } else {
+                j++;
+            }
+
+            typingElement.innerHTML = currentWord.substring(0, j);
+
+            if (!isDeleting && j === currentWord.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && j === 0) {
+                isDeleting = false;
+                i = (i + 1) % words.length;
+                setTimeout(type, 500);
+            } else {
+                let typeSpeed = isDeleting ? 75 : 150;
+                setTimeout(type, typeSpeed);
+            }
+        }
+        type();
     }
 
     init();
 });
-
-/*
-function exportToPDF() {
-    // Créer un conteneur temporaire pour l'export
-    const exportContainer = document.createElement('div');
-    exportContainer.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        width: 800px;
-        background-color: white;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #111827;
-        line-height: 1.6;
-        padding: 0;
-        margin: 0;
-    `;
-    
-    // Récupérer les données dynamiquement depuis allData
-    const profilePic = document.getElementById('profile-pic').src;
-    const name = 'Aurélien Rodier';
-    const title = 'Product Owner Confirmé | Spécialiste Produit IA & SaaS';
-    const email = 'rodier.aurelien@orange.fr';
-    const linkedin = 'linkedin.com/in/rodieraurelien';
-    const website = 'aurelien-rodier.fr';
-    
-    // Fonction pour nettoyer le HTML des descriptions
-    const cleanHTML = (html) => {
-        return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
-    };
-    
-    // Fonction pour générer les compétences par catégorie
-    const generateSkillsHTML = () => {
-        let skillsHTML = '';
-        Object.keys(allData.skills).forEach(category => {
-            const skills = allData.skills[category];
-            skillsHTML += `
-                <div style="margin-bottom: 1rem;">
-                    <h4 style="color: #4f46e5; font-weight: 600; margin: 0 0 0.5rem 0; font-size: 1rem;">${category}</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
-                        ${skills.map(skill => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${skill.name}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-        });
-        return skillsHTML;
-    };
-    
-    // Fonction pour générer les expériences
-    const generateExperiencesHTML = () => {
-        return allData.jobs.map(job => `
-            <div style="margin-bottom: 1.5rem; padding-left: 1rem; border-left: 3px solid #e5e7eb;">
-                <h3 style="font-size: 1.1rem; font-weight: 600; color: #111827; margin: 0 0 0.25rem 0;">${job.role}</h3>
-                <p style="font-weight: 500; color: #4f46e5; margin: 0 0 0.5rem 0; font-size: 0.9rem;">${job.company} | ${job.period}</p>
-                <div style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 0.9rem;">
-                    ${cleanHTML(job.description)}
-                </div>
-                <div style="margin-top: 0.5rem;">
-                    ${job.tags.map(tag => `<span style="background-color: #f3f4f6; color: #374151; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.7rem; margin-right: 0.2rem;">${tag}</span>`).join('')}
-                </div>
-            </div>
-        `).join('');
-    };
-    
-    // Fonction pour générer les certifications
-    const generateCertificationsHTML = () => {
-        return allData.certifications.map(cert => `
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                <span style="color: #4f46e5; font-size: 0.8rem;">●</span>
-                <div>
-                    <p style="margin: 0; font-weight: 600; font-size: 0.9rem;">${cert.acronym} - ${cert.fullName}</p>
-                    <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">${cert.issuer} - ${cert.date}</p>
-                </div>
-            </div>
-        `).join('');
-    };
-    
-    // Fonction pour générer les formations
-    const generateFormationsHTML = () => {
-        return allData.formations.map(formation => `
-            <div style="margin-bottom: 0.75rem;">
-                <p style="margin: 0; font-weight: 600; font-size: 0.9rem;">${formation.name}</p>
-                <p style="margin: 0; font-size: 0.8rem; color: #6b7280;">${formation.school} - ${formation.date}</p>
-            </div>
-        `).join('');
-    };
-    
-    // Fonction pour générer les langues
-    const generateLanguagesHTML = () => {
-        return allData.languages.map(lang => `
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <span style="font-size: 1rem;">${lang.flag}</span>
-                <span style="font-weight: 600; font-size: 0.9rem;">${lang.lang}</span>
-                <span style="color: #6b7280; font-size: 0.8rem;">- ${lang.level}</span>
-            </div>
-        `).join('');
-    };
-    
-    // Construire le contenu du CV optimisé pour l'impression
-    exportContainer.innerHTML = `
-        <div style="padding: 2rem; background: linear-gradient(135deg, #f0f9ff 0%, #f1f5f9 100%); border-bottom: 4px solid #4f46e5;">
-            <div style="display: flex; align-items: center; gap: 2rem;">
-                <img src="${profilePic}" alt="Aurélien Rodier" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-                <div style="flex: 1;">
-                    <h1 style="font-size: 2.2rem; font-weight: 800; color: #111827; margin: 0 0 0.5rem 0;">${name}</h1>
-                    <p style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin: 0 0 1rem 0;">${title}</p>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
-                            <span style="color: #4f46e5;">📧</span>
-                            <span>${email}</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
-                            <span style="color: #4f46e5;">🔗</span>
-                            <span>${linkedin}</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: #374151;">
-                            <span style="color: #4f46e5;">🌐</span>
-                            <span>${website}</span>
-                        </div>
-                    </div>
-                </div>
-                <img src="https://aurelien-rodier.fr/qrcode_cv.png" alt="QR Code" style="width: 100px; height: 100px; border-radius: 6px;">
-            </div>
-        </div>
-        
-        <div style="padding: 2rem;">
-            <div style="margin-bottom: 2rem;">
-                <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                    📋 Profil Professionnel
-                </h2>
-                <p style="color: #6b7280; line-height: 1.6; font-size: 0.95rem;">
-                    Product Owner certifié (PSPO I, PSM I, SAFe 6), spécialisé dans la conception et l'évolution de solutions SaaS innovantes intégrant l'IA. Mon expertise réside dans ma capacité à transformer les besoins utilisateurs en fonctionnalités à fort impact, en m'appuyant sur une approche data-driven et une maîtrise des méthodologies agiles (Scrum, SAFe). Passionné par l'innovation, je pilote des projets complexes pour maximiser la valeur produit et l'efficacité opérationnelle.
-                </p>
-            </div>
-            
-            <div style="margin-bottom: 2rem;">
-                <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                    💼 Expériences Professionnelles
-                </h2>
-                ${generateExperiencesHTML()}
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                <div>
-                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                        🛠️ Compétences
-                    </h2>
-                    ${generateSkillsHTML()}
-                </div>
-                
-                <div>
-                    <h2 style="font-size: 1.4rem; font-weight: 700; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                        🎓 Formations & Certifications
-                    </h2>
-                    <div style="margin-bottom: 1.5rem;">
-                        <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Certifications</h3>
-                        ${generateCertificationsHTML()}
-                    </div>
-                    <div style="margin-bottom: 1.5rem;">
-                        <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Formations</h3>
-                        ${generateFormationsHTML()}
-                    </div>
-                    <div>
-                        <h3 style="font-size: 1.1rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.75rem;">Langues</h3>
-                        ${generateLanguagesHTML()}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Ajouter le conteneur au DOM temporairement
-    document.body.appendChild(exportContainer);
-    
-    // Configuration optimisée pour l'export PDF
-    const opt = {
-        margin: 0.5,
-        filename: 'CV_Aurelien_Rodier.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            logging: false
-        },
-        jsPDF: { 
-            unit: 'in', 
-            format: 'a4', 
-            orientation: 'portrait',
-            compress: true
-        }
-    };
-    
-    // Attendre que les images soient chargées avant de générer le PDF
-    const images = exportContainer.querySelectorAll('img');
-    const imagePromises = Array.from(images).map(img => {
-        return new Promise((resolve) => {
-            if (img.complete) {
-                resolve();
-            } else {
-                img.onload = resolve;
-                img.onerror = resolve; // Continuer même si une image échoue
-            }
-        });
-    });
-    
-    Promise.all(imagePromises).then(() => {
-        // Générer le PDF après un court délai pour assurer le rendu
-        setTimeout(() => {
-            html2pdf().set(opt).from(exportContainer).save().then(() => {
-                document.body.removeChild(exportContainer);
-            }).catch(error => {
-                console.error('Erreur lors de la génération du PDF:', error);
-                document.body.removeChild(exportContainer);
-            });
-        }, 500);
-    });
-}
-window.exportToPDF = exportToPDF;
-*/
