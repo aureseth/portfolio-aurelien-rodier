@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentJobIndex = 0;
     let activeSkill = null; 
     let activeCategory = 'Gestion de Produit';
-    let sections = [];
+    let sections = Array.from(document.querySelectorAll('.nav-section'));
     let currentSectionIndex = 0;
 
     function renderTimeline() {
@@ -366,8 +366,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         startTypingEffect();
 
-        sections = Array.from(document.querySelectorAll('main > section, main > div > section'));
-
         if (domElements.timelineList) {
             renderTimeline();
             if (allData.jobs.length > 0) {
@@ -426,15 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollY = window.scrollY;
             const offset = window.innerHeight * 0.4;
             
-            let newCurrentSectionIndex = -1;
-
-            sections.forEach((section, index) => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                if (scrollY >= sectionTop - offset && scrollY < sectionTop + sectionHeight - offset) {
-                     newCurrentSectionIndex = index;
-                }
-            });
+            const triggerPoint = scrollY + offset;
+            let newCurrentSectionIndex = sections.findIndex(
+                section => triggerPoint >= section.offsetTop && triggerPoint < section.offsetTop + section.offsetHeight
+            );
+            if (newCurrentSectionIndex === -1 && scrollY + window.innerHeight >= document.body.scrollHeight) {
+                newCurrentSectionIndex = sections.length - 1;
+            }
 
             if (newCurrentSectionIndex !== -1 && newCurrentSectionIndex !== currentSectionIndex) {
                 currentSectionIndex = newCurrentSectionIndex;
