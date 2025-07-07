@@ -20,7 +20,7 @@
 </head>
 <body class="antialiased">
 
-    <header class="header-bg backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-sm">
+    <header class="header-bg backdrop-blur-lg fixed top-0 left-0 right-0 z-50 shadow-md bg-white/80 dark:bg-gray-900/80">
         <div class="container mx-auto px-6 py-4">
             <nav class="flex justify-between items-center gap-4">
                 <a href="#accueil" id="home-link" class="transition-opacity hover:opacity-80 flex-shrink-0">
@@ -28,15 +28,15 @@
                 </a>
                 <div class="hidden md:flex items-center justify-end flex-grow">
                     <div class="flex items-center space-x-8">
-                        <a href="#a-propos" class="nav-link">À Propos</a>
-                        <a href="#parcours" class="nav-link">Parcours</a>
-                        <a href="#competences" class="nav-link">Compétences</a>
-                        <a href="#formation" class="nav-link">Formation</a>
-                        <a href="#divers" class="nav-link text-center leading-tight">
+                        <a href="#a-propos" class="nav-link hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">À Propos</a>
+                        <a href="#parcours" class="nav-link hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">Parcours</a>
+                        <a href="#competences" class="nav-link hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">Compétences</a>
+                        <a href="#formation" class="nav-link hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">Formation</a>
+                        <a href="#divers" class="nav-link text-center leading-tight hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">
                             <span>Langues</span>
                             <span>& Engagements</span>
                         </a>
-                        <a href="#contact" class="nav-link">Contact</a>
+                        <a href="#contact" class="nav-link hover:text-[#E07A5F] focus:outline-none focus:ring-2 focus:ring-[#E07A5F] transition-colors">Contact</a>
                     </div>
                     <button id="theme-toggle" class="ml-12 w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Changer de thème">
                         <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -62,7 +62,7 @@
     </header>
 
     <main>
-        <section id="accueil" class="nav-section min-h-screen flex flex-col justify-center items-center text-center p-4 relative">
+        <section id="accueil" class="nav-section min-h-screen flex flex-col justify-center items-center text-center p-4 py-8 md:py-16 relative">
             <div class="fade-in-slide-up">
                 <h1 class="text-5xl md:text-7xl font-bold main-title tracking-tight">
                     Aurélien Rodier
@@ -78,7 +78,7 @@
             </div>
         </section>
 
-        <section id="a-propos" class="nav-section py-20">
+        <section id="a-propos" class="nav-section min-h-screen flex flex-col justify-center py-8 md:py-16">
             <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-center gap-12">
                 <div class="w-full md:w-2/3 text-left">
                     <h2 class="text-3xl md:text-4xl font-bold main-title leading-tight mb-6">À Propos de Moi</h2>
@@ -112,125 +112,152 @@
         </section>
 
         <div class="container mx-auto px-6">
-            <section id="parcours" class="nav-section py-20">
-                <div class="md:grid md:grid-cols-3 md:gap-12 card-bg p-8 rounded-lg shadow-lg">
-                    <div class="col-span-1 timeline-list-container">
-                         <h2 class="text-3xl font-bold mb-8 text-center md:text-left">Parcours Professionnel</h2>
-                        <ul id="timeline-list"></ul>
-                    </div>
-                    <div class="col-span-2 mt-12 md:mt-0">
-                        <div id="job-details" class="min-h-[400px] flex flex-col justify-between"></div>
+            <section id="parcours" class="nav-section min-h-screen flex flex-col justify-center py-8 md:py-16">
+                <div class="flex flex-col items-center mb-12">
+                    <h2 class="text-3xl font-bold text-center inline-flex items-center gap-4 mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75 mr-2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                        <span>Parcours Professionnel</span>
+                    </h2>
+                </div>
+                <div class="w-full flex justify-center items-start rounded-2xl mb-12">
+                    <div class="section-bg-alt bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 md:p-8 max-w-3xl w-full mb-8">
+                        <div class="md:grid md:grid-cols-3 md:gap-12 p-4 md:p-8">
+                            <div class="col-span-1 timeline-list-container">
+                                <h2 class="text-2xl font-bold mb-8 text-center md:text-left">Expériences clés</h2>
+                                <ul id="timeline-list"></ul>
+                            </div>
+                            <div class="col-span-2 mt-12 md:mt-0">
+                                <div id="job-details" class="min-h-[400px] flex flex-col justify-between"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
     
-            <section id="competences" class="nav-section py-20">
-                <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
-                    <span>Compétences</span>
-                </h2>
-                <div class="max-w-7xl mx-auto md:grid md:grid-cols-4 md:gap-8">
-                    <div class="md:col-span-1">
-                        <div class="sticky top-24">
-                            <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left">Catégories</h3>
-                            <div id="skill-categories-list" class="flex flex-row md:flex-col flex-wrap justify-center gap-2"></div>
-                        </div>
+            <section id="competences" class="nav-section min-h-screen flex flex-col justify-center py-8 md:py-16">
+                <div class="w-full">
+                    <div class="flex flex-col items-center mb-12">
+                        <h2 class="text-4xl font-bold text-center inline-flex items-center gap-4 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75 mr-2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+                            <span>Compétences</span>
+                        </h2>
                     </div>
-                    <div class="md:col-span-3 mt-8 md:mt-0">
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left" id="skills-title">Compétences</h3>
-                        <div id="skill-tags" class="flex flex-wrap justify-center md:justify-start gap-4"></div>
-                        <div class="w-full mt-4">
-                            <div id="skill-details-panel" class="skill-details-panel"></div>
+                    <div class="max-w-7xl mx-auto md:grid md:grid-cols-4 md:gap-8">
+                        <div class="md:col-span-1">
+                            <div class="sticky top-24">
+                                <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left">Catégories</h3>
+                                <div id="skill-categories-list" class="flex flex-row md:flex-col flex-wrap justify-center gap-2"></div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-3 mt-8 md:mt-0">
+                            <h3 class="text-2xl font-semibold mb-6 text-section-title text-center md:text-left" id="skills-title">Compétences</h3>
+                            <div id="skill-tags" class="flex flex-wrap justify-center md:justify-start gap-4"></div>
+                            <div class="w-full mt-4">
+                                <div id="skill-details-panel" class="skill-details-panel"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section id="formation" class="nav-section py-20 section-bg-alt nav-section">
-                <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                    <span>Formation & Certifications</span>
-                </h2>
-                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Certifications</h3>
-                        <div id="certifications-list" class="space-y-6"></div>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Formations</h3>
-                        <div id="formations-list" class="space-y-6"></div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="divers" class="nav-section py-20">
-                 <h2 class="text-4xl font-bold text-center mb-12 inline-flex items-center justify-center w-full gap-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    <span>Langues & Engagements</span>
-                 </h2>
-                 <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Langues</h3>
-                        <div id="languages-list" class="space-y-6"></div>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Engagements Bénévoles</h3>
-                        <div id="engagements-list" class="space-y-6"></div>
-                    </div>
-                 </div>
-            </section>
-            
-            <section id="contact" class="nav-section py-20 section-bg-alt">
-                <div class="text-center mb-12">
-                     <h2 class="text-4xl font-bold text-center mb-4 inline-flex items-center justify-center w-full gap-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        <span>Entrons en contact</span>
+            <section id="formation" class="nav-section flex flex-col justify-center py-8 md:py-16" style="padding-top:6rem; min-height:auto;">
+                <div class="flex flex-col items-center mb-8">
+                    <h2 class="text-4xl font-bold text-center inline-flex items-center gap-4 mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75 mr-2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                        <span>Formation & Certifications</span>
                     </h2>
-                     <p class="text-lg text-subtle">Une question, une opportunité ? N'hésitez pas.</p>
                 </div>
-                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center px-6">
-                    <div class="text-left">
-                        <h3 class="text-3xl font-bold main-title mb-4">Parlons-en.</h3>
-                        <p class="text-lg text-subtle mb-8">
-                            Que ce soit pour une opportunité, un projet ou simplement pour échanger sur le Product Management, je suis toujours ouvert à la discussion.
-                        </p>
-                        <div class="space-y-4">
-                             <a href="mailto:rodier.aurelien@orange.fr" class="flex items-center gap-3 text-lg group">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                <span class="text-contact-link group-hover:text-accent-orange transition-colors">rodier.aurelien@orange.fr</span>
-                            </a>
-                            <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-lg group">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
-                                 <span class="text-contact-link group-hover:text-accent-orange transition-colors">linkedin.com/in/rodieraurelien</span>
-                            </a>
+                <div class="w-full flex justify-center items-start rounded-2xl mb-12">
+                    <div class="section-bg-alt bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 md:p-8 max-w-3xl w-full mb-8">
+                        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                            <div>
+                                <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Certifications</h3>
+                                <div id="certifications-list" class="space-y-6"></div>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Formations</h3>
+                                <div id="formations-list" class="space-y-6"></div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <form id="contact-form" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="hidden">Nom</label>
-                                    <input type="text" id="name" name="name" placeholder="Votre nom" class="contact-input w-full py-3 px-1" required>
+                </div>
+            </section>
+            
+            <section id="divers" class="nav-section min-h-screen flex flex-col justify-center py-8 md:py-16">
+                 <div class="w-full">
+                    <div class="flex flex-col items-center mb-12">
+                        <h2 class="text-4xl font-bold text-center inline-flex items-center gap-4 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75 mr-2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            <span>Langues & Engagements</span>
+                        </h2>
+                    </div>
+                    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Langues</h3>
+                            <div id="languages-list" class="space-y-6"></div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-6 text-section-title text-center">Engagements Bénévoles</h3>
+                            <div id="engagements-list" class="space-y-6"></div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+            
+            <section id="contact" class="nav-section min-h-screen flex flex-col justify-center py-8 md:py-16">
+                <div class="w-full flex justify-center items-center">
+                    <div class="section-bg-alt bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 md:p-8 max-w-full md:max-w-3xl w-full">
+                        <div class="flex flex-col items-center mb-8">
+                            <h2 class="text-4xl font-bold text-center inline-flex items-center gap-4 mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 opacity-75 mr-2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                <span>Entrons en contact</span>
+                            </h2>
+                        </div>
+                        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center px-6">
+                            <div class="text-left">
+                                <h3 class="text-3xl font-bold main-title mb-4">Parlons-en.</h3>
+                                <p class="text-lg text-subtle mb-8">
+                                    Que ce soit pour une opportunité, un projet ou simplement pour échanger sur le Product Management, je suis toujours ouvert à la discussion.
+                                </p>
+                                <div class="space-y-4">
+                                    <a href="mailto:rodier.aurelien@orange.fr" class="flex items-center gap-3 text-lg group">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                        <span class="text-contact-link group-hover:text-accent-orange transition-colors">rodier.aurelien@orange.fr</span>
+                                    </a>
+                                    <a href="https://linkedin.com/in/rodieraurelien" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-lg group">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent-orange transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
+                                        <span class="text-contact-link group-hover:text-accent-orange transition-colors">linkedin.com/in/rodieraurelien</span>
+                                    </a>
                                 </div>
-                                <div>
-                                    <label for="email" class="hidden">Email</label>
-                                    <input type="email" id="email" name="email" placeholder="Votre email" class="contact-input w-full py-3 px-1" required>
-                                </div>
                             </div>
                             <div>
-                                 <label for="subject" class="hidden">Sujet</label>
-                                 <input type="text" id="subject" name="subject" placeholder="Sujet" class="contact-input w-full py-3 px-1" required>
+                                <form id="contact-form" class="space-y-4 md:space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                                        <div>
+                                            <label for="name" class="hidden">Nom</label>
+                                            <input type="text" id="name" name="name" placeholder="Votre nom" class="contact-input w-full py-3 px-1" required>
+                                        </div>
+                                        <div>
+                                            <label for="email" class="hidden">Email</label>
+                                            <input type="email" id="email" name="email" placeholder="Votre email" class="contact-input w-full py-3 px-1" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="subject" class="hidden">Sujet</label>
+                                        <input type="text" id="subject" name="subject" placeholder="Sujet" class="contact-input w-full py-3 px-1" required>
+                                    </div>
+                                    <div>
+                                        <label for="message" class="hidden">Message</label>
+                                        <textarea id="message" name="message" rows="4" placeholder="Votre message..." class="contact-input w-full py-3 px-1" required></textarea>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="w-full bg-[#3D405B] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-80 transition-colors duration-300">
+                                            Envoyer
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <div>
-                                <label for="message" class="hidden">Message</label>
-                                <textarea id="message" name="message" rows="4" placeholder="Votre message..." class="contact-input w-full py-3 px-1" required></textarea>
-                            </div>
-                            <div>
-                                <button type="submit" class="w-full bg-[#3D405B] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-80 transition-colors duration-300">
-                                    Envoyer
-                                </button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </section>
